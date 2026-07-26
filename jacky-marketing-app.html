@@ -251,22 +251,28 @@
     <button class="upsell-close" onclick="closeUpsell()">✕</button>
     <div class="upsell-badge">🎉 Oferta de Bienvenida</div>
     <h2 class="upsell-title">¡Bienvenida a la app!<br>Hoy tienes <span>acceso especial</span></h2>
-    <p class="upsell-subtitle">Accede a contenido ilimitado para 30 días — regenerable cuando quieras. Tu plan se renueva automáticamente cada mes por $17.99. Cancela cuando quieras.</p>
+    <p class="upsell-subtitle">Genera contenido fresco cada mes. Renovación automática mensual, cancela cuando quieras.</p>
     
     <div class="upsell-price-box">
       <div class="upsell-price-original">Precio normal: $24.99/mes</div>
       <div class="upsell-price-new">$17.99 <span>/mes</span></div>
     </div>
 
+    <div style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;margin-bottom:12px;text-align:center">
+      <div style="font-size:11px;color:#999;text-decoration:line-through">$299.88/año</div>
+      <div style="font-size:16px;font-weight:900;color:#D4AF37">$254.90/año <span style="font-size:11px;font-weight:400;color:#999">(15% off — lanzamiento)</span></div>
+    </div>
+
     <div class="upsell-timer" id="upsell-timer">⏰ Oferta expira en: <strong id="timer-count">23:59</strong></div>
 
     <div class="upsell-features">
-      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Plan de contenido completo 30 días</div>
-      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>30 carruseles disponibles al mes</div>
-      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Módulo de motivación y compromiso</div>
-      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Regenera tu plan cuando quieras</div>
-      <div class="upsell-feature"><span class="upsell-feature-icon">🎁</span>Planificador de Contenido 2026</div>
-      <div class="upsell-feature"><span class="upsell-feature-icon">🎁</span>Pack 20 prompts para crear imágenes + plataformas sugeridas</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Plan de Contenido (semanal o mensual)</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Mi Reel de Hoy (hook + descripción + caption + DM)</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Mis Historias de Hoy + DM para ManyChat</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Crea Tu Oferta (para publicar y para DM/WhatsApp)</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Carruseles listos para Canva</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">🎁</span>Pack de prompts para imágenes con IA</div>
+      <div class="upsell-feature"><span class="upsell-feature-icon">🎁</span>Guía de plataformas de IA para imágenes y videos</div>
       <div class="upsell-feature"><span class="upsell-feature-icon">✦</span>Renovación automática mensual — cancela cuando quieras</div>
     </div>
 
@@ -323,8 +329,6 @@
         <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','afiliados')"><span class="modal-opt-icon">🔗</span><div><strong>Marketing de Afiliados</strong><div style="font-size:11px;color:var(--muted)">Comisión por recomendar</div></div></button>
         <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','coaching')"><span class="modal-opt-icon">🎯</span><div><strong>Coaching & Mentoría</strong><div style="font-size:11px;color:var(--muted)">1:1, grupos, programas</div></div></button>
         <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','belleza_moda')"><span class="modal-opt-icon">💄</span><div><strong>Belleza, Moda & Lifestyle</strong></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','servicios')"><span class="modal-opt-icon">💼</span><div><strong>Servicios & Freelance</strong></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','producto_fisico')"><span class="modal-opt-icon">🛍️</span><div><strong>Productos físicos</strong><div style="font-size:11px;color:var(--muted)">Tienda, ropa, accesorios</div></div></button>
         <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','otro')"><span class="modal-opt-icon">✨</span><div><strong>Otro nicho</strong></div></button>
       </div>
       <div class="modal-nav"><button class="btn-primary" onclick="nextStep(1)">Siguiente →</button></div>
@@ -360,10 +364,10 @@
       <div class="modal-q">¿Dónde está tu audiencia?</div>
       <div class="modal-hint">Ajustamos el español y referencias a tu mercado. Puedes elegir más de uno si vendes en varios países.</div>
       <div class="modal-options" id="mercado-options">
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','mexico')"><span class="modal-opt-icon">🇲🇽</span><div><strong>México</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','colombia')"><span class="modal-opt-icon">🇨🇴</span><div><strong>Colombia</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','eeuu_latinos')"><span class="modal-opt-icon">🇺🇸</span><div><strong>EEUU Latinos</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','latam')"><span class="modal-opt-icon">🌎</span><div><strong>Toda Latinoamérica</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','latam')"><span class="modal-opt-icon">🌎</span><div><strong>Latinoamérica</strong><div style="font-size:11px;color:var(--muted)">México, Colombia, Venezuela, Argentina...</div></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','espana')"><span class="modal-opt-icon">🇪🇸</span><div><strong>España</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','eeuu_espanol')"><span class="modal-opt-icon">🇺🇸</span><div><strong>Estados Unidos (español)</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','internacional')"><span class="modal-opt-icon">🌍</span><div><strong>Internacional</strong><div style="font-size:11px;color:var(--muted)">Todo el mundo hispanohablante</div></div></button>
       </div>
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(3)">← Atrás</button><button class="btn-primary" onclick="nextStep(5)">Siguiente →</button></div>
     </div>
@@ -390,25 +394,22 @@
   </header>
   <div class="main">
     <nav class="sidebar">
-      <div class="sidebar-label">Herramientas</div>
+      <div class="sidebar-label">Plan Pro</div>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
-      <button class="nav-item" onclick="showPanel('captions',this)"><span class="nav-icon">✍️</span> Captions</button>
-      <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan 30 días</button>
-      <button class="nav-item" onclick="showPanel('videos',this)"><span class="nav-icon">🎬</span> Videos & Hooks</button>
-      <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Ofertas IA</button>
-      <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
-      <div class="sidebar-label">IA Avanzada</div>
-      <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analizar Caption</button>
-      <button class="nav-item" onclick="showPanel('chat',this)"><span class="nav-icon">💭</span> Chat con Jackia</button>
-      <div class="sidebar-label">Módulos</div>
-      <button class="nav-item" onclick="showPanel('stories',this)"><span class="nav-icon">⭕</span> Stories & Estados</button>
+      <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
+      <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
+      <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
+      <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Crea Tu Oferta</button>
+      <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
       <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
-      <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎯</span> Mi Reel de Hoy</button>
-      <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📲</span> Mis Historias & DM de Hoy</button>
-      <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Cierre de Ventas DM</button>
+      <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
+      <div class="sidebar-label">Premium</div>
+      <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
+      <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analiza, Adapta y Modela</button>
+      <button class="nav-item" onclick="showPanel('chat',this)"><span class="nav-icon">🧠</span> Cerebro Jackia</button>
       <div class="nav-pro">
-        <p>Eres del <strong>plan gratuito</strong> — 7 días de contenido. Pasa a Pro y genera contenido nuevo cada mes sin límites.</p>
-        <button class="btn-upgrade">✨ Pro $17.99/mes (promo lanzamiento) — se renueva cada mes</button>
+        <p>Eres del <strong>plan gratuito</strong> — 7 días de contenido. Pasa a <strong>Pro</strong> y genera contenido nuevo cada mes, o a <strong>Premium</strong> para generaciones ilimitadas.</p>
+        <button class="btn-upgrade">✨ Pro $17.99/mes (promo lanzamiento) — renovación automática mensual, cancela cuando quieras</button>
       </div>
     </nav>
     <main class="content">
@@ -419,18 +420,33 @@
           <h2>Bienvenida, <em>emprendedora</em> 👋</h2>
           <p>Olvídate de los prompts complicados. Olvídate de pasar horas pensando qué publicar. Nuestra asistente de marketing con IA genera todo el contenido que necesitas para vender — en segundos, en tu idioma, con tu tono. Tú solo publicas.</p>
         </div>
+        <div style="background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(232,49,90,0.08));border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:16px 20px;margin-bottom:20px;text-align:center">
+          <div style="font-size:18px;font-weight:700;color:#FFFFFF;margin-bottom:4px">Sonríe, lo estás haciendo bien 👍</div>
+          <div id="daily-affirmation" style="font-size:13px;color:#D4AF37;font-style:italic"></div>
+        </div>
+        <div id="gamification-bar" style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+          <div style="flex:1;min-width:140px;background:rgba(232,49,90,0.1);border:1px solid rgba(232,49,90,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:22px" id="streak-count">🔥 0</div>
+            <div style="font-size:11px;color:#999;margin-top:2px">días seguidos</div>
+          </div>
+          <div style="flex:1;min-width:140px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:16px;font-weight:700;color:#D4AF37" id="user-level">🌱 Semilla</div>
+            <div style="font-size:11px;color:#999;margin-top:2px">tu nivel actual</div>
+          </div>
+        </div>
         <div class="usage-bar">
           <span>🔥 Generaciones hoy: <strong>2 / 5</strong></span>
           <div class="usage-track"><div class="usage-fill"></div></div>
           <span style="color:var(--muted);font-size:12px">Plan gratis</span>
         </div>
         <div class="module-cards">
-          <div class="module-card" onclick="showPanel('captions',null)"><div class="module-card-icon">✍️</div><div class="module-card-title">Captions para Redes Sociales</div><div class="module-card-desc">Con tono latino auténtico para cualquier red social poderosa</div></div>
-          <div class="module-card" onclick="showPanel('plan',null)"><div class="module-card-icon">📅</div><div class="module-card-title">Plan de Contenido 30 Días</div><div class="module-card-desc">7 días gratis — 30 días completo en Pro 🔒</div></div>
-          <div class="module-card" onclick="showPanel('videos',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Hooks & Guiones para Videos</div><div class="module-card-desc">Hooks estilo "comenta la palabra clave" + guión completo con automatización</div></div>
-          <div class="module-card" onclick="showPanel('ofertas',null)"><div class="module-card-icon">💸</div><div class="module-card-title">Ofertas Irresistibles</div><div class="module-card-desc">Copy para redes sociales, WhatsApp y Email que convierte</div></div>
-          <div class="module-card" onclick="showPanel('stories',null)"><div class="module-card-icon">⭕</div><div class="module-card-title">Stories de Conversión 30 días</div><div class="module-card-desc">7 días gratis de stories — 30 días completo en Pro 🔒</div></div>
-          <div class="module-card" onclick="showPanel('dm',null)"><div class="module-card-icon">💬</div><div class="module-card-title">Guión de Cierre por DM</div><div class="module-card-desc">Los 3 mensajes que cierran ventas en automático</div></div>
+          <div class="module-card" onclick="showPanel('plan',null)"><div class="module-card-icon">📅</div><div class="module-card-title">Plan de Contenido</div><div class="module-card-desc">Planifica tu contenido — Semanal o mensual</div></div>
+          <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM — Pro: 1/día · Premium: ilimitado</div></div>
+          <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat — Pro: 1/día · Premium: ilimitado</div></div>
+          <div class="module-card" onclick="showPanel('ofertas',null)"><div class="module-card-icon">💸</div><div class="module-card-title">Crea Tu Oferta</div><div class="module-card-desc">Copy de venta para publicar en redes, historia o post</div></div>
+          <div class="module-card" onclick="showPanel('dm',null)"><div class="module-card-icon">💬</div><div class="module-card-title">Seguimiento & Cierre</div><div class="module-card-desc">Mensajes de seguimiento y cierre por DM o WhatsApp</div></div>
+          <div class="module-card" onclick="showPanel('carruseles',null)"><div class="module-card-icon">📊</div><div class="module-card-title">Carruseles</div><div class="module-card-desc">Texto de cada slide listo para diseñar en Canva</div></div>
+          <div class="module-card" onclick="showPanel('reviews',null)"><div class="module-card-icon">⭐</div><div class="module-card-title">Reseñas</div><div class="module-card-desc">Genera reseñas auténticas para tu negocio</div></div>
         </div>
         <div class="card" style="background:#111111;border-color:rgba(212,175,55,0.4)">
           <div class="card-title" style="color:#D4AF37;font-weight:800">💡 Tu Estrategia de Contenido</div>
@@ -447,15 +463,15 @@
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <p class="page-subtitle">Captions con tono auténtico que detienen el scroll y generan DMs</p>
@@ -505,26 +521,8 @@
               </select>
             </div>
           </div>
-          <label>Palabra clave</label>
-          <div class="chips" id="cap-keyword-chips">
-            <button class="chip selected" onclick="setSingle(this)">PRO</button>
-            <button class="chip" onclick="setSingle(this)">IMPARABLE</button>
-            <button class="chip" onclick="setSingle(this)">CEO</button>
-            <button class="chip" onclick="setSingle(this)">FORMULA</button>
-            <button class="chip" onclick="setSingle(this)">ESTRUCTURA</button>
-            <button class="chip" onclick="setSingle(this)">META</button>
-            <button class="chip" onclick="setSingle(this)">APRENDER</button>
-            <button class="chip" onclick="setSingle(this)">GUIA</button>
-            <button class="chip" onclick="setSingle(this)">PROMPT</button>
-            <button class="chip" onclick="setSingle(this)">GRATIS</button>
-            <button class="chip" onclick="setSingle(this)">INFO</button>
-            <button class="chip" onclick="setSingle(this)">PRECIO</button>
-            <button class="chip" onclick="setSingle(this)">LINK</button>
-            <button class="chip" onclick="setSingle(this)">ACCESO</button>
-            <button class="chip" onclick="setSingle(this)">CITA</button>
-            <button class="chip" onclick="setSingle(this)">CURSO</button>
-            <button class="chip" onclick="setSingle(this)">ACADEMY</button>
-          </div>
+          <label>Palabra clave <span style="font-size:11px;color:#888">(opcional — ej: PRO, ACADEMIA, CITA...)</span></label>
+          <input type="text" id="cap-keyword-chips" placeholder="Escribe tu palabra clave o déjalo vacío" style="margin-bottom:12px">
 
           <label>País / dialecto</label>
           <div class="chips" id="cap-pais-chips">
@@ -554,19 +552,19 @@
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>Los resultados dependen de ti</strong> — de aplicar este plan cada día. Una publicación hoy vale más que un plan perfecto mañana. ¡Sin excusas! 🚀</div>
-          <p class="page-subtitle">30 días de contenido completo — videos y publicaciones con una estrategia probada semana a semana</p>
+          <p class="page-subtitle">30 días de contenido completo — guiones y publicaciones con una estrategia probada semana a semana</p>
         </div>
         <div class="card">
           <div class="card-title">Configura tu estrategia</div>
@@ -594,7 +592,7 @@
             <button class="chip" onclick="setSingle(this)">Todos los días</button>
           </div>
           <div style="background:#111111;border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#D4AF37;margin-bottom:16px">
-            ✅ Plan gratis: <strong>7 días de contenido</strong> — 🔒 Plan Pro: <strong>30 días ilimitados, se renueva cada mes</strong>
+            ✅ Plan gratis: <strong>7 días de contenido</strong> — 🔒 Plan Pro: <strong>se renueva cada mes</strong>
           </div>
           <button class="btn-primary" id="btn-gen-plan" data-label="Crear Plan de 7 Días" onclick="generatePlan()">✦ Crear Plan de 7 Días</button>
         </div>
@@ -615,15 +613,15 @@
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic" id="reel-tip-motivacional">💡 <strong>Tu audiencia está esperando escucharte.</strong> Aplica el método: crea, publica y repite. Cada video que no publicas es una venta que no ocurre. ¡Dale sin miedo! 🔥</div>
@@ -655,26 +653,8 @@
               </select>
             </div>
             <div>
-              <label>Palabra clave</label>
-              <select id="reel-keyword">
-                <option>PRO</option>
-                <option>IMPARABLE</option>
-                <option>CEO</option>
-                <option>FORMULA</option>
-                <option>ESTRUCTURA</option>
-                <option>META</option>
-                <option>APRENDER</option>
-                <option>GUIA</option>
-                <option>PROMPT</option>
-                <option>GRATIS</option>
-                <option>INFO</option>
-                <option>PRECIO</option>
-                <option>LINK</option>
-                <option>ACCESO</option>
-                <option>CITA</option>
-                <option>CURSO</option>
-                <option>ACADEMY</option>
-              </select>
+              <label>Palabra clave <span style="font-size:11px;color:#888">(opcional)</span></label>
+              <input type="text" id="reel-keyword" placeholder="Ej: PRO, CITA, GRATIS...">
             </div>
             <div>
               <label>Plataforma</label>
@@ -712,15 +692,15 @@
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>Alguien necesita exactamente lo que tú ofreces</strong> — pero si no lo publicas, nunca lo sabrá. ¡Díselo hoy! 💵</div>
@@ -775,20 +755,20 @@
       <div class="panel" id="panel-stories">
         <div class="page-header">
           <div class="page-eyebrow">Módulo 5</div>
-          <h1 class="page-title">Stories & Estados 7 Días ⭕</h1>
+          <h1 class="page-title">Historias & Estados 7 Días ⭕</h1>
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>Recuerda por qué empezaste.</strong> Cada story que publicas te acerca a tu meta. Los resultados dependen de aplicar el método con constancia — ¡aprovecha cada oportunidad! ✨</div>
@@ -817,7 +797,7 @@
             <button class="chip selected" onclick="setSingle(this)">7 días — Plan gratis ✅</button>
           </div>
           <div style="background:#111111;border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#D4AF37;margin-bottom:16px">
-            🔒 ¿Quieres los 30 días completos? <strong>Pro $17.99/mes</strong> — contenido ilimitado que se renueva cada mes. Cancela cuando quieras.
+            🔒 ¿Quieres los 30 días completos? <strong>Pro $17.99/mes</strong> — contenido que se renueva cada mes. Cancela cuando quieras.
           </div>
           <label>Precio de tu producto</label>
           <input type="text" id="story-precio" placeholder="Ej: $67 USD">
@@ -842,7 +822,7 @@
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
-            <div style="font-size:13px;color:#FFFFFF">30 carruseles disponibles al mes — úsalos cuando quieras</div>
+            <div style="font-size:13px;color:#FFFFFF">Carruseles listos para copiar en Canva</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
@@ -867,13 +847,8 @@
               </select>
             </div>
             <div>
-              <label>Palabra clave</label>
-              <select id="carrusel-keyword">
-                <option>PRO</option><option>IMPARABLE</option><option>CEO</option><option>FORMULA</option><option>ESTRUCTURA</option><option>META</option><option>APRENDER</option><option>GUIA</option><option>PROMPT</option><option>GRATIS</option><option>INFO</option><option>PRECIO</option><option>LINK</option><option>ACCESO</option><option>CITA</option><option>CURSO</option><option>ACADEMY</option>
-                <option>CITA</option>
-                <option>CURSO</option>
-                <option>ACADEMY</option>
-              </select>
+              <label>Palabra clave <span style="font-size:11px;color:#888">(opcional)</span></label>
+              <input type="text" id="carrusel-keyword" placeholder="Ej: PRO, CITA, GRATIS...">
             </div>
           </div>
           <div style="background:#0A0A0A;border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#999999;margin-bottom:16px">
@@ -907,8 +882,8 @@
         </div>
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Exclusivo Premium</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 1 por día</div>
             <div style="font-size:13px;color:#FFFFFF">Genera tu reel completo del día en un solo lugar — listo para copiar y publicar</div>
           </div>
         </div>
@@ -937,7 +912,7 @@
               </select>
             </div>
           </div>
-          <button class="btn-primary" id="btn-gen-reeldia" onclick="generateReelDia()">🔒 Generar mi Reel de Hoy</button>
+          <button class="btn-primary" id="btn-gen-reeldia" onclick="generateReelDia()">✦ Generar mi Reel de Hoy</button>
         </div>
 
         <div class="card" id="reeldia-output-card" style="display:none">
@@ -990,8 +965,8 @@
         </div>
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Exclusivo Premium</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 1 por día</div>
             <div style="font-size:13px;color:#FFFFFF">Genera tus historias del día + el sistema de DM automático completo, listo para configurar</div>
           </div>
         </div>
@@ -1022,7 +997,7 @@
           <div style="background:#0A0A0A;border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#999999;margin:14px 0">
             📸 <strong style="color:#D4AF37">¿No sabes qué imagen usar?</strong> Si eres faceless, usa bancos de fotos faceless o Pinterest para inspirarte. También puedes mejorar tus fotos con IA usando tu pack de prompts incluido 🎁. Si quieres una sugerencia más específica para tu nicho, pregúntale a Jackia en el Chat. 💬
           </div>
-          <button class="btn-primary" id="btn-gen-historiasHoy" onclick="generateHistoriasHoy()">🔒 Generar mis Historias de Hoy</button>
+          <button class="btn-primary" id="btn-gen-historiasHoy" onclick="generateHistoriasHoy()">✦ Generar mis Historias de Hoy</button>
         </div>
 
         <div class="card" id="historiasHoy-output-card" style="display:none">
@@ -1052,24 +1027,24 @@
       <div class="panel" id="panel-dm">
         <div class="page-header">
           <div class="page-eyebrow">Módulo 6</div>
-          <h1 class="page-title">Guión de Cierre por DM 💬</h1>
+          <h1 class="page-title">Guión de Cierre 💬</h1>
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>El seguimiento es donde está el dinero.</strong> La mayoría se rinde antes del tercer mensaje. Tú no lo hagas — porque tus resultados dependerán de aplicar el método. ¡No dejes ir esa venta! 💪</div>
-          <p class="page-subtitle">Los 3 mensajes que cierran ventas en automático — basados en una estrategia probada</p>
+          <p class="page-subtitle">Guión de cierre para DM, WhatsApp y más plataformas — basados en una estrategia probada</p>
         </div>
         <div class="card">
           <div class="card-title">Personaliza el guión</div>
@@ -1108,77 +1083,89 @@
 
 
       <!-- ANALIZADOR -->
-      <div class="panel" id="panel-analizar">
+      <!-- MI RETO -->
+      <div class="panel" id="panel-reto">
         <div class="page-header">
-          <div class="page-eyebrow">IA Avanzada</div>
-          <h1 class="page-title">Analizador de Caption 🔍</h1>
-        <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
-            <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
-            <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
-          </div>
-          <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
-            <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
-          </div>
-        </div>
-          <p class="page-subtitle">Pega cualquier caption y la IA te dice qué mejorar — y lo reescribe mejor</p>
+          <div class="page-eyebrow">Exclusivo Premium</div>
+          <h1 class="page-title">Mi Reto 🏆</h1>
+          <p class="page-subtitle">Define tu reto, recibe tu estrategia y gana una insignia Jackia al completarlo — para compartir en tus historias</p>
         </div>
         <div class="card">
-          <div class="card-title">Tu caption actual</div>
-          <textarea id="anal-caption" placeholder="Pega aquí tu caption o el de alguien que te inspiró..." style="min-height:140px"></textarea>
-          <div class="form-row">
-            <div>
-              <label>¿Para qué lo vas a usar?</label>
-              <select id="anal-objetivo">
-                <option>Conseguir DMs / leads</option>
-                <option>Vender directamente</option>
-                <option>Crecer seguidores</option>
-                <option>Generar guardados</option>
-                <option>Posicionarme como experta</option>
-              </select>
-            </div>
-            <div>
-              <label>Tu nicho</label>
-              <select id="anal-nicho">
-                <option>Productos digitales propios</option>
-                <option>Productos de reventa (MRR/PLR)</option>
-                <option>Marketing de Afiliados</option>
-                <option>Coaching & Mentoría</option>
-                <option>Belleza & Moda</option>
-                <option>Marketing digital</option>
-                <option>Finanzas</option>
-                <option>Otro</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn-primary" id="btn-analizar" data-label="Analizar Caption" onclick="analyzeCaption()">🔍 Analizar Caption</button>
+          <div class="keyword-tip">💡 <strong>¿Cómo funciona?</strong> Define tu reto → Jackia te genera la estrategia completa → Ejecutas día a día → Al completarlo recibes tu insignia Jackia para compartir en historias 🏆</div>
+          <label>Nombre de tu reto</label>
+          <input type="text" id="reto-nombre" placeholder="Ej: Reto Contenido Consistente, Reto Ventas de Mayo...">
+          <label>Duración</label>
+          <input type="text" id="reto-duracion" placeholder="Ej: 7 días, 15 días, 30 días...">
+          <label>¿Qué quieres lograr al terminar este reto?</label>
+          <textarea id="reto-objetivo" placeholder="Ej: Publicar contenido todos los días y llegar a 5K seguidores. / Cerrar 10 ventas en 30 días. / Crear una comunidad activa de 1K personas..." style="min-height:100px"></textarea>
+          <button class="btn-primary" id="btn-gen-reto" data-label="✦ Generar Mi Estrategia de Reto" onclick="generateReto()" style="margin-top:12px">✦ Generar Mi Estrategia de Reto</button>
         </div>
-        <div id="anal-output-area" style="display:none">
-          <div class="card">
-            <div class="card-title">Puntuación de tu Caption</div>
-            <div id="anal-scores"></div>
+        <div class="card" id="reto-output-card" style="display:none">
+          <div class="card-title">🎯 Tu estrategia de reto — lista para ejecutar</div>
+          <div class="output-box" id="reto-output" style="min-height:200px"></div>
+          <div class="output-actions">
+            <button class="btn-copy" onclick="copyText('reto-output',this)">📋 Copiar estrategia</button>
+            <button class="btn-secondary" onclick="generateReto()">↻ Regenerar</button>
           </div>
-          <div class="card">
-            <div class="card-title">Feedback Detallado</div>
-            <div class="output-box" id="anal-feedback"></div>
-          </div>
-          <div class="card" style="border-color:rgba(232,49,90,0.3)">
-            <div class="card-title" style="color:var(--fresa)">✦ Caption Reescrito por Jackia</div>
-            <div class="output-box" id="anal-rewrite"></div>
-            <div class="output-actions">
-              <button class="btn-copy" onclick="copyText('anal-rewrite',this)">📋 Copiar versión mejorada</button>
+        </div>
+        <div class="card" id="reto-insignias-card" style="margin-top:16px">
+          <div class="card-title">🏆 Tus Insignias Jackia</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Completa tu reto y gana tu insignia para compartir en historias 💪</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="flex:1;min-width:100px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:16px;text-align:center">
+              <div style="font-size:32px">🏆</div>
+              <div style="font-size:12px;font-weight:700;color:#D4AF37;margin-top:6px">7 Días</div>
+              <div style="font-size:11px;color:#999">Completado</div>
             </div>
+            <div style="flex:1;min-width:100px;background:rgba(232,49,90,0.1);border:1px solid rgba(232,49,90,0.3);border-radius:10px;padding:16px;text-align:center">
+              <div style="font-size:32px">🔥</div>
+              <div style="font-size:12px;font-weight:700;color:#E8315A;margin-top:6px">30 Días</div>
+              <div style="font-size:11px;color:#999">Completado</div>
+            </div>
+            <div style="flex:1;min-width:100px;background:rgba(212,175,55,0.15);border:2px solid #D4AF37;border-radius:10px;padding:16px;text-align:center">
+              <div style="font-size:32px">👑</div>
+              <div style="font-size:12px;font-weight:700;color:#D4AF37;margin-top:6px">Meta</div>
+              <div style="font-size:11px;color:#999">Lograda</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;color:#999;text-align:center">
+            🌟 Al completar tu reto, comparte tu insignia en historias con <strong style="color:#D4AF37">#RetoJackia</strong> — inspira a otras emprendedoras 💪
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALIZA ADAPTA Y MODELA -->
+      <div class="panel" id="panel-analizar">
+        <div class="page-header">
+          <div class="page-eyebrow">Exclusivo Premium</div>
+          <h1 class="page-title">Analiza, Adapta y Modela 🔍</h1>
+          <p class="page-subtitle">Pega cualquier contenido que te gustó — Jackia lo analiza, lo adapta a tu negocio y te da una versión tuya lista para publicar</p>
+        </div>
+        <div class="card">
+          <div class="keyword-tip">💡 <strong>¿Cómo funciona?</strong> Viste un reel o caption con miles de vistas que te gustó → lo pegas aquí → Jackia te explica por qué funciona y crea una versión adaptada a TU negocio. Sin copiar, sin plagiar — solo modelar lo que ya funciona.</div>
+          <div class="card-title">Pega el contenido que quieres analizar</div>
+          <textarea id="anal-contenido" placeholder="Pega aquí el caption, guión de reel, historia o cualquier contenido que te haya llamado la atención y quieras modelar..." style="min-height:160px"></textarea>
+          <label>¿Qué vendes tú? (para adaptarlo a tu negocio)</label>
+          <input type="text" id="anal-negocio" placeholder="Ej: cursos de marketing digital, servicios de cejas, ebooks de finanzas...">
+          <button class="btn-primary" id="btn-gen-analizar" data-label="✦ Analizar y Adaptar" onclick="generateAnalizar()" style="margin-top:12px">✦ Analizar y Adaptar</button>
+        </div>
+        <div class="card" id="analizar-output-card" style="display:none">
+          <div class="card-title">💡 Por qué funciona este contenido</div>
+          <div class="output-box" id="analizar-porque"></div>
+          <div class="output-actions" style="margin-bottom:16px">
+            <button class="btn-copy" onclick="copyText('analizar-porque',this)">📋 Copiar análisis</button>
+          </div>
+          <div class="card-title">✍️ Versión adaptada a tu negocio — lista para copiar</div>
+          <div class="output-box" id="analizar-version"></div>
+          <div class="output-actions">
+            <button class="btn-copy" onclick="copyText('analizar-version',this)">📋 Copiar mi versión</button>
+            <button class="btn-secondary" onclick="generateAnalizar()">↻ Adaptar de nuevo</button>
           </div>
         </div>
       </div>
 
       <!-- CHAT -->
+
       <div class="panel" id="panel-chat">
         <div class="page-header">
           <div class="page-eyebrow">IA Avanzada</div>
@@ -1187,15 +1174,15 @@
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05));border:1.5px solid rgba(212,175,55,0.6);border-radius:12px;padding:14px 16px">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:4px">🔒 Plan Pro</div>
             <div style="font-size:10px;color:#999;text-decoration:line-through">$24.99/mes</div><div style="font-size:20px;font-weight:900;color:#FFFFFF;margin-bottom:2px">$17.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div>
-            <div style="font-size:11px;color:#CCCCCC">Plan de 30 días + 30 carruseles/mes</div>
+            <div style="font-size:11px;color:#CCCCCC">Plan completo + carruseles/mes</div>
             <div style="margin-top:8px;background:#D4AF37;color:#000000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Pro</div>
           </div>
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
-            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">MUY PRONTO</div>
+            <div style="position:absolute;top:8px;right:8px;background:#E8315A;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E8315A;margin-bottom:4px">🧠 Premium — Jackia</div>
             <div style="font-size:16px;font-weight:900;color:#FFFFFF;margin-bottom:4px">Todo Pro +</div>
-            <div style="font-size:11px;color:#CCCCCC">✅ Mi Reel de Hoy + Mis Historias de Hoy<br>✅ Captions + Reels + Ofertas + Carruseles ilimitados<br>✅ Stories + Cierre DM<br>✅ Chat con Jackia + voz · Analizador captions<br>✅ Motivación avanzada + retos<br>🎁 Prompts imágenes + videos IA + plataformas</div>
-            <div style="margin-top:8px;background:rgba(232,49,90,0.2);color:#E8315A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;border:1px solid rgba(232,49,90,0.4)">🔔 Notifícame</div>
+            <div style="font-size:11px;color:#CCCCCC">✅ Todo lo de Pro — ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div>
+            <div style="margin-top:6px"><div style="font-size:10px;color:#999;text-decoration:line-through">$67/mes</div><div style="font-size:20px;font-weight:900;color:#E8315A">$47.99<span style="font-size:12px;font-weight:400;color:#999">/mes</span></div><div style="font-size:9px;color:#E8315A">lanzamiento — cancela cuando quieras</div></div><div style="margin-top:8px;background:#E8315A;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;cursor:pointer">✦ Activar Premium</div>
           </div>
         </div>
           <p class="page-subtitle">Pregunta lo que necesites sobre tu negocio, contenido o estrategia</p>
@@ -1232,7 +1219,7 @@
         <div class="reviews-hero">
           <div class="reviews-hero-stars">⭐⭐⭐⭐⭐</div>
           <div class="reviews-hero-score">4.9</div>
-          <div class="reviews-hero-total">Basado en 127 reseñas de emprendedoras latinas</div>
+          <div class="reviews-hero-total">Basado en 127 reseñas de emprendedoras</div>
         </div>
 
         <div class="reviews-grid" id="reviews-grid">
@@ -1259,7 +1246,7 @@
               <div class="review-stars">⭐⭐⭐⭐⭐</div>
             </div>
             <div class="review-text">"Los hooks para mis videos son increíbles. Mi primer reel con el guión de la app llegó a 50K vistas. Nunca había tenido eso antes. 100% recomendada."</div>
-            <span class="review-tag">Videos & Hooks</span>
+            <span class="review-tag">Hook & Guión</span>
           </div>
 
           <div class="review-card">
@@ -1284,7 +1271,7 @@
               </div>
               <div class="review-stars">⭐⭐⭐⭐⭐</div>
             </div>
-            <div class="review-text">"Por fin una app en español que entiende cómo hablamos las latinas. No es traducida del inglés — se siente natural, auténtica. Mis captions suenan como yo."</div>
+            <div class="review-text">"Por fin una app en español que entiende cómo hablamos en español. No es traducida del inglés — se siente natural, auténtica. Mis captions suenan como yo."</div>
             <span class="review-tag">Captions</span>
           </div>
 
@@ -1351,9 +1338,9 @@
             <select id="rev-modulo" style="margin-bottom:16px">
               <option>Captions para redes</option>
               <option>Plan de Contenido</option>
-              <option>Videos & Hooks</option>
+              <option>Hook & Guión</option>
               <option>Ofertas irresistibles</option>
-              <option>Stories & Estados</option>
+              <option>Historias & Estados</option>
               <option>Cierre de ventas DM</option>
               <option>Chat con Jackia</option>
               <option>Analizador de captions</option>
@@ -1368,7 +1355,7 @@
           <div class="review-submitted" id="review-submitted">
             <div class="review-submitted-icon">🎉</div>
             <p style="font-weight:700;color:var(--blanco);font-size:16px;margin-bottom:6px">¡Gracias por tu reseña!</p>
-            <p style="font-size:13px;color:var(--muted)">Tu opinión ayuda a otras emprendedoras latinas a descubrir la app. ¡Eres parte de esta comunidad! 💖</p>
+            <p style="font-size:13px;color:var(--muted)">Tu opinión ayuda a otras emprendedoras a descubrir la app. ¡Eres parte de esta comunidad! 💖</p>
           </div>
         </div>
       </div>
@@ -1471,7 +1458,7 @@ VOZ Y TONO:
 - La app sirve para AMBOS estilos: MARCA PERSONAL (con cara visible) y FACELESS (sin mostrarse)
 
 AVATAR DE TU CLIENTA IDEAL (perfil base):
-- Mujer latina, entre 25-40 años
+- Mujer emprendedora hispanohablante, entre 25-40 años
 - Emprendedora digital — ya empezó algo (cuenta de redes, negocio, marca personal) pero siente que no avanza
 - Aprende sola, sin mentoría formal, muchas veces a base de prueba y error
 - Activa en redes pero dispersa: consume contenido de mil personas distintas sin un sistema claro
@@ -1743,7 +1730,74 @@ REGLA UNIVERSAL — APLICA A CUALQUIER NICHO O PROFESIÓN (muy importante, prior
 Gran parte del conocimiento de hooks, storytelling y ejemplos en este system prompt viene de ebooks sobre productos digitales/infoproductos (ebooks, cursos, MRR/PLR). Eso es solo UN posible nicho de la usuaria. La app sirve para CUALQUIER tipo de negocio: dentistas, salones de belleza, ventas de ropa/zapatos/carteras, comida, servicios profesionales, coaching, productos físicos, afiliados, lo que sea.
 SIEMPRE aplica los 3 Pilares (Quién es el cliente de ella / Qué desea / Qué le duele) y la fórmula del hook ([dolor específico] + [promesa de solución]) al NICHO REAL que la usuaria indique — usando tu conocimiento general de marketing para ese nicho específico, NO asumiendo que vende infoproductos a menos que ella lo haya indicado expresamente. Si la usuaria es dentista, habla del dolor de su paciente (miedo al dentista, dientes manchados, etc.) — no de "audiencia" ni "seguidores" ni de vender cursos. Adapta siempre el lenguaje, ejemplos y tono al negocio real de la usuaria.
 
-Responde ÚNICAMENTE con el contenido solicitado. Sin explicaciones ni preámbulos.`
+Responde ÚNICAMENTE con el contenido solicitado. Sin explicaciones ni preámbulos.
+
+TONO Y ESTILO — NO NEGOCIABLE:
+Actúa como un copywriter estrella. Tono cercano, empático y directo — como si hablaras con una amiga por WhatsApp. Usa storytelling emocional que conecte. Nunca corporativo, nunca genérico. Siempre humano, real y que toque el corazón. El contenido debe sentirse como una conversación real, no como un texto de marketing.
+
+REGLAS CRÍTICAS DE CONTENIDO:
+1. NUNCA repetir palabras ni frases entre publicaciones — Instagram penaliza la repetición. Vocabulario siempre variado y fresco.
+2. NUNCA reutilizar la misma estructura narrativa en reels consecutivos — cada reel usa una estructura diferente (problema→solución, historia→lección, pregunta→respuesta, dato→aplicación, etc.) para que el contenido se sienta fresco y menos predecible.
+
+ESTRATEGIA DE CONTENIDO INSTAGRAM 2025/2026:
+Cada contenido tiene 2 funciones: 1)DETENER EL SCROLL (el gancho) 2)DAR RAZÓN PARA SEGUIR (solución práctica + aprendizaje + claridad = autoridad).
+REGLA CENTRAL: Cada contenido debe responder: ¿Qué aprende la persona aquí? ¿Por qué debería seguir a esta cuenta después de consumirlo?
+ESTRUCTURA CON AUTORIDAD: "Esto cambió → esto significa para ti → así puedes aplicarlo → este es el resultado que buscas"
+POSICIONAMIENTO: La gente llega por la NOVEDAD → se queda por la UTILIDAD → confía por la CONSISTENCIA → avanza por la SOLUCIÓN.
+
+EMBUDO DE CONTENIDO: VIRAL → VALOR → VENTA
+VIRAL: Atrae a la persona correcta — no vistas vacías, sino audiencia calificada.
+VALOR: "Aquí aprendo algo útil, quiero seguir esta cuenta" — genera confianza y autoridad.
+VENTA: Conecta un problema que ya reconoce con una solución — solo cuando hay intención y contexto.
+REGLA: No vender constantemente. Primero atraer, después educar y generar confianza, finalmente presentar la solución.
+FLUJO: Búsqueda real → Hook → Alcance → Aprendizaje útil → Visita al perfil → Seguimiento → Confianza → Recurso gratuito → Oferta → Conversión.
+
+INTELIGENCIA CONTEXTUAL — Jackia adapta el contenido según el objetivo de la usuaria:
+SOLO SEGUIDORES → Contenido VIRAL + VALOR. Hook fuerte + aprendizaje útil + CTA de seguir/guardar. Sin venta directa.
+SEGUIDORES + VENTAS → Embudo completo VIRAL → VALOR → VENTA. Mix de contenido educativo + autoridad + oferta.
+SOLO VENTAS → Contenido de VENTA directo con contexto. Problema reconocido + solución específica + CTA de compra/DM.
+Jackia detecta el objetivo desde el onboarding y adapta TODOS los módulos automáticamente.
+
+SISTEMA COMPLETO DE CONTENIDO — FÓRMULA MAESTRA DE JACKIA:
+
+PASO 1 — CONOCER AL CLIENTE (base de todo el contenido):
+¿Quién es? → ¿Qué problema tiene? → ¿Qué intentó? → ¿Qué no le funcionó? → ¿Qué desea conseguir? → ¿Qué solución le damos?
+
+PASO 2 — TRANSFORMAR EN CONTENIDO:
+GANCHO → PROBLEMA → DOLOR → SOLUCIÓN → CTA
+
+10 GANCHOS VIRALES (usar siempre con contexto específico, NUNCA genéricos):
+REGLA: "Nadie habla de esto" ❌ → "Nadie habla de este error al crear contenido con IA" ✅
+1. "No pierdas tu tiempo haciendo ___ mejor haz ___"
+2. "Nadie habla de [tema específico]"
+3. "Esto es lo único que necesitas para [resultado]"
+4. "Aquí está la verdad sobre [tema]"
+5. "La mayoría cree que ___ hasta que ___"
+6. "Si tuviera que empezar de nuevo [en nicho/tema]"
+7. "No te va a gustar pero [verdad sobre tema]"
+8. "Nunca, pero nunca [error específico del nicho]"
+9. "Lo que nadie te cuenta sobre [tema específico]"
+Siempre adaptar al nicho y problema específico de la usuaria.
+
+SISTEMA COMPLETO DE VENTAS (Bot de Ventas / Seguimiento & Cierre):
+
+FILOSOFIA CENTRAL 2025/2026: El cliente no compra por información — compra por CERTEZA y SEGURIDAD. Se construye con AUTORIDAD + CLARIDAD + GUIA desde el primer mensaje. TU lideras siempre — si no lideras, el cliente se queda en la duda y se va. Nunca sonar desesperado ni cansón.
+
+FRAMEWORK LLAMADAS: 1)Apertura con control: "La idea de esta llamada es determinar donde estás hoy y a donde quieres llegar, para ver si [producto] es para ti." 2)Diagnóstico profundo: ¿Qué intentas alcanzar? ¿Qué te frena? ¿Cuánto tiempo llevas en esto? 3)Dolor actual: ¿Qué pasa si no lo solucionas pronto? 4)Visión deseada: Si esto te funcionara, ¿cómo cambiaría tu vida? 5)Presentación: "Por lo que me dices, esto es exactamente lo que necesitas." 6)Cierre directo.
+
+FRAMEWORK ZOOM — 5 pilares: 1)Conexión 2)Diagnóstico 3)Presentación minuciosa — dar SOLO lo primordial (DAR MUCHO ELIMINA LA URGENCIA) 4)Prueba social específica de personas parecidas al cliente potencial 5)Cierre directo. TECNICA BONUS: ofrecer bonos exclusivos durante el zoom/live. Extensión de 24h "por errores de pago" para indecisos.
+
+FRAMEWORK LIVE — 5 pasos: 1)Hablar del dolor real 2)Contar historias reales que generen identificación 3)Romper creencias limitantes 4)Generar identificación ("esto es exactamente lo que me pasa") 5)CTA con técnica del bonus — solo durante el live, tiempo limitado → cierra en DM/WhatsApp.
+
+FRAMEWORK WHATSAPP: Apertura: "Antes de recomendarte algo, quiero entender tu caso." 3 preguntas clave: 1)¿Qué has intentado hasta ahora? 2)¿Qué es lo que más te frustra? 3)¿Qué pasa si sigues así 3-6 meses más? → "Por lo que me cuentas, no es falta de ganas — es falta de estructura." → Presentar transformación → "Te explico cómo ingresar hoy a [producto]" → enviar link.
+
+3 REGLAS DE ORO WHATSAPP: 1)Máximo 4 líneas por mensaje — si se complica, invitar a llamada de 5 minutos 2)Audio SOLO cuando hay interés real visible — nunca audios largos 3)Silencio del cliente: NUNCA escribir "hola ¿estás ahí?" — reactivar siempre con VALOR y AUTORIDAD.
+
+FORMULA CIERRE UNIVERSAL: Diagnóstico → "No es falta de ganas, es falta de estructura" → Transformación (no información) → "Te explico cómo ingresar hoy a [producto]". Usar sinónimos y variaciones — misma estructura, palabras diferentes según el caso.
+
+COSTO DE NO ACTUAR: Hacer visible lo que pierde si no actúa. Variar el tiempo (3 meses, 6 meses, 1 año) según la conversación. Sin sonar tedioso — con autoridad y calma, no con presión.
+
+NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.`
 
 
 // ── M1: CAPTIONS
@@ -1763,8 +1817,36 @@ async function suggestCapTopics() {
 }
 
 // ── SISTEMA DE LÍMITES PLAN GRATIS (7 días, una sola vez, no renovable) ──
-const FREE_LIMITS = { captions: 1, videos: 1, carruseles: 1, stories: 2, dm: 1 };
+const FREE_LIMITS = { captions: 1, videos: 1, carruseles: 1, stories: 2, dm: 1 }; // Plan Gratis: 1/día
+const PRO_DAILY_LIMIT = 10; // Plan Pro: 10/día por módulo
 const FREE_TRIAL_DAYS = 7;
+const PRO_MONTHLY_LIMIT = 200;
+const PREMIUM_MONTHLY_LIMIT = 500;
+
+// Detectar plan actual (cuando se conecte Supabase/Hotmart, esto será dinámico)
+// Por ahora: 'free', 'pro', 'premium' — se puede forzar para pruebas
+function getCurrentPlan() {
+  // MODO PRUEBA: acceso completo sin restricciones
+  // Cambiar a 'free' cuando se conecte Hotmart
+  return 'premium';
+}
+
+function getMonthKey() {
+  const now = new Date();
+  return 'jackia_monthly_' + now.getFullYear() + '_' + (now.getMonth()+1);
+}
+
+function checkMonthlyLimit(plan) {
+  const limit = plan === 'premium' ? PREMIUM_MONTHLY_LIMIT : PRO_MONTHLY_LIMIT;
+  const key = getMonthKey();
+  const used = parseInt(localStorage.getItem(key) || '0');
+  if (used >= limit) {
+    alert('⏰ Alcanzaste el límite de generaciones de este mes (' + limit + ').\n\nSe reinicia el próximo mes. Si necesitas más, contáctanos. 💪');
+    return false;
+  }
+  localStorage.setItem(key, String(used + 1));
+  return true;
+}
 
 function getTrialStatus() {
   let startDate = localStorage.getItem('jackia_trial_start');
@@ -1773,7 +1855,7 @@ function getTrialStatus() {
     localStorage.setItem('jackia_trial_start', startDate);
   }
   const daysElapsed = Math.floor((Date.now() - new Date(startDate).getTime()) / (1000*60*60*24));
-  return { daysElapsed, expired: daysElapsed >= FREE_TRIAL_DAYS, daysLeft: Math.max(0, FREE_TRIAL_DAYS - daysElapsed) };
+  return { daysElapsed: 0, expired: false, daysLeft: 7 }; // MODO PRUEBA
 }
 
 function getTodayKey(moduleKey) {
@@ -1782,8 +1864,27 @@ function getTodayKey(moduleKey) {
 }
 
 function checkDailyLimit(moduleKey) {
-  // Si es usuaria Pro/Premium (futuro: detectar plan real), no aplica límite
-  // Por ahora el prototipo asume Plan Gratis siempre, salvo que se conecte sistema de pago real
+  return true; // MODO PRUEBA: sin límites
+  const plan = getCurrentPlan();
+
+  // Plan Pro — 10 generaciones por día por módulo
+  if (plan === 'pro') {
+    const proKey = 'jackia_pro_' + moduleKey + '_' + new Date().toISOString().slice(0,10);
+    const proUsed = parseInt(localStorage.getItem(proKey) || '0');
+    if (proUsed >= PRO_DAILY_LIMIT) {
+      alert('🔒 Alcanzaste tus 10 generaciones de hoy para este módulo.\n\nVuelve mañana o actualiza a Premium para generaciones ilimitadas. 💪');
+      return false;
+    }
+    localStorage.setItem(proKey, String(proUsed + 1));
+    return true;
+  }
+
+  // Plan Premium — límite mensual silencioso (500/mes)
+  if (plan === 'premium') {
+    return checkMonthlyLimit('premium');
+  }
+
+  // Plan Gratis — límite diario por módulo + 7 días
   const trial = getTrialStatus();
   if (trial.expired) {
     alert('⏰ Tu prueba gratis de 7 días terminó.\n\nActiva Pro o Premium para seguir generando contenido sin límites. 💪');
@@ -1821,7 +1922,7 @@ async function generateCaption() {
   const tema = document.getElementById('cap-tema').value;
   const nicho = document.getElementById('cap-nicho').value;
   const tono = document.getElementById('cap-tono').value;
-  const keyword = document.querySelector('#cap-keyword-chips .chip.selected')?.textContent || 'PRO';
+  const keyword = document.getElementById('cap-keyword-chips')?.value?.trim() || '';
   const estilo = document.querySelector('#cap-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
   const pais = document.querySelector('#cap-pais-chips .chip.selected')?.textContent || 'México';
   if (!tema.trim()) { alert('Cuéntame de qué trata tu post 😊'); return; }
@@ -1854,24 +1955,58 @@ async function generatePlan() {
   const negocio = document.getElementById('plan-negocio').value;
   const objetivo = document.getElementById('plan-objetivo').value;
   if (!negocio.trim()) { alert('Cuéntame tu negocio 😊'); return; }
+  if (!checkDailyLimit('plan')) return;
   setLoading('btn-gen-plan', true);
   document.getElementById('plan-output-area').style.display = 'block';
   document.getElementById('plan-grid').innerHTML = '<p style="color:#D4AF37;font-size:13px;padding:12px">Armando tu plan de 7 días... ✨</p>';
-  const prompt = `Plan de contenido 30 días para redes sociales:
+  const prompt = `Crea un plan de contenido de 7 días para redes sociales.
 NEGOCIO: ${negocio}
 OBJETIVO: ${objetivo}
 ${getProfileContext()}
 
-Genera 7 publicaciones para los primeros 7 días. Progresión: días 1-3 conectar y presentarte, días 4-5 educar y despertar deseo, días 6-7 mostrar resultados e invitar cálido a la acción.
+Progresion: dias 1-2 conectar y presentarte, dias 3-4 educar y despertar deseo, dias 5-6 mostrar resultados, dia 7 invitar a la accion.
 
-Responde SOLO en JSON válido sin markdown:
-{"days":[{"day":1,"topic":"Tema","format":"Video","hook":"Primera línea del post","keyword":"PRO"},...]}`; 
+Escribe exactamente 7 dias con este formato (sin cambiar nada del formato):
+DIA 1 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 2 | Formato: Carrusel | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 3 | Formato: Historia | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 4 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 5 | Formato: Post | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 6 | Formato: Carrusel | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
+DIA 7 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]`;
+
   try {
-    const text = await callClaude(prompt, SYS + '\nResponde SOLO JSON válido, sin backticks ni texto adicional.');
-    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    renderPlan(parsed.days);
+    const text = await callClaude(prompt, SYS);
+    // Parser flexible — acepta DIA, DÍA, Día, día con o sin número
+    let lines = text.split('\n').filter(l => /^d[iíI]a\s*\d/i.test(l.trim()));
+    if (lines.length === 0) {
+      // Fallback: tomar cualquier línea con | que tenga contenido
+      lines = text.split('\n').filter(l => l.includes('|') && l.trim().length > 20);
+    }
+    if (lines.length === 0) {
+      // Último recurso: mostrar texto como cards simples
+      const allLines = text.split('\n').filter(l => l.trim().length > 15).slice(0, 7);
+      renderPlan(allLines.map((line, i) => ({
+        day: i + 1, format: 'Post', topic: line.trim().substring(0, 80), hook: '', keyword: ''
+      })));
+      return;
+    }
+    const days = lines.slice(0, 7).map((line, i) => {
+      const formatMatch = line.match(/Formato[:\s]+([^|\n]+)/i);
+      const temaMatch = line.match(/Tema[:\s]+([^|\n]+)/i);
+      const ganchoMatch = line.match(/Gancho[:\s]+([^|\n]+)/i);
+      const keywordMatch = line.match(/Palabra\s*clave[:\s]+([^|\n]+)/i);
+      return {
+        day: i + 1,
+        format: formatMatch ? formatMatch[1].trim() : 'Post',
+        topic: temaMatch ? temaMatch[1].trim() : line.trim().substring(0, 60),
+        hook: ganchoMatch ? ganchoMatch[1].trim() : '',
+        keyword: keywordMatch ? keywordMatch[1].trim() : ''
+      };
+    });
+    renderPlan(days);
   } catch(e) {
-    document.getElementById('plan-grid').innerHTML = '<p style="color:var(--muted)">Error. Inténtalo de nuevo.</p>';
+    document.getElementById('plan-grid').innerHTML = '<p style="color:#E8315A;font-size:13px;padding:12px">⚠️ Error generando el plan. Por favor intenta de nuevo. 💪</p>';
   }
   setLoading('btn-gen-plan', false);
 }
@@ -2189,8 +2324,68 @@ ${getProfileContext()}`;
   setLoading('btn-gen-dm', false);
 }
 
+async function generateReto() {
+  const nombre = document.getElementById('reto-nombre')?.value?.trim();
+  const duracion = document.getElementById('reto-duracion')?.value?.trim();
+  const objetivo = document.getElementById('reto-objetivo')?.value?.trim();
+  if (!nombre) { alert('Ponle un nombre a tu reto 😊'); return; }
+  if (!duracion) { alert('¿Cuántos días va a durar tu reto? 😊'); return; }
+  if (!objetivo) { alert('¿Qué quieres lograr con este reto? 😊'); return; }
+  setLoading('btn-gen-reto', true);
+  document.getElementById('reto-output-card').style.display = 'block';
+  const prompt = `Crea una estrategia completa para este reto de contenido en redes sociales:
 
-// ── SPEECH TO TEXT (Voz a Texto) ─────────────────────
+NOMBRE DEL RETO: ${nombre}
+DURACIÓN: ${duracion}
+OBJETIVO: ${objetivo}
+${getProfileContext()}
+
+Genera:
+1. Una introducción motivacional del reto (2-3 líneas)
+2. La estrategia semana a semana (o día a día si son 7 días) — qué tipo de contenido publicar en cada etapa para lograr el objetivo
+3. 3 tips clave para completar el reto con éxito
+4. Un mensaje de cierre motivacional
+
+El tono debe ser cercano, empático y motivador — como una amiga que te guía. Recuerda: no vende información, vende transformación.`;
+
+  await streamToEl(prompt, 'reto-output', SYS);
+  setLoading('btn-gen-reto', false);
+}
+
+async function generateAnalizar() {
+  const contenido = document.getElementById('anal-contenido')?.value?.trim();
+  const negocio = document.getElementById('anal-negocio')?.value?.trim();
+  if (!contenido) { alert('Pega el contenido que quieres analizar 😊'); return; }
+  if (!negocio) { alert('Cuéntame qué vendes tú para adaptarlo 😊'); return; }
+  setLoading('btn-gen-analizar', true);
+  document.getElementById('analizar-output-card').style.display = 'block';
+  const prompt = `Analiza este contenido de redes sociales y adáptalo al negocio de la usuaria.
+
+CONTENIDO A ANALIZAR:
+${contenido}
+
+NEGOCIO DE LA USUARIA: ${negocio}
+${getProfileContext()}
+
+Responde en 2 secciones separadas con exactamente estos títulos:
+
+POR QUÉ FUNCIONA:
+[Explica en 3-5 puntos concretos qué hace que este contenido funcione — el gancho, el formato, la emoción que genera, por qué la gente comenta o guarda]
+
+MI VERSIÓN ADAPTADA:
+[Escribe una versión completamente nueva adaptada al negocio de la usuaria, con el mismo estilo y estructura que funcionó en el original, pero con su nicho, su cliente y su producto. Lista para copiar y publicar directamente.]`;
+
+  const text = await callClaude(prompt, SYS);
+  const porqueMatch = text.match(/POR QUÉ FUNCIONA[:\s]*([\s\S]*?)(?=MI VERSIÓN|$)/i);
+  const versionMatch = text.match(/MI VERSIÓN ADAPTADA[:\s]*([\s\S]*?)$/i);
+  
+  document.getElementById('analizar-porque').textContent = porqueMatch ? porqueMatch[1].trim() : text;
+  document.getElementById('analizar-version').textContent = versionMatch ? versionMatch[1].trim() : '';
+  setLoading('btn-gen-analizar', false);
+}
+
+
+
 let micRecognition = null;
 let micActiveField = null;
 let micActiveBtn = null;
@@ -2264,6 +2459,150 @@ function hideSplash() {
 let userProfile = null;
 try { userProfile = JSON.parse(localStorage.getItem('jackia_profile') || 'null'); } catch(e){}
 
+// ── AFIRMACIONES DIARIAS ─────────────────────
+const AFIRMACIONES = [
+  "Empezar de nuevo no es un revés; es una oportunidad para reconstruir más fuerte. 💪",
+  "Visualizar tus objetivos diariamente mantiene tu mente enfocada y tu motivación fuerte. 🎯",
+  "Sueña en grande, comienza poco a poco, pero lo más importante es actuar de manera constante. 🌟",
+  "El fracaso es solo un trampolín hacia el éxito final. 🚀",
+  "El éxito no es un accidente; es el resultado de un esfuerzo constante y determinación inquebrantable. 💎",
+  "Cuanto más aprendas, más ganarás. 📚",
+  "Invertir en ti misma rendirá beneficios duraderos para toda tu vida. 💛",
+  "Las oportunidades se crean mediante el esfuerzo persistente y la voluntad de asumir riesgos. 🔥",
+  "Rodéate de personas que te desafíen a pensar en grande. 🌱",
+  "Cree que mereces el éxito y comienza a vivir como tal hoy mismo. 💫",
+  "Convierte cada revés en una remontada más fuerte. 💪",
+  "Aspira a inspirar a otros con tu éxito. 💙",
+  "Toda gran meta comienza con una sola idea llevada a cabo con confianza y dedicación. ✦",
+  "La disciplina es el puente que conecta tus metas con logros tangibles. 🌟",
+  "Sueña en grande, trabaja duro y nunca te conformes con menos de lo que mereces. 🔥",
+  "Crea una visión tan clara que te impulse hacia tus objetivos todos los días. 🎯",
+  "El éxito no es para unos pocos elegidos, sino para quienes eligen perseguirlo sin descanso. 👸",
+  "Diseña una vida que te apasione, una que no requiera escapadas ni vacaciones. 💎",
+  "El éxito llega cuando la preparación se encuentra con la oportunidad; estate siempre lista. ✨",
+  "Invierte en ti misma, porque eres el mayor activo que jamás tendrás. 💛",
+  "Construye una vida con propósito y significado. 🌱",
+  "Cree en tu visión y mantente comprometida, incluso cuando otros duden. 💪",
+  "Cada paso que das hoy te acerca a tus metas. 🚀",
+  "Tu consistencia es tu mayor superpoder. 👑",
+  "No necesitas ser perfecta, necesitas ser constante. 🔥",
+  "Tu historia inspira a alguien que aún no conoces. 💙",
+  "Mereces el éxito que estás construyendo. 🏆",
+  "Sonríe, lo estás haciendo bien. 😊",
+  "Hoy es otro día para crear algo increíble. ✨",
+  "Un día a la vez, un paso a la vez. 💪",
+  "Mi negocio crece cada día y atrae clientes ideales. 💸",
+  "Mis ideas generan ingresos ilimitados. 💡",
+  "Estoy construyendo un imperio con propósito y pasión. 🔥",
+  "Actúo con decisión y confianza cada día. 💫",
+  "Todo lo que visualizo, lo materializo. 🌟",
+  "El universo siempre conspira a mi favor. 🙏",
+  "Estoy creando un legado de impacto y abundancia. 👑",
+  "Mi propósito me guía hacia el éxito infinito. ✨",
+  "Mi vida inspira a otras mujeres a crear algo grande. 💙",
+  "Trabaja hasta que ya no necesites ir a trabajar. 💪",
+  "Estoy creando una marca. Siempre tengo mucho que hacer. 🚀",
+  "Piénsalo. Ámalo. Consíguelo. 🎯",
+  "Piensa como una mujer. Actúa como una líder. 👑",
+  "Mi secreto es muy sencillo: me esfuerzo mucho. 🔥",
+  "Mata de hambre tus distracciones. Nutre tu concentración. 💎",
+  "El éxito no llega de lo que haces de vez en cuando, sino de lo que haces de manera constante. ✨",
+  "Invierte primero en ti misma. Lo demás llegará por sí solo. 💛",
+  "Si hay algo en lo que estoy lista para arriesgarme, es en mí misma. 💫",
+  "Una vez que te conviertes en valiente, la vida se vuelve ilimitada. 🌟",
+  "Las cosas buenas llegan a quienes se esfuerzan. 🌱",
+  "Sé tan increíble que no puedan pasarte por alto. 👸",
+  "Fortalece a las mujeres que están a tu alrededor. 💙",
+  "¿Un día o el primer día? Tú eliges. 🚀",
+  "Sé una mujer que se enfoca en los negocios, no en los dramas. 💼",
+  "No existe una fuerza más grande que una mujer decidida a levantarse. 💪",
+  "Las mujeres fuertes no tenemos actitudes, tenemos expectativas. 👑",
+  "Crea. Asume riesgos. Disfruta de tu pasión. 🔥",
+  "Una flor no se compara con las que están a su alrededor, simplemente florece. 🌸",
+  "Busca aquello que enciende tu alma. ✨",
+  "Sé más fuerte que tus razones para no hacerlo. 💎",
+  "Haz un pequeño esfuerzo extra, nunca hay mucha competencia ahí. 🚀",
+  "Solo una chica líder construyendo su imperio. 👸",
+  "Al hacer lo que te apasiona, inspiras y enciendes los corazones de los demás. 💛",
+  "Todo empieza con el amor a una misma. 💙",
+  "Los métodos antiguos no abrirán nuevas oportunidades. 🌟",
+  "Cree que puedes y estarás a medio camino de conseguirlo. 💫",
+  "Todo se acomodará. Sigue trabajando, sigue esforzándote, sigue adelante. 🙏",
+  "Tu intuición sabe exactamente qué hacer. ✦",
+  "El futuro es de aquellas que confían en la belleza de sus sueños. 🌱",
+  "Todo es posible si tienes el valor suficiente. 💪",
+  "Si alguien te dice no puedes, está compartiendo sus propios límites, no los tuyos. 🔥",
+  "No me conformo con lo bueno. Prefiero lo mejor. 👑",
+  "No pierdas el tiempo con cosas que no tienen nada que ver con tus metas. 🎯",
+  "Deja de estar sentada en el asiento del pasajero de tu vida. Toma las riendas. 💎",
+  "Toma la actitud de: voy a lograrlo, pase lo que pase. 🚀",
+  "Es el momento de avanzar hacia la versión de ti misma con la que siempre has soñado. ✨",
+  "Cuanto más quieres tus propias decisiones, menos necesitas que los demás las quieran. 💛",
+  "El verdadero poder está en abrazar y aceptar quién eres. 💙",
+  "La vida de tus sueños puede hacerse realidad. Solo necesitas salir y buscarla. 🌟",
+  "Cambia tus pensamientos y verás lo rápido que cambia tu vida. 💫",
+  "Sé la chica que sí lo intentó. 🔥",
+  "Sube de nivel tanto que tendrán que redescubrirte. 👸",
+  "Siempre mantén tu enfoque en el éxito. 🎯",
+  "No dejes pasar una idea que te llega una y otra vez. 💡",
+  "Brillas de una manera especial cuando estás en sintonía contigo misma. ✨",
+  "No soy controladora. Soy la líder. 👑",
+  "No recibes lo que no pides. 💪",
+  "Tu crecimiento no necesita explicaciones para nadie. 🌱",
+  "Ella está creando su imperio. 🔥",
+  "Las mujeres que saben lo que valen son realmente poderosas. 💎",
+  "Es momento de dar un paso hacia tu fuerza. 🚀",
+  "Repite después de mí: merezco un gran éxito. 💛",
+  "Sueña en grande. 🌟",
+  "Cuando haces lo que te apasiona, todo se transforma. 💙",
+  "Todo se está organizando para ti. Ten fe en el proceso. 🙏",
+  "La mentalidad lo es todo. 💫",
+  "La mentalidad es lo que distingue a las mejores de las demás. 👑",
+  "Si es para mí, lo tendré. Si no, estoy preparada para algo aún mejor. ✦",
+  "Inhala seguridad y exhala temor. 🔥",
+  "Bendecida. Agradecida. Enfocada. 💎"
+];
+
+function showDailyAffirmation() {
+  const el = document.getElementById('daily-affirmation');
+  if (!el) return;
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  el.textContent = AFIRMACIONES[dayOfYear % AFIRMACIONES.length];
+}
+
+function updateStreak() {
+  const today = new Date().toISOString().slice(0,10);
+  const lastDay = localStorage.getItem('jackia_last_active') || '';
+  let streak = parseInt(localStorage.getItem('jackia_streak') || '0');
+  
+  if (lastDay === today) {
+    // Ya contado hoy
+  } else {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+    if (lastDay === yesterday) {
+      streak += 1;
+    } else if (lastDay !== today) {
+      streak = 1;
+    }
+    localStorage.setItem('jackia_streak', String(streak));
+    localStorage.setItem('jackia_last_active', today);
+  }
+
+  // Mostrar racha
+  const streakEl = document.getElementById('streak-count');
+  if (streakEl) streakEl.textContent = '🔥 ' + streak;
+
+  // Calcular nivel
+  const levelEl = document.getElementById('user-level');
+  if (levelEl) {
+    let level = '🌱 Semilla';
+    if (streak >= 90) level = '👑 CEO del Contenido';
+    else if (streak >= 30) level = '🔥 Imparable';
+    else if (streak >= 7) level = '🌿 En Crecimiento';
+    levelEl.textContent = level;
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   try {
     // Always show splash first
@@ -2278,6 +2617,8 @@ window.addEventListener('DOMContentLoaded', () => {
       injectProfileBadge();
     }
     updateUsageBar();
+    showDailyAffirmation();
+    updateStreak();
   } catch(e) { console.log(e); }
 });
 
@@ -2306,9 +2647,9 @@ function nextStep(to) {
 
 function injectProfileBadge() {
   if (!userProfile) return;
-  const nl = {productos_propios:'Productos propios',reventa_mrr:'Reventa MRR/PLR',afiliados:'Marketing de Afiliados',coaching:'Coaching',belleza_moda:'Belleza & Moda',servicios:'Servicios',producto_fisico:'Productos físicos',otro:'Otro'};
+  const nl = {productos_propios:'Productos propios',reventa_mrr:'Reventa MRR/PLR',afiliados:'Marketing de Afiliados',coaching:'Coaching',belleza_moda:'Belleza & Moda',otro:'Otro'};
   const el = {marca_personal:'Con cara visible',faceless:'Faceless',ambos:'Ambos estilos'};
-  const ml = {mexico:'México 🇲🇽',colombia:'Colombia 🇨🇴',eeuu_latinos:'EEUU Latinos 🇺🇸',latam:'LatAm 🌎'};
+  const ml = {latam:'Latinoamérica 🌎',espana:'España 🇪🇸',eeuu_espanol:'EEUU (español) 🇺🇸',internacional:'Internacional 🌍'};
   const existing = document.querySelector('.profile-badge');
   if (existing) existing.remove();
   const badge = document.createElement('div');
@@ -2329,10 +2670,10 @@ function resetOnboarding() {
 
 function getProfileContext() {
   if (!userProfile) return '';
-  const n = {productos_propios:'productos digitales propios (ebooks, cursos, plantillas)',reventa_mrr:'productos de reventa MRR/PLR',afiliados:'marketing de afiliados (recomienda productos de otros por comisión)',coaching:'coaching y mentoria',belleza_moda:'belleza y moda',servicios:'servicios freelance',producto_fisico:'productos fisicos',otro:'emprendimiento'};
+  const n = {productos_propios:'productos digitales propios (ebooks, cursos, plantillas)',reventa_mrr:'productos de reventa MRR/PLR',afiliados:'marketing de afiliados (recomienda productos de otros por comisión)',coaching:'coaching y mentoria',belleza_moda:'belleza y moda',otro:'emprendimiento'};
   const e = {marca_personal:'cuenta con cara visible (marca personal)',faceless:'cuenta faceless sin mostrar cara',ambos:'cuenta mixta (marca personal y faceless)'};
   const o = {primera_venta:'hacer su primera venta en dolares',escalar_ventas:'escalar sus ventas este mes',crecer_audiencia:'crecer audiencia',lanzar_producto:'lanzar un producto nuevo'};
-  const m = {mexico:'Mexico',colombia:'Colombia',eeuu_latinos:'latinos en EEUU',latam:'toda Latinoamerica'};
+  const m = {latam:'toda Latinoamerica',espana:'España',eeuu_espanol:'hispanohablantes en EEUU',internacional:'todo el mundo hispanohablante'};
   const v = {cero:'empezando desde cero',intermedio:'tiene seguidores pero no vende consistentemente',avanzado:'ya vende y quiere escalar'};
   let ctx = 'PERFIL USUARIA: nicho=' + (n[userProfile.nicho]||'emprendimiento') + ', estilo=' + (e[userProfile.estilo]||'') + ', objetivo=' + (o[userProfile.objetivo]||'') + ', mercado=' + ((Array.isArray(userProfile.mercado)?userProfile.mercado:[userProfile.mercado]).map(mk=>m[mk]||'').filter(Boolean).join(' y ')) + ', nivel=' + (v[userProfile.nivel]||'') + '.';
   if (userProfile.clienteDolor) {
@@ -2394,7 +2735,7 @@ async function sendChat() {
   const thinkingEl = appendMsg('...', 'jacky');
 
   try {
-    const response = await fetch('https://mi-proxy-anthropic.vercel.app/api/generate', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         model:'claude-sonnet-4-6', max_tokens:1000,
