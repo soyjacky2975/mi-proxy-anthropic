@@ -404,6 +404,8 @@
       <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
       <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
       <div class="sidebar-label">Premium</div>
+      <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
+      <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
       <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
       <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analiza, Adapta y Modela</button>
       <button class="nav-item" onclick="showPanel('chat',this)"><span class="nav-icon">🧠</span> Cerebro Jackia</button>
@@ -907,9 +909,14 @@
             </div>
             <div>
               <label>Palabra clave</label>
-              <select id="reeldia-keyword">
-                <option>PRO</option><option>IMPARABLE</option><option>CEO</option><option>FORMULA</option><option>ESTRUCTURA</option><option>META</option><option>APRENDER</option><option>GUIA</option><option>PROMPT</option><option>GRATIS</option><option>INFO</option><option>PRECIO</option><option>LINK</option><option>ACCESO</option><option>CITA</option><option>CURSO</option><option>ACADEMY</option>
-              </select>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+  <button type="button" class="chip" onclick="document.getElementById('reeldia-keyword').value=this.textContent">PRO</button>
+  <button type="button" class="chip" onclick="document.getElementById('reeldia-keyword').value=this.textContent">CITA</button>
+  <button type="button" class="chip" onclick="document.getElementById('reeldia-keyword').value=this.textContent">GRATIS</button>
+  <button type="button" class="chip" onclick="document.getElementById('reeldia-keyword').value=this.textContent">INFO</button>
+  <button type="button" class="chip" onclick="document.getElementById('reeldia-keyword').value=this.textContent">ACCESO</button>
+</div>
+<input type="text" id="reeldia-keyword" placeholder="Selecciona una o escribe la tuya (opcional)">
             </div>
           </div>
           <button class="btn-primary" id="btn-gen-reeldia" onclick="generateReelDia()">✦ Generar mi Reel de Hoy</button>
@@ -991,9 +998,14 @@
           <div id="historiasHoy-topic-suggestions" style="display:none;margin-bottom:10px"></div>
           <textarea id="historiasHoy-tema" placeholder="Ej: Resultado de una clienta, un tip rápido, mi proceso de trabajo hoy..."></textarea>
           <label>Palabra clave</label>
-          <select id="historiasHoy-keyword">
-            <option>PRO</option><option>IMPARABLE</option><option>CEO</option><option>FORMULA</option><option>ESTRUCTURA</option><option>META</option><option>APRENDER</option><option>GUIA</option><option>PROMPT</option><option>GRATIS</option><option>INFO</option><option>PRECIO</option><option>LINK</option><option>ACCESO</option><option>CITA</option><option>CURSO</option><option>ACADEMY</option>
-          </select>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">PRO</button>
+  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">CITA</button>
+  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">GRATIS</button>
+  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">INFO</button>
+  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">ACCESO</button>
+</div>
+<input type="text" id="historiasHoy-keyword" placeholder="Selecciona una o escribe la tuya (opcional)">
           <div style="background:#0A0A0A;border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#999999;margin:14px 0">
             📸 <strong style="color:#D4AF37">¿No sabes qué imagen usar?</strong> Si eres faceless, usa bancos de fotos faceless o Pinterest para inspirarte. También puedes mejorar tus fotos con IA usando tu pack de prompts incluido 🎁. Si quieres una sugerencia más específica para tu nicho, pregúntale a Jackia en el Chat. 💬
           </div>
@@ -2212,14 +2224,9 @@ async function suggestReeldiaTopics() {
 }
 
 async function generateReelDia() {
-  // Sin sistema de planes conectado aun: se muestra como funcion Premium bloqueada
-  alert('🔒 "Mi Reel de Hoy" es el Sistema Completo exclusivo de Premium.\n\nGenera tu portada, descripción, caption y sistema de DM — todo en un solo lugar, listo para copiar y publicar. Activa Premium para desbloquearlo. 💖');
-  return;
-
-  // (codigo real, se activa cuando exista deteccion de plan Premium)
   const tema = document.getElementById('reeldia-tema').value;
   const usuario = document.getElementById('reeldia-usuario').value;
-  const keyword = document.getElementById('reeldia-keyword').value;
+  const keyword = document.getElementById('reeldia-keyword')?.value?.trim() || '';
   const estilo = document.querySelector('#reeldia-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
   const link = document.getElementById('reeldia-link')?.value || '[PEGA TU LINK AQUI]';
   if (!tema.trim()) { alert('Cuéntame de qué vas a hablar hoy 😊'); return; }
@@ -2230,11 +2237,12 @@ async function generateReelDia() {
   document.getElementById('reeldia-dm-card').style.display = 'block';
 
   const ctx = getProfileContext();
+  const keywordText = keyword ? `con la palabra clave "${keyword}" ("Comenta ${keyword} y te lo envio" o "Escribeme ${keyword} por DM")` : 'con un CTA directo al link o al DM sin palabra clave';
   const promptPortada = `Escribe SOLO el texto de portada (titulo grande que va encima del video) para un reel sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mencionar "yo"' : 'marca personal, en primera persona'}. Maximo 10 palabras, con gancho fuerte. ${ctx} Responde solo el texto, sin explicacion.`;
   const promptDescripcion = `Escribe el guion completo de lo que se dice/muestra dentro de un reel sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin revelar identidad' : 'marca personal, primera persona, autentico'}. Estructura: Hook (0-3seg) -> Desarrollo con valor -> Cierre con CTA hablado. ${ctx} Responde solo el guion, sin explicacion.`;
-  const promptCaption = `Escribe el caption completo para publicar este reel sobre: ${tema}. Usuario: ${usuario || '@tu_usuario'}. Incluye: gancho de caption, contenido de valor breve, menciona el usuario ${usuario||'@tu_usuario'} de forma natural, CTA con la palabra clave "${keyword}" ("Comenta ${keyword} y te lo envio" o "Escribeme ${keyword} por DM"), y 3 hashtags relevantes al final. ${ctx} Responde solo el caption, sin explicacion.`;
-  const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}" en este reel. Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
-  const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
+  const promptCaption = `Escribe el caption completo para publicar este reel sobre: ${tema}. Usuario: ${usuario || '@tu_usuario'}. Incluye: gancho de caption, contenido de valor breve, menciona el usuario ${usuario||'@tu_usuario'} de forma natural, CTA ${keywordText}, y 3 hashtags relevantes al final. ${ctx} Responde solo el caption, sin explicacion.`;
+  const promptBienvenida = keyword ? `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}" en este reel. Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.` : `Escribe un mensaje corto de bienvenida para DM cuando alguien escribe por el reel. Cercano y cálido. Maximo 3 lineas.`;
+  const promptEntrega = `Escribe un mensaje corto de entrega para DM ${keyword ? `automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link}` : `para cuando preguntan por el reel. Invita a conocer más con este link: ${link}`}. Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
   await streamToEl(promptPortada, 'reeldia-portada-output', SYS);
   await streamToEl(promptDescripcion, 'reeldia-descripcion-output', SYS);
@@ -2261,9 +2269,7 @@ async function suggestHistoriasTopics() {
 }
 
 async function generateHistoriasHoy() {
-  // Sin sistema de planes conectado aun: se muestra como funcion Premium bloqueada
-  alert('🔒 "Mis Historias & DM de Hoy" es el Sistema Completo exclusivo de Premium.\n\nGenera tus historias del día con sugerencia de imagen + el sistema de DM automático completo (bienvenida + entrega con tu link). Activa Premium para desbloquearlo. 💖');
-  return;
+  // MODO PRUEBA: sin bloqueos
 
   // (codigo real, se activa cuando exista deteccion de plan Premium)
   const tema = document.getElementById('historiasHoy-tema').value;
@@ -2770,9 +2776,7 @@ function appendMsg(text, type) {
 // ── TEXT TO SPEECH — función exclusiva Premium ───────
 let currentUtterance = null;
 function speakText(btn) {
-  // Sin sistema de planes conectado aun: se muestra como funcion Premium bloqueada
-  alert('🔒 Escuchar a Jackia con voz es una función exclusiva del plan Premium.\n\nActiva Premium para que Jackia te hable — perfecto para cuando no puedes leer mientras haces otras cosas. 💖');
-  return;
+  // MODO PRUEBA: sin bloqueos
 
   // (codigo de voz real, se activa cuando exista deteccion de plan Premium)
   const SpeechSynthesis = window.speechSynthesis;
