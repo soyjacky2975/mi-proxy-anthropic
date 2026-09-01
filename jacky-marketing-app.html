@@ -447,6 +447,7 @@
         <p>Eres del <strong>plan gratuito</strong> — 7 días de contenido. Pasa a <strong>Pro</strong> y genera contenido nuevo cada mes, o a <strong>Premium</strong> para generaciones ilimitadas.</p>
         <button class="btn-upgrade">✨ Pro $19.99/mes (promo lanzamiento) — renovación automática mensual, cancela cuando quieras</button>
       </div>
+      <button onclick="clearSavedContent()" style="background:none;border:none;color:#8C7A72;font-size:11px;text-decoration:underline;cursor:pointer;margin-top:10px;padding:4px">🗑️ Empezar de cero (borrar todo lo guardado)</button>
     </nav>
     <main class="content">
 
@@ -1758,6 +1759,17 @@ const OUTPUT_CARD_MAP = {
   'analizar-version': ['analizar-output-card'],
   'bio-output': ['bio-output-card'],
 };
+
+function clearSavedContent() {
+  const ok = confirm('¿Borrar todo el contenido guardado (captions, planes, reels, chat, etc.)? Esto no se puede deshacer.');
+  if (!ok) return;
+  try {
+    localStorage.removeItem('jackia_saved_outputs');
+    localStorage.removeItem('jackia_chat_history');
+    localStorage.removeItem('jackia_chat_window_html');
+  } catch(e){}
+  location.reload();
+}
 
 function restoreOutputs() {
   let saved = {};
