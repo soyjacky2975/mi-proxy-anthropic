@@ -246,7 +246,20 @@
   .review-submitted{background:rgba(72,199,142,0.1);border:1px solid rgba(72,199,142,0.3);border-radius:var(--r);padding:20px;text-align:center;display:none}
   .review-submitted-icon{font-size:36px;margin-bottom:8px}
 
-  @media(max-width:700px){.main{grid-template-columns:1fr}.sidebar{display:none}.content{padding:20px 16px}.form-row{grid-template-columns:1fr}.module-cards{grid-template-columns:1fr}}
+  .menu-toggle{display:none;background:none;border:1px solid rgba(212,175,55,0.4);border-radius:8px;color:#262019;font-size:20px;width:38px;height:38px;align-items:center;justify-content:center;cursor:pointer}
+  .sidebar-close{display:none}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(10,6,20,0.5);z-index:150}
+  .sidebar-overlay.open{display:block}
+  @media(max-width:700px){
+    .main{grid-template-columns:1fr}
+    .menu-toggle{display:flex}
+    .sidebar{display:flex;position:fixed;top:0;left:0;bottom:0;width:78%;max-width:300px;z-index:200;transform:translateX(-100%);transition:transform 0.25s ease;box-shadow:4px 0 24px rgba(0,0,0,0.25)}
+    .sidebar.open{transform:translateX(0)}
+    .sidebar-close{display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(212,175,55,0.4);border-radius:8px;color:#262019;font-size:18px;width:32px;height:32px;cursor:pointer;margin-bottom:12px;align-self:flex-end}
+    .content{padding:20px 16px}
+    .form-row{grid-template-columns:1fr}
+    .module-cards{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
@@ -398,14 +411,19 @@
 
 <div class="app-shell">
   <header>
-    <div class="logo">
-      <div class="logo-icon">✦</div>
-      <div class="logo-text" style="letter-spacing:1px">JACKIA</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="menu-toggle" onclick="openMobileMenu()" aria-label="Abrir menú">☰</button>
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        <div class="logo-text" style="letter-spacing:1px">JACKIA</div>
+      </div>
     </div>
     <div class="header-badge">@soyjackybusiness</div>
   </header>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileMenu()"></div>
   <div class="main">
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
+      <button class="sidebar-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
       <div class="sidebar-label">Plan Pro</div>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
@@ -1611,6 +1629,18 @@ function showPanel(id, btn) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
+  closeMobileMenu();
+  document.querySelector('.content')?.scrollTo(0, 0);
+}
+
+// ── MOBILE MENU
+function openMobileMenu() {
+  document.getElementById('sidebar')?.classList.add('open');
+  document.getElementById('sidebar-overlay')?.classList.add('open');
+}
+function closeMobileMenu() {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebar-overlay')?.classList.remove('open');
 }
 
 // ── CHIPS
