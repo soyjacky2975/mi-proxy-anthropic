@@ -3314,6 +3314,7 @@ window.addEventListener('DOMContentLoaded', () => {
     showDailyAffirmation();
     updateStreak();
     restoreOutputs();
+    restoreChat();
   } catch(e) { console.log(e); }
 });
 
@@ -3419,6 +3420,22 @@ let chatHistory = [];
 
 function sendSugg(el) { document.getElementById('chat-input').value = el.textContent; sendChat(); }
 
+// Guardar y restaurar el chat — para que no se pierda al salir a copiar/pegar
+function persistChat() {
+  try {
+    localStorage.setItem('jackia_chat_history', JSON.stringify(chatHistory));
+    localStorage.setItem('jackia_chat_window_html', document.getElementById('chat-window').innerHTML);
+  } catch(e){}
+}
+function restoreChat() {
+  try {
+    const savedHistory = localStorage.getItem('jackia_chat_history');
+    const savedHtml = localStorage.getItem('jackia_chat_window_html');
+    if (savedHistory) chatHistory = JSON.parse(savedHistory);
+    if (savedHtml) document.getElementById('chat-window').innerHTML = savedHtml;
+  } catch(e){}
+}
+
 async function sendChat() {
   const input = document.getElementById('chat-input');
   const msg = input.value.trim();
@@ -3426,6 +3443,7 @@ async function sendChat() {
   input.value = '';
   appendMsg(msg, 'user');
   chatHistory.push({role:'user', content: msg});
+  persistChat();
   document.getElementById('btn-send').disabled = true;
   const thinkingEl = appendMsg('...', 'jacky');
 
@@ -3448,6 +3466,7 @@ async function sendChat() {
   document.getElementById('btn-send').disabled = false;
   const win = document.getElementById('chat-window');
   win.scrollTop = win.scrollHeight;
+  persistChat();
 }
 
 function appendMsg(text, type) {
