@@ -1714,9 +1714,63 @@ async function streamToEl(prompt, elId, sys) {
   try {
     const text = await callClaude(prompt, sys);
     el.style.opacity='1'; el.textContent = text;
+    persistOutput(elId);
   } catch(e) {
     el.style.opacity='1'; el.textContent = 'Error al generar. Inténtalo de nuevo.';
   }
+}
+
+// ── GUARDAR CONTENIDO GENERADO — para que no se pierda si sales de la app
+// (se guarda automáticamente en este teléfono/navegador; no se pierde al
+// salir a pegar en Instagram/WhatsApp ni si la app se recarga)
+function persistOutput(elId) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('jackia_saved_outputs') || '{}'); } catch(e){}
+  saved[elId] = el.innerHTML;
+  try { localStorage.setItem('jackia_saved_outputs', JSON.stringify(saved)); } catch(e){}
+}
+
+const OUTPUT_CARD_MAP = {
+  'cap-output': ['cap-output-card'],
+  'plan-grid': ['plan-output-area'],
+  'reel-output': ['reel-output-card'],
+  'reel-guion-output': ['reel-output-card'],
+  'reel-caption-output': ['reel-output-card'],
+  'oferta-output': ['oferta-output-card'],
+  'stories-output': ['stories-output-card'],
+  'carrusel-output': ['carrusel-output-card'],
+  'reeldia-portada-output': ['reeldia-output-card'],
+  'reeldia-descripcion-output': ['reeldia-output-card2'],
+  'reeldia-caption-output': ['reeldia-output-card3'],
+  'reeldia-bienvenida-output': ['reeldia-dm-card'],
+  'reeldia-entrega-output': ['reeldia-dm-card'],
+  'reeldia-entregable-output': ['reeldia-entregable-output-card'],
+  'historiasHoy-output-list': ['historiasHoy-output-card'],
+  'historiasHoy-bienvenida-output': ['historiasHoy-dm-card'],
+  'historiasHoy-entrega-output': ['historiasHoy-dm-card'],
+  'historiasHoy-entregable-output': ['historiasHoy-entregable-output-card'],
+  'dm-output': ['dm-output-card'],
+  'reto-output': ['reto-output-card'],
+  'perfil-output': ['perfil-output-card'],
+  'analizar-porque': ['analizar-output-card'],
+  'analizar-version': ['analizar-output-card'],
+  'bio-output': ['bio-output-card'],
+};
+
+function restoreOutputs() {
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('jackia_saved_outputs') || '{}'); } catch(e){}
+  Object.keys(saved).forEach(elId => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = saved[elId];
+    (OUTPUT_CARD_MAP[elId] || []).forEach(cardId => {
+      const card = document.getElementById(cardId);
+      if (card) card.style.display = 'block';
+    });
+  });
 }
 
 // ── SYSTEM PROMPT BASE (con metodología de Jackia)
@@ -2406,6 +2460,7 @@ function renderPlan(days) {
       ${d.keyword ? `<div style="color:var(--fresa);font-size:10px;font-weight:700;margin-top:4px">→ comenta ${d.keyword}</div>` : ''}
     </div>`;
   }).join('');
+  persistOutput('plan-grid');
 }
 
 // ── M3: REELS
@@ -2718,6 +2773,7 @@ async function generateHistoriasHoy() {
   try {
     const historiasTexto = await callClaude(promptHistorias, SYS);
     listEl.innerHTML = `<div class="output-box" style="min-height:200px">${historiasTexto}</div><div class="output-actions"><button class="btn-copy" onclick="copyText(this.closest('.card').querySelector('.output-box'),this)">📋 Copiar todo</button></div>`;
+    persistOutput('historiasHoy-output-list');
   } catch(e) {
     listEl.innerHTML = '<p style="color:#CDA0A5">Error generando historias, intenta de nuevo.</p>';
   }
@@ -3018,6 +3074,7 @@ MI VERSIÓN ADAPTADA:
   
   document.getElementById('analizar-porque').textContent = porqueMatch ? porqueMatch[1].trim() : text;
   document.getElementById('analizar-version').textContent = versionMatch ? versionMatch[1].trim() : '';
+  persistOutput('analizar-porque'); persistOutput('analizar-version');
   setLoading('btn-gen-analizar', false);
 }
 
@@ -3256,6 +3313,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateUsageBar();
     showDailyAffirmation();
     updateStreak();
+    restoreOutputs();
   } catch(e) { console.log(e); }
 });
 
