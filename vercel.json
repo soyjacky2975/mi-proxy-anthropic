@@ -1,4 +1,7 @@
 {
+  "rewrites": [
+    { "source": "/", "destination": "/jacky-marketing-app.html" }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
