@@ -152,7 +152,8 @@
   /* ── ONBOARDING */
   .modal-overlay{position:fixed;inset:0;background:rgba(10,6,20,0.92);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
   .modal-overlay.hidden{display:none}
-  .modal-box{background:#FAF7F3;border:1px solid rgba(212,175,55,0.4);border-radius:20px;padding:36px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(232,49,90,0.2);max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .modal-box{position:relative;background:#FAF7F3;border:1px solid rgba(212,175,55,0.4);border-radius:20px;padding:36px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(232,49,90,0.2);max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .modal-close{position:absolute;top:14px;right:14px;background:none;border:1px solid rgba(212,175,55,0.4);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#555049;cursor:pointer;z-index:5}
   .modal-step{display:none}.modal-step.active{display:block}
   .modal-progress{display:flex;gap:6px;margin-bottom:28px}
   .modal-dot{height:4px;flex:1;background:rgba(212,175,55,0.3);border-radius:4px;transition:background 0.3s}
@@ -324,6 +325,7 @@
 <!-- PANTALLA DE COMPROMISO -->
 <div class="modal-overlay hidden" id="commitment-modal">
   <div class="modal-box">
+    <button class="modal-close" onclick="skipModal('commitment-modal')" aria-label="Cerrar">✕</button>
     <div class="modal-q">¿Por qué estás aquí? 💭</div>
     <p style="color:#555049;font-size:13px;margin-bottom:16px;line-height:1.6">Cuéntale a Jackia qué te motiva — esto te va a recordar tu meta cuando más lo necesites.</p>
     <textarea id="commitment-text" placeholder="Ej: Quiero generar mis primeros ingresos digitales y tener más tiempo para mi familia..." style="min-height:90px;margin-bottom:16px"></textarea>
@@ -1631,6 +1633,11 @@ function showPanel(id, btn) {
   if (btn) btn.classList.add('active');
   closeMobileMenu();
   document.querySelector('.content')?.scrollTo(0, 0);
+}
+
+// ── SALIR DE PANTALLAS DE BIENVENIDA (onboarding / compromiso)
+function skipModal(id) {
+  document.getElementById(id)?.classList.add('hidden');
 }
 
 // ── MOBILE MENU
