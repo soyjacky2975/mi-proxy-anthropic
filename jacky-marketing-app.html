@@ -2801,15 +2801,19 @@ async function generateHistoriasHoy() {
   if (!tema.trim()) { alert('Cuéntame qué quieres mostrar hoy 😊'); return; }
   setLoading('btn-gen-historiasHoy', true);
   document.getElementById('historiasHoy-output-card').style.display = 'block';
-  document.getElementById('historiasHoy-dm-card').style.display = 'block';
+  // El DM automático solo aplica si hay palabra clave para activarlo
+  document.getElementById('historiasHoy-dm-card').style.display = keyword.trim() ? 'block' : 'none';
 
-  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. IMPORTANTE: el CTA con la palabra clave "${keyword}" va SOLO en la ÚLTIMA historia (la número ${cantidad}) — las demás historias NO deben llevar CTA ni mencionar la palabra clave, solo construyen conexión/valor.
+  const ctaInstruccion = keyword.trim()
+    ? `el CTA con la palabra clave "${keyword}" va SOLO en la ÚLTIMA historia (la número ${cantidad}) — las demás historias NO deben llevar CTA ni mencionar la palabra clave, solo construyen conexión/valor`
+    : `NO hay palabra clave, así que el CTA de la ÚLTIMA historia (la número ${cantidad}) debe invitar a seguir la cuenta, compartir y guardar la historia — nunca inventes una palabra clave. Las demás historias NO deben llevar ningún CTA, solo construyen conexión/valor`;
+  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. IMPORTANTE: ${ctaInstruccion}.
 Formato EXACTO de respuesta (sin nada más, sin sugerencias de imagen ni foto — solo el texto de cada historia):
 HISTORIA 1:
 [texto de la historia 1, SIN CTA]
 HISTORIA 2:
 [texto de la historia 2, SIN CTA]
-(y así hasta la historia ${cantidad}, que sí lleva el CTA con la palabra clave)`;
+(y así hasta la historia ${cantidad}, que sí lleva el CTA final)`;
   const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}". Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
   const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
@@ -2849,8 +2853,10 @@ HISTORIA 2:
   } catch(e) {
     listEl.innerHTML = '<p style="color:#CDA0A5">Error generando historias, intenta de nuevo.</p>';
   }
-  await streamToEl(promptBienvenida, 'historiasHoy-bienvenida-output', SYS);
-  await streamToEl(promptEntrega, 'historiasHoy-entrega-output', SYS);
+  if (keyword.trim()) {
+    await streamToEl(promptBienvenida, 'historiasHoy-bienvenida-output', SYS);
+    await streamToEl(promptEntrega, 'historiasHoy-entrega-output', SYS);
+  }
   setLoading('btn-gen-historiasHoy', false);
 }
 
