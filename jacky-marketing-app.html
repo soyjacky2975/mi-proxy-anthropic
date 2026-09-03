@@ -910,6 +910,16 @@
           <div class="output-actions">
             <button class="btn-copy" onclick="copyText('carrusel-output',this)">📋 Copiar todo</button>
             <button class="btn-secondary" onclick="generateCarrusel()">↻ Regenerar</button>
+            <button class="btn-secondary" onclick="toggleVisualTips('carrusel-design-tips')">🖼️ Sugerencias de diseño</button>
+          </div>
+        </div>
+        <div class="card" id="carrusel-design-tips" style="display:none">
+          <div class="card-title">🖼️ Sugerencias de diseño para tus slides</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.8">
+            <div style="margin-bottom:10px"><strong style="color:#D4AF37">🖼️ Imágenes para cada slide:</strong><br>
+            Fotos propias de tu nicho · Imagen aesthetic/lifestyle · Iconos o ilustraciones planas · Imagen generada con IA (Canva IA, Midjourney) · Bancos gratis: Unsplash · Pexels</div>
+            <div><strong style="color:#D4AF37">🎨 Herramientas de diseño:</strong><br>
+            Canva (plantillas de carrusel listas) · Canva IA (generar imágenes) · Adobe Express</div>
           </div>
         </div>
       </div>
@@ -990,6 +1000,7 @@
           <div class="output-actions">
             <button class="btn-copy" onclick="copyText('reeldia-caption-output',this)">📋 Copiar Caption</button>
             <button class="btn-secondary" onclick="generateReelDia()">↻ Regenerar todo</button>
+            <button class="btn-secondary" onclick="toggleVisualTips('reeldia-faceless-tips')">🎬 Sugerencias de imagen/video</button>
           </div>
         </div>
 
@@ -1009,20 +1020,16 @@
           </div>
         </div>
 
-        <!-- Sugerencias Faceless — solo visible si eligió Faceless -->
+        <!-- Sugerencias de imagen/video — botón opcional, no automático -->
         <div id="reeldia-faceless-tips" style="display:none" class="card">
-          <div class="card-title">💡 Sugerencias para tu video Faceless</div>
+          <div class="card-title">🎬 Sugerencias de imagen/video</div>
           <div style="font-size:13px;color:var(--muted);line-height:1.8">
-            <div style="margin-bottom:10px"><strong style="color:#D4AF37">📱 Con tu teléfono (sin mostrar cara):</strong><br>
-            Graba tus manos trabajando · Graba tu pantalla · Objetos de tu nicho</div>
-            <div style="margin-bottom:10px"><strong style="color:#D4AF37">🎬 Bancos de video GRATIS:</strong><br>
-            Pexels.com · Pixabay.com · Coverr.co</div>
-            <div style="margin-bottom:10px"><strong style="color:#D4AF37">💎 Bancos de video (recomendados):</strong><br>
-            Gallery Vanilla · Social Stock<br>
-            <span style="color:#CDA0A5;font-size:12px">¿Quieres mi link de afiliado con descuento? Escríbeme 😊</span></div>
-            <div><strong style="color:#D4AF37">🤖 Con IA:</strong><br>
-            Tu avatar/clon → HeyGen · Personaje animado → D-ID · Avatar → Synthesia<br>
-            Video de banco + tu voz en off · Texto animado + música</div>
+            <div style="margin-bottom:10px"><strong style="color:#D4AF37">🎥 Video:</strong><br>
+            Graba tú misma (manos trabajando, tu pantalla, objetos de tu nicho) · Bancos GRATIS: Pexels.com · Pixabay.com · Coverr.co · Bancos premium: Gallery Vanilla · Social Stock</div>
+            <div style="margin-bottom:10px"><strong style="color:#D4AF37">🖼️ Imagen:</strong><br>
+            Foto tuya (selfie, detrás de cámaras) · Imagen aesthetic de tu nicho · Captura de pantalla (resultados, mensajes) · Imagen generada con IA (Canva IA, Midjourney)</div>
+            <div><strong style="color:#D4AF37">✨ Texto animado / avatar IA:</strong><br>
+            Tu avatar/clon → HeyGen · Personaje animado → D-ID · Avatar → Synthesia · Video de banco + tu voz en off · Texto animado + música</div>
           </div>
         </div>
 
@@ -1759,6 +1766,12 @@ const OUTPUT_CARD_MAP = {
   'analizar-version': ['analizar-output-card'],
   'bio-output': ['bio-output-card'],
 };
+
+function toggleVisualTips(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
+}
 
 function clearSavedContent() {
   const ok = confirm('¿Borrar todo el contenido guardado (captions, planes, reels, chat, etc.)? Esto no se puede deshacer.');
@@ -2734,15 +2747,7 @@ IMPORTANTE: NO uses comillas genéricas. 1 sola versión limpia, directa y lista
   await streamToEl(promptCaption, 'reeldia-caption-output', SYS);
   await streamToEl(promptBienvenida, 'reeldia-bienvenida-output', SYS);
   await streamToEl(promptEntrega, 'reeldia-entrega-output', SYS);
-  
-  // Si es Faceless o Híbrido, agregar sugerencias de video al final
-  if (esFaceless || esHibrido) {
-    const sugerenciasEl = document.getElementById('reeldia-faceless-tips');
-    if (sugerenciasEl) {
-      sugerenciasEl.style.display = 'block';
-    }
-  }
-  
+  document.getElementById('reeldia-faceless-tips').style.display = 'none';
   setLoading('btn-gen-reeldia', false);
 }
 
@@ -2776,7 +2781,13 @@ async function generateHistoriasHoy() {
   document.getElementById('historiasHoy-output-card').style.display = 'block';
   document.getElementById('historiasHoy-dm-card').style.display = 'block';
 
-  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sugiere imagenes de bancos de fotos faceless o Pinterest, sin mostrar rostro' : 'marca personal, sugiere fotos propias mostrando el proceso o resultado'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. Para cada historia numerada da: el texto exacto + una sugerencia corta de que imagen/foto usar. Termina con CTA usando la palabra clave "${keyword}".`;
+  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. Termina cada historia con CTA usando la palabra clave "${keyword}".
+Formato EXACTO de respuesta (sin nada más, sin sugerencias de imagen ni foto — solo el texto de cada historia):
+HISTORIA 1:
+[texto de la historia 1]
+HISTORIA 2:
+[texto de la historia 2]
+(y así hasta completar las ${cantidad} historias)`;
   const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}". Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
   const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
@@ -2784,7 +2795,34 @@ async function generateHistoriasHoy() {
   listEl.innerHTML = '<p style="color:#D4AF37;font-size:13px">Generando tus historias...</p>';
   try {
     const historiasTexto = await callClaude(promptHistorias, SYS);
-    listEl.innerHTML = `<div class="output-box" style="min-height:200px">${historiasTexto}</div><div class="output-actions"><button class="btn-copy" onclick="copyText(this.closest('.card').querySelector('.output-box'),this)">📋 Copiar todo</button></div>`;
+    const partes = historiasTexto.split(/HISTORIA\s*\d+[:.]?\s*/i).map(s => s.trim()).filter(Boolean);
+    let html = '';
+    partes.forEach((texto, i) => {
+      html += `<div class="card" style="margin-bottom:12px">
+        <div class="card-title">📱 Historia ${i+1}</div>
+        <div class="output-box" id="historiasHoy-story-${i}">${texto}</div>
+        <div class="output-actions">
+          <button class="btn-copy" onclick="copyText('historiasHoy-story-${i}',this)">📋 Copiar historia ${i+1}</button>
+        </div>
+      </div>`;
+    });
+    html += `<div id="historiasHoy-all-text" style="display:none">${partes.join('\n\n')}</div>
+    <div class="output-actions" style="margin-bottom:8px">
+      <button class="btn-copy" onclick="copyText('historiasHoy-all-text',this)">📋 Copiar todo</button>
+      <button class="btn-secondary" onclick="toggleVisualTips('historiasHoy-visual-tips')">🎨 Sugerencias visuales</button>
+    </div>
+    <div class="card" id="historiasHoy-visual-tips" style="display:none">
+      <div class="card-title">🎨 Ideas para la imagen o video de cada historia</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.9">
+        📸 Foto tuya (selfie, detrás de cámaras)<br>
+        🌿 Imagen aesthetic de tu nicho<br>
+        📊 Captura de pantalla (resultados, mensajes)<br>
+        🎬 Video corto tuyo (menos de 15 seg)<br>
+        🎨 Solo texto con fondo de color<br>
+        🤖 Imagen generada con IA (Canva IA, Midjourney)
+      </div>
+    </div>`;
+    listEl.innerHTML = html;
     persistOutput('historiasHoy-output-list');
   } catch(e) {
     listEl.innerHTML = '<p style="color:#CDA0A5">Error generando historias, intenta de nuevo.</p>';
