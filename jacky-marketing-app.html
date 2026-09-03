@@ -2803,13 +2803,13 @@ async function generateHistoriasHoy() {
   document.getElementById('historiasHoy-output-card').style.display = 'block';
   document.getElementById('historiasHoy-dm-card').style.display = 'block';
 
-  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. Termina cada historia con CTA usando la palabra clave "${keyword}".
+  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. IMPORTANTE: el CTA con la palabra clave "${keyword}" va SOLO en la ÚLTIMA historia (la número ${cantidad}) — las demás historias NO deben llevar CTA ni mencionar la palabra clave, solo construyen conexión/valor.
 Formato EXACTO de respuesta (sin nada más, sin sugerencias de imagen ni foto — solo el texto de cada historia):
 HISTORIA 1:
-[texto de la historia 1]
+[texto de la historia 1, SIN CTA]
 HISTORIA 2:
-[texto de la historia 2]
-(y así hasta completar las ${cantidad} historias)`;
+[texto de la historia 2, SIN CTA]
+(y así hasta la historia ${cantidad}, que sí lleva el CTA con la palabra clave)`;
   const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}". Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
   const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
