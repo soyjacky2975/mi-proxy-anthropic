@@ -64,7 +64,7 @@
   .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
   .btn-secondary{background:transparent;color:var(--texto);border:1px solid rgba(212,175,55,0.35);border-radius:var(--r-sm);padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s}
   .btn-secondary:hover{border-color:var(--oro);background:rgba(212,175,55,0.1)}
-  .output-box{background:#F4EEE7;border:1px solid rgba(212,175,55,0.3);border-radius:var(--r);padding:20px;min-height:120px;font-size:14px;line-height:1.8;color:var(--texto);white-space:pre-wrap;word-break:break-word;position:relative}
+  .output-box{background:#F4EEE7;border:1px solid rgba(212,175,55,0.3);border-radius:var(--r);padding:20px;min-height:120px;font-size:14px;line-height:1.8;color:var(--texto);white-space:pre-wrap;word-break:break-word;position:relative;-webkit-user-select:text;user-select:text}
   .output-actions{display:flex;gap:10px;margin-top:12px}
   .btn-copy{background:rgba(212,175,55,0.15);color:#2E2A26;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;display:inline-flex;align-items:center;gap:6px}
   .btn-copy:hover{background:rgba(212,175,55,0.3)}
@@ -1682,10 +1682,32 @@ function switchVideoTab(el, tab) {
 
 // ── COPY
 function copyText(id, btn) {
-  navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+  const text = document.getElementById(id).innerText;
+  const onSuccess = () => {
     btn.classList.add('copied'); btn.textContent = '✓ Copiado';
     setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copiar'; }, 2000);
-  });
+  };
+  const fallbackCopy = () => {
+    // Respaldo para navegadores/apps que bloquean el copiado automático
+    // (ej. navegador interno de Instagram o WhatsApp)
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (ok) { onSuccess(); return; }
+    } catch(e) {}
+    alert('No se pudo copiar automáticamente. Mantén presionado el texto para seleccionarlo y copiarlo tú misma.');
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
 }
 function copyActiveVideo(btn) {
   const ids = {hook:'reel-output',guion:'reel-guion-output',caption:'reel-caption-output'};
