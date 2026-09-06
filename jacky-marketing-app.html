@@ -4243,11 +4243,12 @@ const AFIRMACIONES = [
 ];
 
 // ── DE CERO A LISTA
-let cerosPasos = JSON.parse(localStorage.getItem('jackia_cero_pasos') || '[]');
+let cerosPasos = [];
+try { cerosPasos = JSON.parse(localStorage.getItem('jackia_cero_pasos') || '[]'); } catch(e){}
 
 function marcarPaso(num) {
   if (!cerosPasos.includes(num)) cerosPasos.push(num);
-  localStorage.setItem('jackia_cero_pasos', JSON.stringify(cerosPasos));
+  try { localStorage.setItem('jackia_cero_pasos', JSON.stringify(cerosPasos)); } catch(e){}
   // Actualizar check
   const check = document.getElementById(`cero-check${num}`);
   if (check) { check.textContent = '✅'; check.style.background = 'rgba(72,199,142,0.2)'; check.style.borderColor = '#48C78E'; }
@@ -4760,7 +4761,7 @@ function appendMsg(text, type) {
   const div = document.createElement('div');
   div.className = 'chat-msg ' + type;
   div.innerHTML = type === 'jacky'
-    ? '<div class="msg-name">✦ Jackia <button class="btn-speak" onclick="speakText(this)" title="Escuchar respuesta — función Premium">🔒🔊</button></div><div class="msg-body">' + text + '</div>'
+    ? '<div class="msg-name">✦ Jackia <button class="btn-speak" onclick="speakText(this)" title="Escuchar respuesta">🔊</button></div><div class="msg-body">' + text + '</div>'
     : '<div class="msg-body">' + text + '</div>';
   win.appendChild(div);
   win.scrollTop = win.scrollHeight;
@@ -4769,10 +4770,48 @@ function appendMsg(text, type) {
 
 // ── TEXT TO SPEECH — función exclusiva Premium ───────
 let currentUtterance = null;
+let speakSafetyTimer = null;
+
+function resetSpeakButton(btn) {
+  if (btn) btn.textContent = '🔊';
+  if (speakSafetyTimer) { clearTimeout(speakSafetyTimer); speakSafetyTimer = null; }
+  currentUtterance = null;
+}
+
 function speakText(btn) {
-  // Función de voz desactivada temporalmente (se trababa en algunos
-  // navegadores/celulares). Es una función Premium — próximamente.
-  alert('🔒 Escuchar respuesta es una función Premium — próximamente disponible.');
+  const SpeechSynthesis = window.speechSynthesis;
+  if (!SpeechSynthesis) {
+    alert('Tu navegador no soporta voz. Prueba con Google Chrome 🔊');
+    return;
+  }
+  const wasThisButtonPlaying = currentUtterance && currentUtterance._btn === btn;
+  const previousBtn = currentUtterance ? currentUtterance._btn : null;
+  SpeechSynthesis.cancel(); // detiene cualquier audio anterior, de este botón u otro
+  resetSpeakButton(previousBtn);
+
+  if (wasThisButtonPlaying) return; // el usuario tocó el mismo botón que sonaba -> solo detener
+
+  const body = btn.closest('.chat-msg').querySelector('.msg-body').textContent;
+  if (!body || !body.trim()) return;
+
+  const utterance = new SpeechSynthesisUtterance(body);
+  utterance.lang = 'es-ES';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.05;
+  utterance._btn = btn;
+  currentUtterance = utterance;
+  btn.textContent = '⏸️';
+
+  const finish = () => { if (currentUtterance === utterance) resetSpeakButton(btn); };
+  utterance.onend = finish;
+  utterance.onerror = finish;
+
+  // Respaldo: si el navegador nunca avisa que terminó (pasa en algunos
+  // celulares), forzamos el botón a resetearse para que no se quede pegado.
+  const estimatedMs = Math.min(Math.max(body.split(/\s+/).length * 400, 15000), 180000);
+  speakSafetyTimer = setTimeout(finish, estimatedMs);
+
+  SpeechSynthesis.speak(utterance);
 }
 
 
