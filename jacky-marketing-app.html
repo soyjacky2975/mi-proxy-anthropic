@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jackia — Tu Estratega de Marketing con IA</title>
+<title>JACKIA — Social Content</title>
 <link rel="icon" type="image/png" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
@@ -349,14 +349,18 @@
     </div>
     <div class="modal-step active" id="step-0">
       <div class="modal-q">Hola! Soy Jackia 👋 Cuéntame sobre ti</div>
-      <div class="modal-hint">Para generar contenido que suene como TÚ — necesito conocerte primero.</div>
+      <div class="modal-hint">Selecciona tu modelo de negocio — puedes elegir más de uno si aplica.</div>
       <div class="modal-options modal-options-grid">
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','productos_propios')"><span class="modal-opt-icon">📦</span><div><strong>Productos digitales propios</strong><div style="font-size:11px;color:var(--muted)">Ebooks, cursos, plantillas</div></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','reventa_mrr')"><span class="modal-opt-icon">🔄</span><div><strong>Reventa (MRR/PLR)</strong><div style="font-size:11px;color:var(--muted)">Licencia de reventa</div></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','afiliados')"><span class="modal-opt-icon">🔗</span><div><strong>Marketing de Afiliados</strong><div style="font-size:11px;color:var(--muted)">Comisión por recomendar</div></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','coaching')"><span class="modal-opt-icon">🎯</span><div><strong>Coaching & Mentoría</strong><div style="font-size:11px;color:var(--muted)">1:1, grupos, programas</div></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','belleza_moda')"><span class="modal-opt-icon">💄</span><div><strong>Belleza, Moda & Lifestyle</strong></div></button>
-        <button class="modal-opt modal-opt-compact" onclick="selectOpt(this,'nicho','otro')"><span class="modal-opt-icon">✨</span><div><strong>Otro nicho</strong></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','productos_propios')"><span class="modal-opt-icon">📦</span><div><strong>Productos digitales propios</strong><div style="font-size:11px;color:var(--muted)">Ebooks, cursos, plantillas</div></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','reventa_mrr')"><span class="modal-opt-icon">🔄</span><div><strong>Reventa (MRR/PLR)</strong><div style="font-size:11px;color:var(--muted)">Licencia de reventa</div></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','afiliados')"><span class="modal-opt-icon">🔗</span><div><strong>Marketing de Afiliados</strong><div style="font-size:11px;color:var(--muted)">Comisión por recomendar</div></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','coaching')"><span class="modal-opt-icon">🎯</span><div><strong>Coaching & Mentoría</strong><div style="font-size:11px;color:var(--muted)">1:1, grupos, programas</div></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','belleza_moda')"><span class="modal-opt-icon">💄</span><div><strong>Belleza, Moda & Lifestyle</strong></div></button>
+        <button class="modal-opt modal-opt-compact" onclick="toggleMultiOpt(this,'nicho','otro')"><span class="modal-opt-icon">✨</span><div><strong>Otro nicho</strong></div></button>
+      </div>
+      <div style="margin-top:12px">
+        <label style="font-size:12px;color:var(--muted)">¿Tienes más de uno o quieres describir mejor tu negocio? (opcional)</label>
+        <input type="text" id="ob-nicho-extra" placeholder="Ej: Vendo mi curso propio + soy afiliada de Autobot Cash Academy..." style="margin-top:6px">
       </div>
       <div class="modal-nav"><button class="btn-primary" onclick="nextStep(1)">Siguiente →</button></div>
     </div>
@@ -377,13 +381,19 @@
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(1)">← Atrás</button><button class="btn-primary" onclick="nextStep(3)">Siguiente →</button></div>
     </div>
     <div class="modal-step" id="step-3">
-      <div class="modal-q">¿Cuál es tu objetivo principal este mes?</div>
-      <div class="modal-hint">Enfocamos todo el contenido hacia este resultado.</div>
+      <div class="modal-q">¿Cuál es tu objetivo este mes?</div>
+      <div class="modal-hint">Puedes elegir más de uno — Jackia adapta el contenido a todos tus objetivos.</div>
       <div class="modal-options">
-        <button class="modal-opt" onclick="selectOpt(this,'objetivo','primera_venta')"><span class="modal-opt-icon">🚀</span><div><strong>Mi primera venta en dólares</strong></div></button>
-        <button class="modal-opt" onclick="selectOpt(this,'objetivo','escalar_ventas')"><span class="modal-opt-icon">💵</span><div><strong>Escalar mis ventas este mes</strong></div></button>
-        <button class="modal-opt" onclick="selectOpt(this,'objetivo','crecer_audiencia')"><span class="modal-opt-icon">📈</span><div><strong>Crecer mi audiencia y comunidad</strong></div></button>
-        <button class="modal-opt" onclick="selectOpt(this,'objetivo','lanzar_producto')"><span class="modal-opt-icon">🎁</span><div><strong>Lanzar un producto nuevo</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','primera_venta')"><span class="modal-opt-icon">🚀</span><div><strong>Mi primera venta en dólares</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','escalar_ventas')"><span class="modal-opt-icon">💵</span><div><strong>Escalar mis ventas</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','crecer_audiencia')"><span class="modal-opt-icon">📈</span><div><strong>Crecer mi audiencia y seguidores</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','lanzar_producto')"><span class="modal-opt-icon">🎁</span><div><strong>Lanzar un producto nuevo</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','ganar_autoridad')"><span class="modal-opt-icon">👑</span><div><strong>Posicionarme como referente</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','comunidad')"><span class="modal-opt-icon">💙</span><div><strong>Construir comunidad activa</strong></div></button>
+      </div>
+      <div style="margin-top:12px">
+        <label style="font-size:12px;color:var(--muted)">¿Tienes otro objetivo? (opcional)</label>
+        <input type="text" id="ob-objetivo-extra" placeholder="Ej: conseguir mis primeros 1K seguidores este mes..." style="margin-top:6px">
       </div>
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(2)">← Atrás</button><button class="btn-primary" onclick="nextStep(4)">Siguiente →</button></div>
     </div>
@@ -406,6 +416,22 @@
         <button class="modal-opt" onclick="selectOpt(this,'nivel','intermedio')"><span class="modal-opt-icon">🌿</span><div><strong>Ya tengo base pero no vendo</strong><div style="font-size:12px;color:var(--muted)">3-12 meses, seguidores sin ventas</div></div></button>
         <button class="modal-opt" onclick="selectOpt(this,'nivel','avanzado')"><span class="modal-opt-icon">🌳</span><div><strong>Ya vendo, quiero escalar</strong></div></button>
       </div>
+
+      <div style="margin-top:14px">
+        <label style="font-size:12px;color:var(--muted)">¿Con qué frecuencia publicas? (opcional)</label>
+        <div class="chips" id="ob-frecuencia-chips" style="margin-top:6px;margin-bottom:6px">
+          <button class="chip" onclick="setSingle(this)">3 veces/semana</button>
+          <button class="chip" onclick="setSingle(this)">5 veces/semana</button>
+          <button class="chip" onclick="setSingle(this)">Todos los días</button>
+          <button class="chip" onclick="setSingle(this)">Otra frecuencia</button>
+        </div>
+        <input type="text" id="ob-frecuencia-extra" placeholder="Ej: 4 reels + historias diarias, 2 reels + 1 carrusel semanal...">
+      </div>
+
+      <div style="margin-top:10px">
+        <label style="font-size:12px;color:var(--muted)">¿Hay algo más que Jackia deba saber sobre ti o tu negocio? (opcional)</label>
+        <textarea id="ob-info-adicional" placeholder="Ej: Tengo un podcast, vendo en español e inglés, mi audiencia es principalmente de México, tengo un grupo de WhatsApp activo..." style="min-height:70px;margin-top:6px"></textarea>
+      </div>
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(4)">← Atrás</button><button class="btn-primary" onclick="finishOnboarding()">✦ Empezar!</button></div>
     </div>
   </div>
@@ -417,7 +443,10 @@
       <button class="menu-toggle" onclick="openMobileMenu()" aria-label="Abrir menú">☰</button>
       <div class="logo">
         <div class="logo-icon">✦</div>
-        <div class="logo-text" style="letter-spacing:1px">JACKIA</div>
+        <div>
+          <div class="logo-text" style="letter-spacing:1px;line-height:1;color:#1A1A1A;-webkit-text-stroke:0.5px #D4AF37">JACKIA</div>
+          <div style="font-size:10px;color:#1A1A1A;-webkit-text-stroke:0.3px #D4AF37;letter-spacing:1.5px;font-weight:600;text-transform:uppercase">Social Content</div>
+        </div>
       </div>
     </div>
     <div class="header-badge">@soyjackybusiness</div>
@@ -428,18 +457,17 @@
       <button class="sidebar-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
       <div class="sidebar-label">Plan Pro</div>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
+      <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
       <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
       <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
       <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Crea Tu Oferta</button>
       <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
       <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
-      <button class="nav-item" onclick="showPanel('bio',this)"><span class="nav-icon">✍️</span> Optimiza tu Bio</button>
       <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
       <div class="sidebar-label">Premium</div>
-      <button class="nav-item" onclick="showPanel('perfil',this)"><span class="nav-icon">🔎</span> Analiza tu Perfil</button>
-      <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
-      <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
+      <button class="nav-item" onclick="showPanel('biblioteca',this)"><span class="nav-icon">📚</span> Biblioteca</button>
+      <button class="nav-item" onclick="showPanel('radiografiabio',this)"><span class="nav-icon">🔎</span> Radiografía de tu Bio</button>
       <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
       <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analiza, Adapta y Modela</button>
       <button class="nav-item" onclick="showPanel('chat',this)"><span class="nav-icon">🧠</span> Cerebro Jackia</button>
@@ -452,6 +480,139 @@
     <main class="content">
 
       <!-- HOME -->
+      <!-- DE CERO A LISTA -->
+      <div class="panel" id="panel-ceroalista">
+        <div class="page-header">
+          <h1 class="page-title">🚀 De Cero a Lista</h1>
+          <p class="page-subtitle">Tu guía paso a paso para tener todo listo antes de publicar tu primer contenido</p>
+        </div>
+
+        <!-- PROGRESO -->
+        <div class="card" style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-weight:700;font-size:13px">Tu progreso</div>
+            <div id="cero-progreso-text" style="font-size:12px;color:#D4AF37;font-weight:700">0 de 6 pasos</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.1);border-radius:20px;height:8px">
+            <div id="cero-progreso-bar" style="background:linear-gradient(90deg,#E8315A,#D4AF37);height:8px;border-radius:20px;width:0%;transition:width 0.5s"></div>
+          </div>
+        </div>
+
+        <!-- PASO 1 -->
+        <div class="card" id="cero-paso1" style="margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check1" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">1</div>
+            <div style="font-weight:700;font-size:14px">Tu Identidad Digital</div>
+          </div>
+          <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding. Aquí generamos cómo presentarte al mundo.</div>
+          <label>¿Cuál es tu nombre de usuario ideal?</label>
+          <input type="text" id="cero-usuario" placeholder="Ej: @mariadecoración · @coach.emprendedoras · @faceless.marketing">
+          <div class="keyword-tip" style="margin-top:8px">💡 Tip: usa keywords de tu nicho en el usuario para aparecer en búsquedas</div>
+          <button class="btn-primary" id="btn-cero1" onclick="generarCero1()" style="margin-top:10px">✦ Generar mi presentación digital</button>
+          <div class="output-box" id="cero1-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero1-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero1-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(1)">✅ Listo — siguiente paso</button>
+          </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="card" id="cero-paso2" style="margin-bottom:12px;opacity:0.5">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check2" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">2</div>
+            <div style="font-weight:700;font-size:14px">Tu Bio y Nombre Optimizado</div>
+          </div>
+          <div class="keyword-tip">💡 Jackia genera tu bio para Instagram y Facebook — lista para copiar y pegar.</div>
+          <button class="btn-primary" id="btn-cero2" onclick="generarCero2()" disabled style="margin-top:8px">✦ Generar mi Bio</button>
+          <div class="output-box" id="cero2-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero2-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero2-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(2)">✅ Listo — siguiente paso</button>
+          </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="card" id="cero-paso3" style="margin-bottom:12px;opacity:0.5">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check3" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">3</div>
+            <div style="font-weight:700;font-size:14px">Tus Historias Destacadas</div>
+          </div>
+          <div class="keyword-tip">💡 Jackia te dice exactamente qué poner en cada destacada según tu etapa y nicho.</div>
+          <button class="btn-primary" id="btn-cero3" onclick="generarCero3()" disabled style="margin-top:8px">✦ Generar mis Destacadas</button>
+          <div class="output-box" id="cero3-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero3-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero3-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(3)">✅ Listo — siguiente paso</button>
+          </div>
+        </div>
+
+        <!-- PASO 4 -->
+        <div class="card" id="cero-paso4" style="margin-bottom:12px;opacity:0.5">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check4" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">4</div>
+            <div style="font-weight:700;font-size:14px">Configuración Instagram & Facebook</div>
+          </div>
+          <div class="keyword-tip">💡 Paso a paso para configurar tu cuenta profesional y conectarlas.</div>
+          <button class="btn-primary" id="btn-cero4" onclick="generarCero4()" disabled style="margin-top:8px">✦ Ver mi guía de configuración</button>
+          <div class="output-box" id="cero4-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero4-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero4-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(4)">✅ Listo — siguiente paso</button>
+          </div>
+        </div>
+
+        <!-- PASO 5 -->
+        <div class="card" id="cero-paso5" style="margin-bottom:12px;opacity:0.5">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check5" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">5</div>
+            <div style="font-weight:700;font-size:14px">Tu Sistema de Ventas</div>
+          </div>
+          <div class="keyword-tip">💡 Tu página de ventas + mensajes automáticos listos para recibir clientes.</div>
+          
+          <label>Nombre de tu producto o servicio</label>
+          <input type="text" id="cero5-producto" placeholder="Ej: Mi ebook de marketing digital">
+          <label>Precio</label>
+          <input type="text" id="cero5-precio" placeholder="Ej: $27 USD">
+          <label>¿Qué problema resuelves?</label>
+          <textarea id="cero5-problema" placeholder="Ej: Emprendedoras que no saben qué publicar para vender..." style="min-height:60px"></textarea>
+          <label>¿Qué resultado obtienen?</label>
+          <textarea id="cero5-resultado" placeholder="Ej: Un plan de contenido claro que les ayuda a vender en 30 días..." style="min-height:60px"></textarea>
+
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="btn-secondary" id="btn-cero5-mensajes" onclick="generarCero5Mensajes()" style="flex:1;font-size:12px">💬 Mensajes automáticos</button>
+            <button class="btn-primary" id="btn-cero5" onclick="generarCero5Landing()" style="flex:1;font-size:12px" disabled>🌐 Generar mi Landing Page</button>
+          </div>
+          <div class="output-box" id="cero5-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero5-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero5-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(5)">✅ Listo — siguiente paso</button>
+          </div>
+        </div>
+
+        <!-- PASO 6 -->
+        <div class="card" id="cero-paso6" style="margin-bottom:12px;opacity:0.5">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div id="cero-check6" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">6</div>
+            <div style="font-weight:700;font-size:14px">Tu Primer Contenido</div>
+          </div>
+          <div class="keyword-tip">💡 Tu primer reel de presentación + plan de la primera semana.</div>
+          <button class="btn-primary" id="btn-cero6" onclick="generarCero6()" disabled style="margin-top:8px">✦ Generar mi primer contenido</button>
+          <div class="output-box" id="cero6-output" style="min-height:80px;margin-top:10px;display:none"></div>
+          <div id="cero6-actions" style="display:none" class="output-actions">
+            <button class="btn-copy" onclick="copyText('cero6-output',this)">📋 Copiar</button>
+            <button class="btn-primary" style="font-size:12px;background:linear-gradient(135deg,#E8315A,#D4AF37)" onclick="marcarPaso(6)">🎉 ¡Lista para publicar!</button>
+          </div>
+        </div>
+
+        <!-- COMPLETADO -->
+        <div id="cero-completado" style="display:none;text-align:center;padding:30px;background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.1));border:1px solid rgba(212,175,55,0.3);border-radius:12px">
+          <div style="font-size:48px;margin-bottom:12px">🎉</div>
+          <div style="font-size:20px;font-weight:700;color:#D4AF37;margin-bottom:8px">¡Estás lista para crecer y vender!</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Completaste todos los pasos — ahora ve a crear tu primer contenido</div>
+          <button class="btn-primary" onclick="showPanel('plan',null)" style="font-size:13px">📅 Crear mi Plan de Contenido</button>
+        </div>
+      </div>
+
       <div class="panel active" id="panel-home">
         <div class="welcome-hero">
           <h2>Bienvenida, <em>emprendedora</em> 👋</h2>
@@ -471,6 +632,9 @@
             <div style="font-size:11px;color:#999;margin-top:2px">tu nivel actual</div>
           </div>
         </div>
+
+        <!-- CONTENIDO DEL DÍA -->
+        <div id="home-today-plan" style="margin-bottom:20px"></div>
         <div class="usage-bar">
           <span>🔥 Generaciones hoy: <strong>2 / 5</strong></span>
           <div class="usage-track"><div class="usage-fill"></div></div>
@@ -602,37 +766,41 @@
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>Los resultados dependen de ti</strong> — de aplicar este plan cada día. Una publicación hoy vale más que un plan perfecto mañana. ¡Sin excusas! 🚀</div>
-          <p class="page-subtitle">30 días de contenido completo — guiones y publicaciones con una estrategia probada semana a semana</p>
+          <p class="page-subtitle">Tu plan de contenido semanal basado en tu perfil y estrategia</p>
         </div>
         <div class="card">
-          <div class="card-title">Configura tu estrategia</div>
-          <div class="keyword-tip">💡 <strong>Estrategia:</strong> Semana 1 conectar → Semana 2 despertar el deseo → Semana 3 mostrar resultados → Semana 4 invitar a la compra. Una progresión natural que vende sin presionar.</div>
-          <div class="form-row">
-            <div>
-              <label>Tu negocio en una frase</label>
-              <input type="text" id="plan-negocio" placeholder="Ej: Vendo ebooks digitales para emprendedoras">
-            </div>
-            <div>
-              <label>Tu objetivo este mes</label>
-              <select id="plan-objetivo">
-                <option>Generar mis primeros ingresos digitales</option>
-                <option>Crecer seguidores</option>
-                <option>Lanzar un producto</option>
-                <option>Posicionarme como experta</option>
-                <option>Escalar mis ventas</option>
-              </select>
-            </div>
+          <div class="card-title">Configura tu plan</div>
+          <div class="keyword-tip">💡 Jackia ya conoce tu negocio del onboarding — solo dile cuántos días y si hay algo especial esta semana.</div>
+          
+          <label>¿Hay algo especial esta semana? (opcional)</label>
+          <div class="chips" id="chips-plan-especial" style="margin-bottom:8px">
+            <button class="chip selected" onclick="setSingle(this)">📅 Semana normal</button>
+            <button class="chip" onclick="setSingle(this)">🚀 Lanzamiento</button>
+            <button class="chip" onclick="setSingle(this)">💰 Promoción especial</button>
+            <button class="chip" onclick="setSingle(this)">🎯 Reto activo</button>
+            <button class="chip" onclick="setSingle(this)">🤝 Colaboración</button>
           </div>
+          <input type="text" id="plan-especial-extra" placeholder="Describe qué producto o evento especial hay esta semana (opcional)..." style="margin-bottom:12px">
+
           <label>¿Cuántas veces publicas por semana?</label>
           <div class="chips" id="chips-frec">
             <button class="chip" onclick="setSingle(this)">3 veces</button>
             <button class="chip selected" onclick="setSingle(this)">5 veces</button>
             <button class="chip" onclick="setSingle(this)">Todos los días</button>
           </div>
-          <div style="background:#FFFFFF;border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#D4AF37;margin-bottom:16px">
-            ✅ Plan gratis: <strong>7 días de contenido</strong> — 🔒 Plan Pro: <strong>se renueva cada mes</strong>
+
+          <label>¿Para cuántos días quieres el plan?</label>
+          <div class="chips" id="chips-plan-dias">
+            <button class="chip selected" onclick="setSingle(this)">7 días</button>
+            <button class="chip" onclick="setSingle(this)">15 días</button>
+            <button class="chip" onclick="setSingle(this)">30 días</button>
           </div>
-          <button class="btn-primary" id="btn-gen-plan" data-label="Crear Plan de 7 Días" onclick="generatePlan()">✦ Crear Plan de 7 Días</button>
+
+          <div style="margin-top:12px;padding:12px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.2);border-radius:8px;font-size:12px;color:#999">
+            🔒 <strong style="color:#E8315A">Premium</strong> — Generar plan para otra cuenta
+          </div>
+
+          <button class="btn-primary" id="btn-gen-plan" data-label="Crear Plan" onclick="generatePlan()" style="margin-top:12px">✦ Crear mi Plan de Contenido</button>
         </div>
         <div id="plan-output-area" style="display:none">
           <div class="card">
@@ -743,10 +911,16 @@
           </div>
         </div>
           <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:8px;font-style:italic">💡 <strong>Alguien necesita exactamente lo que tú ofreces</strong> — pero si no lo publicas, nunca lo sabrá. ¡Díselo hoy! 💵</div>
-          <p class="page-subtitle">Copy para redes sociales, WhatsApp y Email basado en mensajes que venden y convierten</p>
+          <p class="page-subtitle">Genera contenido para tu lanzamiento — reels, historias, mensajes y entregable listos para publicar</p>
         </div>
         <div class="card">
           <div class="card-title">Tu oferta</div>
+          
+          <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
+            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
+            <textarea id="oferta-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el lanzamiento completo para esa cuenta." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
+          </div>
+
           <div class="form-row">
             <div>
               <label>Nombre del producto / servicio</label>
@@ -770,14 +944,30 @@
             <button class="chip" onclick="setSingle(this)">Cupos limitados</button>
             <button class="chip" onclick="setSingle(this)">Oferta abierta (sin límite)</button>
           </div>
-          <label>Generar para:</label>
-          <div class="platform-tabs">
-            <button class="platform-tab active" onclick="setPlatform(this,'instagram')">📸 Feed / Post</button>
-            <button class="platform-tab" onclick="setPlatform(this,'dm')">📱 DM</button>
-            <button class="platform-tab" onclick="setPlatform(this,'whatsapp')">💬 WhatsApp</button>
-            <button class="platform-tab" onclick="setPlatform(this,'email')">📧 Email</button>
-            <button class="platform-tab" onclick="setPlatform(this,'todos')">🌐 Todos</button>
+
+          <label>⏰ Temporalidad de la oferta</label>
+          <div class="chips" id="chips-temporalidad" style="margin-bottom:8px">
+            <button class="chip" onclick="setSingle(this)">⏰ 24 horas</button>
+            <button class="chip" onclick="setSingle(this)">⏰ 48 horas</button>
+            <button class="chip" onclick="setSingle(this)">⏰ 72 horas</button>
+            <button class="chip selected" onclick="setSingle(this)">📅 Fecha específica</button>
+            <button class="chip" onclick="setSingle(this)">🎯 Cupos limitados</button>
           </div>
+          <input type="text" id="oferta-temporalidad-extra" placeholder="Ej: cierra el viernes 20 a las 11:59pm / solo quedan 10 cupos..." style="margin-bottom:12px">
+
+          <label>Generar para:</label>
+          <div class="chips" id="chips-plataformas" style="margin-bottom:8px">
+            <button class="chip selected" onclick="toggleMultiOpt(this,'plataforma','feed')">📸 Feed / Post</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','dm')">📱 DM Instagram</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','whatsapp')">💬 WhatsApp</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','telegram')">✈️ Telegram</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','email')">📧 Email</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','tiktok')">🎵 TikTok</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','facebook')">📘 Facebook</button>
+            <button class="chip" onclick="toggleMultiOpt(this,'plataforma','threads')">🧵 Threads</button>
+          </div>
+          <input type="text" id="oferta-plataforma-extra" placeholder="¿Otra plataforma? Ej: Pinterest, LinkedIn..." style="margin-bottom:12px">
+
           <button class="btn-primary" id="btn-gen-oferta" data-label="Crear Copy de Venta" onclick="generateOferta()">✦ Crear Copy de Venta</button>
         </div>
         <div class="card" id="oferta-output-card" style="display:none">
@@ -788,6 +978,58 @@
             <button class="btn-secondary" onclick="generateOferta()">↻ Regenerar</button>
           </div>
         </div>
+
+        <!-- REELS DE LANZAMIENTO -->
+        <div class="card" id="oferta-reels-card" style="display:none">
+          <div class="card-title">🎬 Reels de Lanzamiento</div>
+          <div class="keyword-tip">💡 Jackia genera una secuencia de reels para tu lanzamiento — cada uno con un ángulo diferente.</div>
+          <button class="btn-primary" id="btn-gen-oferta-reels" onclick="generateOfertaReels()" style="margin-top:8px">🎬 Generar mis Reels de Lanzamiento</button>
+          <div class="output-box" id="oferta-reels-output" style="min-height:150px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="oferta-reels-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('oferta-reels-output',this)">📋 Copiar</button>
+          </div>
+        </div>
+
+        <!-- HISTORIAS DE LANZAMIENTO -->
+        <div class="card" id="oferta-historias-card" style="display:none">
+          <div class="card-title">📱 Historias de Lanzamiento</div>
+          <div class="keyword-tip">💡 Secuencia de historias para calentar, lanzar y cerrar tu oferta.</div>
+          <button class="btn-primary" id="btn-gen-oferta-historias" onclick="generateOfertaHistorias()" style="margin-top:8px">📱 Generar mis Historias de Lanzamiento</button>
+          <div class="output-box" id="oferta-historias-output" style="min-height:150px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="oferta-historias-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('oferta-historias-output',this)">📋 Copiar</button>
+          </div>
+        </div>
+
+        <!-- DM LANZAMIENTO -->
+        <div class="card" id="oferta-dm-card" style="display:none">
+          <div class="card-title">💬 Mensajes para ManyChat — Copia y pega en tu bot</div>
+          <div class="keyword-tip">💡 Mensajes de seguimiento para quien interactúe con tu lanzamiento.</div>
+          <button class="btn-primary" id="btn-gen-oferta-dm" onclick="generateOfertaDM()" style="margin-top:8px">💬 Generar mis Mensajes de Lanzamiento</button>
+          <div class="output-box" id="oferta-dm-output" style="min-height:100px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="oferta-dm-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('oferta-dm-output',this)">📋 Copiar</button>
+          </div>
+        </div>
+
+        <!-- ENTREGABLE LANZAMIENTO -->
+        <div class="card" id="oferta-entregable-card" style="display:none">
+          <div class="card-title">📦 Entregable del Lanzamiento (opcional)</div>
+          <div class="keyword-tip">💡 ¿Vas a dar algo gratis para atraer a tu lanzamiento? Jackia lo genera.</div>
+          <div class="chips" id="oferta-entregable-chips" style="margin-bottom:8px">
+            <button class="chip selected" onclick="setSingle(this)">📋 Checklist</button>
+            <button class="chip" onclick="setSingle(this)">📄 Mini guía</button>
+            <button class="chip" onclick="setSingle(this)">🎯 Plan de acción</button>
+            <button class="chip" onclick="setSingle(this)">📑 Plantilla</button>
+            <button class="chip" onclick="setSingle(this)">✨ Sugiéreme un entregable</button>
+          </div>
+          <button class="btn-primary" id="btn-gen-oferta-entregable" onclick="generateOfertaEntregable()" style="margin-top:8px">📦 Generar mi Entregable</button>
+          <div class="output-box" id="oferta-entregable-output" style="min-height:120px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="oferta-entregable-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('oferta-entregable-output',this)">📋 Copiar</button>
+          </div>
+        </div>
+
       </div>
 
       <!-- STORIES -->
@@ -873,10 +1115,33 @@
 
         <div class="card">
           <div class="card-title">Configura tu carrusel</div>
-          <label>¿Sobre qué trata tu carrusel?</label>
-          <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestCarruselTopics()">💡 Sugiéreme un tema</button>
-          <div id="carrusel-topic-suggestions" style="display:none;margin-bottom:10px"></div>
-          <textarea id="carrusel-tema" placeholder="Ej: 5 errores que cometes al vender tu ebook sin saberlo..."></textarea>
+
+          <div style="padding:10px 14px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:8px;font-size:12px;color:#D4AF37;margin-bottom:12px">
+            💡 Jackia ya sabe tu nicho y estilo del perfil — generará el carrusel adaptado automáticamente.
+          </div>
+
+          <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
+            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
+            <textarea id="carrusel-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el carrusel para esa cuenta." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
+          </div>
+
+          <label>¿Cómo quieres generar hoy?</label>
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+            <button id="btn-carrusel-modo-plan" onclick="setModoCarrusel('plan')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #D4AF37;background:rgba(212,175,55,0.1);color:#D4AF37;font-weight:700;cursor:pointer;font-size:13px">📅 Según mi planificador</button>
+            <button id="btn-carrusel-modo-libre" onclick="setModoCarrusel('libre')" style="flex:1;padding:12px;border-radius:10px;border:2px solid rgba(0,0,0,0.1);background:transparent;color:#888;font-weight:700;cursor:pointer;font-size:13px">✨ Tema libre</button>
+          </div>
+
+          <div id="carrusel-modo-plan" style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:#D4AF37">
+            📅 <strong>Jackia sabe qué carrusel toca hoy según tu plan.</strong> Solo elige las slides y genera.
+          </div>
+
+          <div id="carrusel-modo-libre" style="display:none">
+            <label>¿Sobre qué trata tu carrusel?</label>
+            <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestCarruselTopics()">💡 Sugiéreme un tema</button>
+            <div id="carrusel-topic-suggestions" style="display:none;margin-bottom:10px"></div>
+            <textarea id="carrusel-tema" placeholder="Ej: 5 errores que cometes al vender tu ebook sin saberlo..."></textarea>
+          </div>
+
           <div class="form-row">
             <div>
               <label>¿Cuántas slides?</label>
@@ -895,6 +1160,7 @@
             🎨 Una vez generado el texto, usa una plantilla de Canva para el diseño — pega cada slide en su lugar correspondiente.
           </div>
           <button class="btn-primary" id="btn-gen-carrusel" onclick="generateCarrusel()">✦ Generar Carrusel</button>
+          <button class="btn-secondary" onclick="showPanel('analizar',null)" style="width:100%;margin-top:8px;font-size:12px">🔍 ¿Viste un carrusel viral? Analízalo y adáptalo a tu nicho</button>
         </div>
 
         <div class="card" style="border-color:rgba(232,49,90,0.5);background:linear-gradient(135deg,rgba(232,49,90,0.08),rgba(212,175,55,0.05))">
@@ -913,6 +1179,60 @@
             <button class="btn-secondary" onclick="toggleVisualTips('carrusel-design-tips')">🖼️ Sugerencias de diseño</button>
           </div>
         </div>
+        <div class="card" id="carrusel-output-card" style="display:none">
+          <div class="card-title">Tu Carrusel</div>
+          <div class="output-box" id="carrusel-output" style="min-height:200px"></div>
+          <div class="output-actions">
+            <button class="btn-copy" onclick="copyText('carrusel-output',this)">📋 Copiar todo</button>
+            <button class="btn-secondary" onclick="generateCarrusel()">↻ Regenerar</button>
+            <button class="btn-secondary" onclick="toggleVisualTips('carrusel-design-tips')">🖼️ Sugerencias de diseño</button>
+          </div>
+        </div>
+
+        <!-- DM MANYCHAT CARRUSEL -->
+        <div class="card" id="carrusel-dm-card">
+          <div class="card-title">💬 Mensajes para ManyChat — Copia y pega en tu bot</div>
+          <div id="carrusel-dm-sin-keyword" style="text-align:center;padding:16px;background:rgba(212,175,55,0.05);border:1px dashed rgba(212,175,55,0.3);border-radius:8px">
+            <div style="font-size:20px;margin-bottom:6px">🔑</div>
+            <div style="font-size:12px;color:#D4AF37;font-weight:700;margin-bottom:4px">Agrega una palabra clave arriba para activar</div>
+            <div style="font-size:11px;color:var(--muted)">Ej: GUIA, TIPS, GRATIS — Jackia generará tus mensajes listos para copiar y pegar en ManyChat</div>
+          </div>
+          <div id="carrusel-dm-con-keyword" style="display:none">
+            <label>1️⃣ Mensaje de Bienvenida — copia y pega en ManyChat</label>
+            <div class="output-box" id="carrusel-bienvenida-output" style="min-height:70px"></div>
+            <div class="output-actions" style="margin-bottom:16px">
+              <button class="btn-copy" onclick="copyText('carrusel-bienvenida-output',this)">📋 Copiar Bienvenida</button>
+            </div>
+            <label>2️⃣ Mensaje de Entrega — copia y pega en ManyChat</label>
+            <input type="text" id="carrusel-link" placeholder="Pega aquí tu link del recurso/regalo" style="margin-bottom:10px">
+            <div class="output-box" id="carrusel-entrega-output" style="min-height:70px"></div>
+            <div class="output-actions">
+              <button class="btn-copy" onclick="copyText('carrusel-entrega-output',this)">📋 Copiar Entrega</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ENTREGABLE CARRUSEL -->
+        <div class="card" id="carrusel-entregable-card">
+          <div class="card-title">📦 Crea tu Entregable</div>
+          <div class="keyword-tip">💡 ¿Vas a dar algo gratis relacionado con este carrusel? Jackia lo genera listo para Canva.</div>
+          <div class="chips" id="carrusel-entregable-chips" style="margin-bottom:8px">
+            <button class="chip selected" onclick="setSingle(this)">📋 Checklist</button>
+            <button class="chip" onclick="setSingle(this)">📄 Mini guía</button>
+            <button class="chip" onclick="setSingle(this)">🎯 Plan de acción</button>
+            <button class="chip" onclick="setSingle(this)">📑 Plantilla</button>
+            <button class="chip" onclick="setSingle(this)">✨ Sugiéreme un entregable</button>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn-secondary" id="btn-gen-carrusel-entregable" onclick="generateCarruselEntregable()" style="flex:1;font-size:12px">📄 Generar contenido para Canva</button>
+            <button class="btn-primary" onclick="generateCarruselEntregablePDF()" style="flex:1;font-size:12px">📥 Generar PDF listo</button>
+          </div>
+          <div class="output-box" id="carrusel-entregable-output" style="min-height:120px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="carrusel-entregable-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('carrusel-entregable-output',this)">📋 Copiar contenido</button>
+          </div>
+        </div>
+
         <div class="card" id="carrusel-design-tips" style="display:none">
           <div class="card-title">🖼️ Sugerencias de diseño para tus slides</div>
           <div style="font-size:13px;color:var(--muted);line-height:1.8">
@@ -941,16 +1261,36 @@
 
         <div class="card">
           <div class="card-title">Configura tu Reel de Hoy</div>
-          <label>¿Cómo es tu cuenta?</label>
-          <div class="chips" id="reeldia-estilo-chips">
-            <button class="chip selected" onclick="setSingle(this)">🎬 En cámara</button>
-            <button class="chip" onclick="setSingle(this)">🎭 Faceless</button>
-            <button class="chip" onclick="setSingle(this)">✨ Ambos (en cámara & Faceless)</button>
+          
+          <div style="padding:10px 14px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:8px;font-size:12px;color:#D4AF37;margin-bottom:12px">
+            💡 Jackia ya sabe cómo es tu cuenta del perfil — generará el contenido adaptado automáticamente.
           </div>
-          <label>¿De qué quieres hablar hoy?</label>
-          <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestReeldiaTopics()">💡 Sugiéreme un tema</button>
-          <div id="reeldia-topic-suggestions" style="display:none;margin-bottom:10px"></div>
-          <textarea id="reeldia-tema" placeholder="Ej: Por qué fallé en mis primeras ventas y qué cambié..."></textarea>
+
+          <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
+            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
+            <textarea id="reeldia-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta (faceless/cámara), producto que vende... Jackia generará contenido específico para ella." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
+            <div style="margin-top:8px;opacity:0.5">
+              <button type="button" class="btn-secondary" style="font-size:11px;padding:6px 12px" disabled>💡 Sugiéreme un tema para esa cuenta</button>
+              <input type="text" placeholder="O escribe el tema del reel para esa cuenta..." style="margin-top:6px;opacity:0.7" disabled>
+            </div>
+          </div>
+
+          <label>¿Cómo quieres generar hoy?</label>
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+            <button id="btn-reel-modo-plan" onclick="setModoReel('plan')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #D4AF37;background:rgba(212,175,55,0.1);color:#D4AF37;font-weight:700;cursor:pointer;font-size:13px">📅 Según mi planificador</button>
+            <button id="btn-reel-modo-libre" onclick="setModoReel('libre')" style="flex:1;padding:12px;border-radius:10px;border:2px solid rgba(0,0,0,0.1);background:transparent;color:#888;font-weight:700;cursor:pointer;font-size:13px">✨ Tema libre</button>
+          </div>
+
+          <div id="reel-modo-plan" style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:#D4AF37">
+            📅 <strong>Jackia sabe qué toca hoy según tu plan.</strong> Solo elige la duración y genera.
+          </div>
+
+          <div id="reel-modo-libre" style="display:none">
+            <label>¿De qué quieres hablar hoy?</label>
+            <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestReeldiaTopics()">💡 Sugiéreme un tema</button>
+            <div id="reeldia-topic-suggestions" style="display:none;margin-bottom:10px"></div>
+            <textarea id="reeldia-tema" placeholder="Ej: Por qué fallé en mis primeras ventas y qué cambié..."></textarea>
+          </div>
           <div class="form-row">
             <div>
               <label>Tu @usuario</label>
@@ -1004,19 +1344,25 @@
           </div>
         </div>
 
-        <div class="card" id="reeldia-dm-card" style="display:none">
-          <div class="card-title">💬 Sistema de DM Automático (para configurar en tu bot)</div>
-          <label>1️⃣ Mensaje de Bienvenida — apenas comentan la palabra clave</label>
-          <div class="output-box" id="reeldia-bienvenida-output" style="min-height:70px"></div>
-          <div class="output-actions" style="margin-bottom:16px">
-            <button class="btn-copy" onclick="copyText('reeldia-bienvenida-output',this)">📋 Copiar Bienvenida</button>
+        <div class="card" id="reeldia-dm-card">
+          <div class="card-title">💬 Mensajes para ManyChat — Copia y pega en tu bot</div>
+          <div id="reeldia-dm-sin-keyword" style="text-align:center;padding:16px;background:rgba(212,175,55,0.05);border:1px dashed rgba(212,175,55,0.3);border-radius:8px;margin-bottom:8px">
+            <div style="font-size:20px;margin-bottom:6px">🔑</div>
+            <div style="font-size:12px;color:#D4AF37;font-weight:700;margin-bottom:4px">Agrega una palabra clave arriba para activar</div>
+            <div style="font-size:11px;color:var(--muted)">Ej: GRATIS, PRO, INFO — y Jackia generará tus mensajes de ManyChat automáticamente</div>
           </div>
-
-          <label>2️⃣ Mensaje de Entrega — donde va tu link</label>
-          <input type="text" id="reeldia-link" placeholder="Pega aquí tu link del recurso/regalo" style="margin-bottom:10px">
-          <div class="output-box" id="reeldia-entrega-output" style="min-height:70px"></div>
-          <div class="output-actions">
-            <button class="btn-copy" onclick="copyText('reeldia-entrega-output',this)">📋 Copiar Entrega</button>
+          <div id="reeldia-dm-con-keyword" style="display:none">
+            <label>1️⃣ Mensaje de Bienvenida — apenas comentan la palabra clave</label>
+            <div class="output-box" id="reeldia-bienvenida-output" style="min-height:70px"></div>
+            <div class="output-actions" style="margin-bottom:16px">
+              <button class="btn-copy" onclick="copyText('reeldia-bienvenida-output',this)">📋 Copiar Bienvenida</button>
+            </div>
+            <label>2️⃣ Mensaje de Entrega — donde va tu link</label>
+            <input type="text" id="reeldia-link" placeholder="Pega aquí tu link del recurso/regalo" style="margin-bottom:10px">
+            <div class="output-box" id="reeldia-entrega-output" style="min-height:70px"></div>
+            <div class="output-actions">
+              <button class="btn-copy" onclick="copyText('reeldia-entrega-output',this)">📋 Copiar Entrega</button>
+            </div>
           </div>
         </div>
 
@@ -1079,13 +1425,25 @@
         <div style="background:linear-gradient(135deg,rgba(232,49,90,0.1),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#D4AF37;margin-bottom:20px;font-style:italic">💡 Una buena historia no es solo bonita — debe mostrar resultados reales de lo que vendes o haces. ¡Eso genera confianza y vende! 🔥</div>
 
         <div class="card">
-          <div class="card-title">Configura tus historias de hoy</div>
-          <label>¿Cómo es tu cuenta?</label>
-          <div class="chips" id="historiasHoy-estilo-chips">
-            <button class="chip selected" onclick="setSingle(this)">🎬 En cámara</button>
-            <button class="chip" onclick="setSingle(this)">🎭 Faceless</button>
-            <button class="chip" onclick="setSingle(this)">✨ Ambos (en cámara & Faceless)</button>
+          <div class="card-title">Mis Historias de Hoy</div>
+          
+          <label>¿Cómo quieres generar hoy?</label>
+          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+            <button id="btn-modo-plan" onclick="setModoHistorias('plan')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #D4AF37;background:rgba(212,175,55,0.1);color:#D4AF37;font-weight:700;cursor:pointer;font-size:13px">📅 Según mi planificador</button>
+            <button id="btn-modo-libre" onclick="setModoHistorias('libre')" style="flex:1;padding:12px;border-radius:10px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:#888;font-weight:700;cursor:pointer;font-size:13px">✨ Tema libre</button>
           </div>
+
+          <div id="historias-modo-plan" style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:#D4AF37">
+            📅 <strong>Jackia sabe qué toca hoy según tu plan.</strong> Solo dile cuántas historias quieres.
+          </div>
+
+          <div id="historias-modo-libre" style="display:none">
+            <label>¿Qué quieres mostrar hoy?</label>
+            <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestHistoriasTopics()">💡 Sugiéreme un tema</button>
+            <div id="historiasHoy-topic-suggestions" style="display:none;margin-bottom:10px"></div>
+            <textarea id="historiasHoy-tema" placeholder="Ej: Resultado de una clienta, un tip rápido, mi proceso de trabajo hoy..."></textarea>
+          </div>
+
           <label>¿Cuántas historias quieres hoy?</label>
           <div class="chips" id="chips-historiasHoy-cantidad">
             <button class="chip selected" onclick="setSingle(this)">3</button>
@@ -1093,19 +1451,15 @@
             <button class="chip" onclick="setSingle(this)">7</button>
             <button class="chip" onclick="setSingle(this)">10</button>
           </div>
-          <label>¿Qué quieres mostrar hoy?</label>
-          <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestHistoriasTopics()">💡 Sugiéreme un tema</button>
-          <div id="historiasHoy-topic-suggestions" style="display:none;margin-bottom:10px"></div>
-          <textarea id="historiasHoy-tema" placeholder="Ej: Resultado de una clienta, un tip rápido, mi proceso de trabajo hoy..."></textarea>
-          <label>Palabra clave</label>
+          <label>Palabra clave (opcional)</label>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">
-  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">PRO</button>
-  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">CITA</button>
-  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">GRATIS</button>
-  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">INFO</button>
-  <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">ACCESO</button>
-</div>
-<input type="text" id="historiasHoy-keyword" placeholder="Selecciona una o escribe la tuya (opcional)">
+            <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">PRO</button>
+            <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">CITA</button>
+            <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">GRATIS</button>
+            <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">INFO</button>
+            <button type="button" class="chip" onclick="document.getElementById('historiasHoy-keyword').value=this.textContent">ACCESO</button>
+          </div>
+          <input type="text" id="historiasHoy-keyword" placeholder="Selecciona una o escribe la tuya (opcional)">
           <div style="background:#F4EEE7;border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#6E6660;margin:14px 0">
             📸 <strong style="color:#D4AF37">¿No sabes qué imagen usar?</strong> Si eres faceless, usa bancos de fotos faceless o Pinterest para inspirarte. También puedes mejorar tus fotos con IA usando tu pack de prompts incluido 🎁. Si quieres una sugerencia más específica para tu nicho, pregúntale a Jackia en el Chat. 💬
           </div>
@@ -1117,20 +1471,26 @@
           <div id="historiasHoy-output-list"></div>
         </div>
 
-        <div class="card" id="historiasHoy-dm-card" style="display:none">
-          <div class="card-title">💬 Sistema de DM Automático (para configurar en tu bot)</div>
-          <label>1️⃣ Mensaje de Bienvenida — apenas comentan la palabra clave</label>
-          <div class="output-box" id="historiasHoy-bienvenida-output" style="min-height:70px"></div>
-          <div class="output-actions" style="margin-bottom:16px">
-            <button class="btn-copy" onclick="copyText('historiasHoy-bienvenida-output',this)">📋 Copiar Bienvenida</button>
+        <div class="card" id="historiasHoy-dm-card">
+          <div class="card-title">💬 Mensajes para ManyChat — Copia y pega en tu bot</div>
+          <div id="historias-dm-sin-keyword" style="text-align:center;padding:16px;background:rgba(212,175,55,0.05);border:1px dashed rgba(212,175,55,0.3);border-radius:8px;margin-bottom:8px">
+            <div style="font-size:20px;margin-bottom:6px">🔑</div>
+            <div style="font-size:12px;color:#D4AF37;font-weight:700;margin-bottom:4px">Agrega una palabra clave arriba para activar</div>
+            <div style="font-size:11px;color:var(--muted)">Ej: GRATIS, PRO, INFO — Jackia generará tus mensajes listos para copiar y pegar en ManyChat</div>
           </div>
-
-          <label>2️⃣ Mensaje de Entrega — donde va tu link</label>
-          <input type="text" id="historiasHoy-link" placeholder="Pega aquí tu link del recurso/regalo" style="margin-bottom:10px">
-          <div class="output-box" id="historiasHoy-entrega-output" style="min-height:70px"></div>
-          <div class="output-actions">
-            <button class="btn-copy" onclick="copyText('historiasHoy-entrega-output',this)">📋 Copiar Entrega</button>
-            <button class="btn-secondary" onclick="generateHistoriasHoy()">↻ Regenerar todo</button>
+          <div id="historias-dm-con-keyword" style="display:none">
+            <label>1️⃣ Mensaje de Bienvenida — copia y pega en ManyChat</label>
+            <div class="output-box" id="historiasHoy-bienvenida-output" style="min-height:70px"></div>
+            <div class="output-actions" style="margin-bottom:16px">
+              <button class="btn-copy" onclick="copyText('historiasHoy-bienvenida-output',this)">📋 Copiar Bienvenida</button>
+            </div>
+            <label>2️⃣ Mensaje de Entrega — copia y pega en ManyChat</label>
+            <input type="text" id="historiasHoy-link" placeholder="Pega aquí tu link del recurso/regalo" style="margin-bottom:10px">
+            <div class="output-box" id="historiasHoy-entrega-output" style="min-height:70px"></div>
+            <div class="output-actions">
+              <button class="btn-copy" onclick="copyText('historiasHoy-entrega-output',this)">📋 Copiar Entrega</button>
+              <button class="btn-secondary" onclick="generateHistoriasHoy()">↻ Regenerar todo</button>
+            </div>
           </div>
         </div>
 
@@ -1213,13 +1573,36 @@
           <button class="btn-primary" id="btn-gen-dm" data-label="Generar Guión DM" onclick="generateDM()">✦ Generar Guión DM</button>
         </div>
         <div class="card" id="dm-output-card" style="display:none">
-          <div class="card-title">Tus 3 Mensajes de Venta</div>
+          <div class="card-title">Tus Mensajes de Venta</div>
           <div class="output-box" id="dm-output" style="min-height:200px"></div>
           <div class="output-actions">
             <button class="btn-copy" onclick="copyText('dm-output',this)">📋 Copiar guión</button>
             <button class="btn-secondary" onclick="generateDM()">↻ Regenerar</button>
           </div>
         </div>
+
+        <!-- ENTREGABLE CIERRE -->
+        <div class="card" id="dm-entregable-card" style="display:none">
+          <div class="card-title">📦 Entregable para el Cierre (opcional)</div>
+          <div class="keyword-tip">💡 ¿Vas a dar algo gratis para cerrar la venta? Elige cómo quieres generarlo.</div>
+          <div class="chips" id="dm-entregable-chips" style="margin-bottom:8px">
+            <button class="chip selected" onclick="setSingle(this)">📋 Checklist</button>
+            <button class="chip" onclick="setSingle(this)">📄 Mini guía</button>
+            <button class="chip" onclick="setSingle(this)">🎯 Plan de acción</button>
+            <button class="chip" onclick="setSingle(this)">📑 Plantilla</button>
+            <button class="chip" onclick="setSingle(this)">💬 Scripts de venta</button>
+            <button class="chip" onclick="setSingle(this)">✨ Sugiéreme un entregable</button>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn-secondary" id="btn-gen-dm-entregable" onclick="generateDMEntregable()" style="flex:1;font-size:12px">📄 Generar contenido para Canva</button>
+            <button class="btn-primary" onclick="generateDMEntregablePDF()" style="flex:1;font-size:12px">📥 Generar PDF listo</button>
+          </div>
+          <div class="output-box" id="dm-entregable-output" style="min-height:120px;margin-top:10px;display:none"></div>
+          <div class="output-actions" id="dm-entregable-actions" style="display:none">
+            <button class="btn-copy" onclick="copyText('dm-entregable-output',this)">📋 Copiar contenido</button>
+          </div>
+        </div>
+
       </div>
 
 
@@ -1255,7 +1638,7 @@
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <div style="flex:1;min-width:100px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:16px;text-align:center">
               <div style="font-size:32px">🏆</div>
-              <div style="font-size:12px;font-weight:700;color:#D4AF37;margin-top:6px">7 Días</div>
+              
               <div style="font-size:11px;color:#999">Completado</div>
             </div>
             <div style="flex:1;min-width:100px;background:rgba(232,49,90,0.1);border:1px solid rgba(232,49,90,0.3);border-radius:10px;padding:16px;text-align:center">
@@ -1276,6 +1659,75 @@
       </div>
 
       <!-- ANALIZA TU PERFIL -->
+      <!-- RADIOGRAFÍA DE TU BIO -->
+      <div class="panel" id="panel-radiografiabio">
+        <div class="page-header">
+          <div class="page-eyebrow">Exclusivo Premium</div>
+          <h1 class="page-title">🔎 Radiografía de tu Bio</h1>
+          <p class="page-subtitle">Pega lo que tienes ahora — Jackia analiza todo y genera las versiones mejoradas listas para copiar</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Tu perfil actual</div>
+          <div class="keyword-tip">💡 Sube capturas de tu perfil — Jackia analiza todo lo que ve. Sin necesidad de llenar campos.</div>
+
+          <label>📱 Captura de tu perfil completo</label>
+          <div style="border:2px dashed rgba(212,175,55,0.4);border-radius:10px;padding:16px;text-align:center;margin-bottom:12px;cursor:pointer" onclick="document.getElementById('radio-perfil-input').click()">
+            <div id="radio-perfil-preview" style="display:none;margin-bottom:8px">
+              <img id="radio-perfil-img" style="max-width:100%;max-height:250px;border-radius:8px;border:2px solid #D4AF37">
+            </div>
+            <div id="radio-perfil-placeholder">
+              <div style="font-size:24px;margin-bottom:6px">📱</div>
+              <div style="font-size:12px;color:#D4AF37;font-weight:700">Sube captura de tu perfil</div>
+              <div style="font-size:11px;color:var(--muted)">Foto, nombre, @usuario, bio, seguidores y destacadas</div>
+            </div>
+            <input type="file" id="radio-perfil-input" accept="image/*" style="display:none" onchange="previewCaptura(this,'perfil')">
+          </div>
+
+          <label>🖼️ Captura de tu feed (opcional)</label>
+          <div style="border:2px dashed rgba(212,175,55,0.3);border-radius:10px;padding:16px;text-align:center;margin-bottom:12px;cursor:pointer" onclick="document.getElementById('radio-feed-input').click()">
+            <div id="radio-feed-preview" style="display:none;margin-bottom:8px">
+              <img id="radio-feed-img" style="max-width:100%;max-height:200px;border-radius:8px;border:2px solid #D4AF37">
+            </div>
+            <div id="radio-feed-placeholder">
+              <div style="font-size:24px;margin-bottom:6px">🖼️</div>
+              <div style="font-size:12px;color:#D4AF37;font-weight:700">Sube captura de tu feed</div>
+              <div style="font-size:11px;color:var(--muted)">Primeras publicaciones — coherencia y estilo visual</div>
+            </div>
+            <input type="file" id="radio-feed-input" accept="image/*" style="display:none" onchange="previewCaptura(this,'feed')">
+          </div>
+
+          <label>Plataforma</label>
+          <div class="chips" id="radio-plataforma-chips" style="margin-bottom:12px">
+            <button class="chip selected" onclick="setSingle(this)">📸 Instagram</button>
+            <button class="chip" onclick="setSingle(this)">📘 Facebook</button>
+            <button class="chip" onclick="setSingle(this)">🎵 TikTok</button>
+            <button class="chip" onclick="setSingle(this)">🧵 Threads</button>
+          </div>
+
+          <label>¿Algo más que Jackia deba saber? (opcional)</label>
+          <textarea id="radio-extra" placeholder="Ej: quiero enfocarme en vender más, tengo 2K seguidores pero no vendo, mi nicho es decoración..." style="min-height:60px;margin-bottom:12px"></textarea>
+
+          <button class="btn-primary" id="btn-gen-radiografia" onclick="generateRadiografia()">🔎 Analizar mi Perfil Completo</button>
+        </div>
+
+        <!-- OUTPUT ANÁLISIS -->
+        <div class="card" id="radiografia-output-card" style="display:none">
+          <div class="card-title">📊 Tu Radiografía Completa</div>
+          <div class="output-box" id="radiografia-analisis" style="min-height:200px"></div>
+          <div class="output-actions" style="margin-bottom:16px">
+            <button class="btn-copy" onclick="copyText('radiografia-analisis',this)">📋 Copiar análisis</button>
+          </div>
+
+          <div class="card-title">✨ Tu Bio Mejorada — Lista para copiar</div>
+          <div class="output-box" id="radiografia-nueva-bio" style="min-height:150px"></div>
+          <div class="output-actions">
+            <button class="btn-copy" onclick="copyText('radiografia-nueva-bio',this)">📋 Copiar nueva bio</button>
+            <button class="btn-secondary" onclick="generateRadiografia()">↻ Regenerar</button>
+          </div>
+        </div>
+      </div>
+
       <div class="panel" id="panel-perfil">
         <div class="page-header">
           <div class="page-eyebrow">Exclusivo Premium</div>
@@ -1288,13 +1740,13 @@
           <label>Tu @usuario de Instagram</label>
           <input type="text" id="perfil-usuario" placeholder="Ej: @soyjackybusiness">
           
-          <label>¿Qué vendes exactamente?</label>
+          <label>¿Qué vendes exactamente? <span style="font-size:11px;color:#888">(opcional)</span></label>
           <input type="text" id="perfil-producto" placeholder="Ej: curso online, mentoría 1:1, servicio freelance...">
           
-          <label>¿A quién le vendes? (tu cliente ideal)</label>
+          <label>¿A quién le vendes? <span style="font-size:11px;color:#888">(opcional)</span></label>
           <input type="text" id="perfil-cliente" placeholder="Ej: mujeres emprendedoras de 25-40 años que quieren vender por redes">
           
-          <label>Tu nicho o temática</label>
+          <label>Tu nicho o temática <span style="font-size:11px;color:#888">(opcional)</span></label>
           <input type="text" id="perfil-nicho" placeholder="Ej: marketing digital, coaching, belleza, productos digitales...">
 
           <label>Pega tu bio actual aquí</label>
@@ -1345,6 +1797,11 @@
           <div class="output-actions">
             <button class="btn-copy" onclick="copyText('analizar-version',this)">📋 Copiar mi versión</button>
             <button class="btn-secondary" onclick="generateAnalizar()">↻ Adaptar de nuevo</button>
+          </div>
+          <div style="margin-top:14px;padding:14px;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:10px">
+            <div style="font-size:13px;font-weight:700;color:#D4AF37;margin-bottom:8px">🎯 ¿Te gustó este estilo?</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Úsalo para generar tu próximo reel con el mismo formato y estructura — solo cambia el tema.</div>
+            <button class="btn-primary" onclick="usarEstiloParaReel()" style="width:100%;font-size:12px;padding:10px">✦ Usar este estilo para mi próximo reel</button>
           </div>
         </div>
       </div>
@@ -1472,99 +1929,30 @@
         </div>
       </div>
 
+      <!-- BIBLIOTECA -->
+      <div class="panel" id="panel-biblioteca">
+        <div class="page-header">
+          <h1 class="page-title">📚 Biblioteca</h1>
+        </div>
+        <div class="card" style="text-align:center;padding:40px 24px">
+          <div style="font-size:48px;margin-bottom:16px">🚧</div>
+          <div style="font-weight:700;font-size:18px;color:var(--gold);margin-bottom:10px">En Construcción</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Estamos construyendo algo increíble para ti.<br>Muy pronto tendrás acceso a todos los recursos,<br>guías y bonos exclusivos de Jackia. 🔥</div>
+          <div style="font-size:12px;color:var(--muted)">¡Mantente pendiente! 👀</div>
+        </div>
+      </div>
+
       <div class="panel" id="panel-reviews">
         <div class="page-header">
           <div class="page-eyebrow">Comunidad</div>
           <h1 class="page-title">Lo que dicen ellas ⭐</h1>
-          <p class="page-subtitle">Emprendedoras reales que ya están generando contenido con la app</p>
+          <p class="page-subtitle">Aquí aparecerán las reseñas reales de emprendedoras que usan Jackia</p>
         </div>
-
-        <div class="reviews-hero">
-          <div class="reviews-hero-stars">⭐⭐⭐⭐⭐</div>
-          <div class="reviews-hero-score">4.9</div>
-          <div class="reviews-hero-total">Basado en 127 reseñas de emprendedoras</div>
+        <div class="card" style="text-align:center;padding:40px 24px">
+          <div style="font-size:48px;margin-bottom:16px">💙</div>
+          <div style="font-weight:700;font-size:18px;color:var(--gold);margin-bottom:10px">¡Sé la primera en dejar tu reseña!</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7">Cuando uses Jackia y veas resultados,<br>tu experiencia aparecerá aquí para inspirar<br>a otras emprendedoras. 🔥</div>
         </div>
-
-        <div class="reviews-grid" id="reviews-grid">
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar">S</div>
-              <div>
-                <div class="review-name">Sofia M.</div>
-                <div class="review-location">México 🇲🇽</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"En 30 minutos tenia mi plan de contenido completo para todo el mes. Antes me tardaba días pensando qué publicar. Esta app lo cambió todo para mi negocio."</div>
-            <span class="review-tag">Plan de Contenido</span>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar" style="background:linear-gradient(135deg,#D4AF37,#CDA0A5)">V</div>
-              <div>
-                <div class="review-name">Valentina R.</div>
-                <div class="review-location">Colombia 🇨🇴</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"Los hooks para mis videos son increíbles. Mi primer reel con el guión de la app llegó a 50K vistas. Nunca había tenido eso antes. 100% recomendada."</div>
-            <span class="review-tag">Hook & Guión</span>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar" style="background:linear-gradient(135deg,#CDA0A5,#CDA0A5)">M</div>
-              <div>
-                <div class="review-name">Maria G.</div>
-                <div class="review-location">EEUU Hispanohablantes 🇺🇸</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"El guión de cierre por DM me ayudó a cerrar 3 ventas en una semana. Antes no sabía cómo responder cuando alguien preguntaba por mi producto. Ahora lo tengo todo listo."</div>
-            <span class="review-tag">Cierre DM</span>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar" style="background:linear-gradient(135deg,#CDA0A5,#D4AF37)">L</div>
-              <div>
-                <div class="review-name">Lucia P.</div>
-                <div class="review-location">EEUU Hispanohablantes 🇺🇸</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"Por fin una app en español que entiende cómo hablamos en español. No es traducida del inglés — se siente natural, auténtica. Mis captions suenan como yo."</div>
-            <span class="review-tag">Captions</span>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar" style="background:linear-gradient(135deg,#CDA0A5,#CDA0A5)">C</div>
-              <div>
-                <div class="review-name">Carolina T.</div>
-                <div class="review-location">Brasil 🇧🇷</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"Uso la app todos los dias. El chat con Jackia me ayuda cuando no sé qué publicar o cómo responder objeciones. Es como tener una mentora disponible 24/7."</div>
-            <span class="review-tag">Chat Jackia</span>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="review-avatar" style="background:linear-gradient(135deg,#48C78E,#CDA0A5)">A</div>
-              <div>
-                <div class="review-name">Andrea F.</div>
-                <div class="review-location">México 🇲🇽</div>
-              </div>
-              <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-            <div class="review-text">"El analizador de captions es magia pura. Puse un caption que tenía meses sin funcionar y me lo reescribió completamente. Al día siguiente tuve 12 DMs nuevos."</div>
-            <span class="review-tag">Analizador</span>
-          </div>
-        </div>
-
         <!-- FORMULARIO -->
         <div class="review-form-card">
           <div class="card-title">✍️ Deja tu reseña</div>
@@ -2150,6 +2538,35 @@ REGLA CENTRAL: Cada contenido debe responder: ¿Qué aprende la persona aquí? �
 ESTRUCTURA CON AUTORIDAD: "Esto cambió → esto significa para ti → así puedes aplicarlo → este es el resultado que buscas"
 POSICIONAMIENTO: La gente llega por la NOVEDAD → se queda por la UTILIDAD → confía por la CONSISTENCIA → avanza por la SOLUCIÓN.
 
+ESTRATEGIA DE CONTENIDO — 4 PILARES (base del Plan de Contenido):
+1. EMOCIONAL/CONEXIÓN → mentalidad, procesos, frustraciones, disciplina, sueños, aprendizajes. Para que la audiencia se identifique.
+2. EDUCATIVO/AUTORIDAD → IA, herramientas, marketing, ventas, Instagram, automatización. Para enseñar y posicionar.
+3. INTERACTIVO/COMUNIDAD → encuestas, preguntas, opiniones, respuestas en Stories. Para escuchar y activar.
+4. CONVERSIÓN/NEGOCIO → ManyChat, entregables, recursos, productos, afiliados. Para mover a una acción.
+
+SECUENCIA MAESTRA: CONECTAR → ENSEÑAR → CONVERSAR → CONVERTIR
+
+PLAN SEMANAL BASE (Jackia adapta según nicho, tipo de cuenta y objetivo):
+Lunes → CONECTAR (emocional/identificación)
+Martes → ENSEÑAR (reel educativo/autoridad)
+Miércoles → ENSEÑAR (carrusel educativo o autoridad)
+Jueves → CONVERSAR (interactivo/comunidad)
+Viernes → CONVERTIR (venta/producto)
+Sábado → CONECTAR (prueba social/testimonio)
+Domingo → CONECTAR o viral (ligero, sin venta)
+Historias → TODOS LOS DÍAS: proceso real + tráfico al contenido del día
+
+REGLA DE STORIES: Mostrar proceso real siempre — lo que se está probando, lo que se descubre, lo que falla y lo que se aprende. Genera confianza y retención orgánica.
+
+REGLAS CRÍTICAS DE HISTORIAS:
+1. LONGITUD → Máximo 3-4 líneas por historia. Texto corto, directo, una sola idea. Nunca saturar con texto largo.
+2. CANTIDAD → Máximo 5-8 historias por día. Recomendado: 5. La audiencia se aburre y deja de ver si hay demasiadas.
+3. INTERACCIÓN → Siempre incluir al menos 1 elemento interactivo (cajita de preguntas, encuesta, slider, quiz). Instagram mide la interacción y la premia con más alcance.
+4. INCÓGNITA → Dejar siempre algo sin resolver — una pregunta abierta, una continuación para mañana. Genera expectativa y hace que vuelvan.
+5. CTA → Terminar con acción clara: responder por DM, ver el reel, guardar el recurso.
+6. STORYTELLING → Historia personal relatable → Testimonio o resultado → CTA directo.
+7. INTERACCIÓN ES PRIMORDIAL → Instagram toma en cuenta: respuestas, encuestas, DMs generados, guardados, compartidos. Más interacción = más alcance.
+
 EMBUDO DE CONTENIDO: VIRAL → VALOR → VENTA
 VIRAL: Atrae a la persona correcta — no vistas vacías, sino audiencia calificada.
 VALOR: "Aquí aprendo algo útil, quiero seguir esta cuenta" — genera confianza y autoridad.
@@ -2237,6 +2654,20 @@ ESTRUCTURAS DE GANCHOS EN TENDENCIA (13 estructuras con variantes — español n
 11. 3 PERSONAS PREGUNTARON: "Hay 3 personas que me acaban de preguntar cómo hacer [X]"
 12. JURÉ QUE NUNCA HARÍA: "Como [profesión], esto es lo que juré que nunca haría… Pero lo hice de todos modos"
 13. ME PREGUNTAN CONSTANTEMENTE: "La gente me pregunta constantemente cómo hacer [X]"
+
+GANCHOS IMPERATIVOS (acción directa):
+"Haz [X cosa] hoy mismo para [resolver X problema] / para [lograr X objetivo]" · "Deja de perder tiempo haciendo [X] para [resolver X problema], y haz [Y] en su lugar" · "Copia este método exacto para [lograr X resultado] en [X tiempo]" · "Haz / Implementa / Usa / Elimina / Olvida [X] si quieres [resultado]"
+
+GANCHOS DE CURIOSIDAD:
+"Ojalá alguien me hubiera dicho estas [X cosas] antes de empezar a [X]..." · "Hay una cosa que debes hacer para [solucionar X problema], y te prometo que no es lo que crees" · "Si haces estas 3 cosas [en tu X], es normal que sigas [teniendo X problema]"
+
+GANCHOS DE LISTADO:
+"Estos son los [X] mejores [hooks/tips/errores] que he visto esta semana en [plataforma/nicho]..." · "Te voy a decir las [X cosas] que están perjudicando tu [resultado/negocio/cuenta]" · "Las [X cosas] que deberías hacer para lograr [X resultado] este año"
+
+GANCHOS EN TENDENCIA AHORA (formato lista + curiosidad):
+"Estos son los [X] mejores [tema] que he visto esta semana en redes sociales... ¿Te suena?"
+"Te voy a decir las [X] cosas que están perjudicando tu [resultado/área]"
+"Las [X] cosas que deberías hacer para lograr [resultado] este año"
 "¿Cuánto tiempo más vas a seguir [problema recurrente]?" · "Si eres [perfil específico], esto es para ti" · "Si sigues haciendo esto, vas a [consecuencia negativa]" · "Publicar más no te va a hacer vender más" · "El problema no es el algoritmo" · "No es falta de seguidores. Es falta de [elemento clave]" · "Te despiertas, abres Instagram y…" · "Más contenido no es igual a más ventas" · "El verdadero costo de no hacer esto es [consecuencia]" · "El problema no es [síntoma], es [causa real]" · "Estás dejando dinero en la mesa por esto" · "Si no estás dispuesta a [acción clave], no vas a lograr [resultado]" · "Antes estaba en [situación negativa] y ahora estoy en [resultado]" · "Logré [resultado concreto] en [tiempo] haciendo esto" · "Nadie habla de esto, pero está destruyendo tu [resultado]" · "No necesitas [solución popular], necesitas esto" · "Hace [tiempo], estaba exactamente donde estás tú" · "Sé lo que estás pensando…" · "Un cliente llegó con [problema] y terminó con [resultado]" · "El problema no es [síntoma], es [causa]" · "La diferencia entre los que venden y los que no es esta"
 
 21 GANCHOS VIRALES ADICIONALES (usar siempre con contexto específico, NUNCA genéricos):
@@ -2281,7 +2712,7 @@ FORMULA CIERRE UNIVERSAL: Diagnóstico → "No es falta de ganas, es falta de es
 
 COSTO DE NO ACTUAR: Hacer visible lo que pierde si no actúa. Variar el tiempo (3 meses, 6 meses, 1 año) según la conversación. Sin sonar tedioso — con autoridad y calma, no con presión.
 
-NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.`
+NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.`;
 
 
 // ── M1: CAPTIONS
@@ -2436,28 +2867,34 @@ ${getProfileContext()}`;
 
 // ── M2: PLAN
 async function generatePlan() {
-  const negocio = document.getElementById('plan-negocio').value;
-  const objetivo = document.getElementById('plan-objetivo').value;
-  if (!negocio.trim()) { alert('Cuéntame tu negocio 😊'); return; }
+  const especial = document.querySelector('#chips-plan-especial .chip.selected')?.textContent || 'Semana normal';
+  const especialExtra = document.getElementById('plan-especial-extra')?.value?.trim() || '';
+  const diasSeleccionados = document.querySelector('#chips-plan-dias .chip.selected')?.textContent || '7 días';
+  const numDias = parseInt(diasSeleccionados) || 7;
+  const frecuencia = document.querySelector('#chips-frec .chip.selected')?.textContent || '5 veces';
   if (!checkDailyLimit('plan')) return;
   setLoading('btn-gen-plan', true);
   document.getElementById('plan-output-area').style.display = 'block';
-  document.getElementById('plan-grid').innerHTML = '<p style="color:#D4AF37;font-size:13px;padding:12px">Armando tu plan de 7 días... ✨</p>';
-  const prompt = `Crea un plan de contenido de 7 días para redes sociales.
-NEGOCIO: ${negocio}
-OBJETIVO: ${objetivo}
-${getProfileContext()}
+  document.getElementById('plan-grid').innerHTML = `<p style="color:#D4AF37;font-size:13px;padding:12px">Armando tu plan de ${numDias} días... ✨</p>`;
+  
+  const ctx = getProfileContext();
+  const semanaEspecial = especial.includes('normal') ? '' : `\nSEMANA ESPECIAL: ${especial}${especialExtra ? ' — ' + especialExtra : ''}. Adapta el plan para destacar esto.`;
+  
+  const formatos = ['Video', 'Carrusel', 'Historia', 'Video', 'Post', 'Carrusel', 'Video', 'Historia', 'Video', 'Carrusel', 'Post', 'Video', 'Historia', 'Carrusel', 'Video'];
+  const diasLineas = Array.from({length: numDias}, (_, i) => 
+    `DIA ${i+1} | Formato: ${formatos[i % formatos.length]} | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]`
+  ).join('\n');
 
-Progresion: dias 1-2 conectar y presentarte, dias 3-4 educar y despertar deseo, dias 5-6 mostrar resultados, dia 7 invitar a la accion.
+  const prompt = `Crea un plan de contenido de ${numDias} días para redes sociales.
+${ctx}
+Frecuencia de publicación: ${frecuencia}${semanaEspecial}
 
-Escribe exactamente 7 dias con este formato (sin cambiar nada del formato):
-DIA 1 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 2 | Formato: Carrusel | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 3 | Formato: Historia | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 4 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 5 | Formato: Post | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 6 | Formato: Carrusel | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]
-DIA 7 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]`;
+Estrategia basada en 4 pilares: CONECTAR → APORTAR VALOR → CONVERSAR → CONVERTIR
+Adapta formatos y ganchos según nicho, etapa y objetivo. El formato debe ser el que más funciona en tendencia.
+Usa ganchos variados del banco: imperativos, curiosidad, listado, problema, autoridad.
+
+Escribe exactamente ${numDias} días con este formato:
+${diasLineas}`;
 
   try {
     const text = await callClaude(prompt, SYS);
@@ -2489,6 +2926,9 @@ DIA 7 | Formato: Video | Tema: [tema aqui] | Gancho: [primera linea aqui] | Pala
       };
     });
     renderPlan(days);
+    // Guardar plan en localStorage para que el Home lo muestre
+    localStorage.setItem('jackia_plan_semanal', JSON.stringify(days));
+    localStorage.setItem('jackia_plan_fecha', new Date().toISOString().slice(0,10));
   } catch(e) {
     document.getElementById('plan-grid').innerHTML = '<p style="color:#CDA0A5;font-size:13px;padding:12px">⚠️ Error generando el plan. Por favor intenta de nuevo. 💪</p>';
   }
@@ -2573,6 +3013,114 @@ Separa secciones exactamente con === como aparecen arriba.`;
 }
 
 // ── M4: OFERTAS
+async function generateOfertaReels() {
+  const nombre = document.getElementById('oferta-nombre')?.value || '';
+  const problema = document.getElementById('oferta-problema')?.value || '';
+  const resultado = document.getElementById('oferta-resultado')?.value || '';
+  const precio = document.getElementById('oferta-precio')?.value || '';
+  if (!nombre.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  setLoading('btn-gen-oferta-reels', true);
+  document.getElementById('oferta-reels-output').style.display = 'block';
+  document.getElementById('oferta-reels-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera 3 reels de lanzamiento para este producto:
+Producto: ${nombre} — Precio: ${precio}
+Problema que resuelve: ${problema}
+Resultado que obtienen: ${resultado}
+${ctx}
+
+Para cada reel genera:
+📌 PORTADA (máx. 6 palabras)
+🎬 GUIÓN (listo para grabar)
+✍️ CAPTION con CTA
+💬 Llamado a la acción
+
+REEL 1 — Conexión con el dolor
+REEL 2 — Beneficios y transformación  
+REEL 3 — Urgencia y cierre`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('oferta-reels-output').textContent = text;
+  setLoading('btn-gen-oferta-reels', false);
+}
+
+async function generateOfertaHistorias() {
+  const nombre = document.getElementById('oferta-nombre')?.value || '';
+  const problema = document.getElementById('oferta-problema')?.value || '';
+  const resultado = document.getElementById('oferta-resultado')?.value || '';
+  const precio = document.getElementById('oferta-precio')?.value || '';
+  if (!nombre.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  setLoading('btn-gen-oferta-historias', true);
+  document.getElementById('oferta-historias-output').style.display = 'block';
+  document.getElementById('oferta-historias-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera 5 historias de lanzamiento para este producto:
+Producto: ${nombre} — Precio: ${precio}
+Problema que resuelve: ${problema}
+Resultado que obtienen: ${resultado}
+${ctx}
+
+Historia 1 → Gancho de intriga (anticipa algo)
+Historia 2 → El problema que resuelve (conecta con dolor)
+Historia 3 → La solución y beneficios
+Historia 4 → Prueba social / resultado / testimonio
+Historia 5 → CTA con urgencia y link
+
+Cada historia: 4-6 líneas, texto corto y directo, listo para copiar en Instagram.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('oferta-historias-output').textContent = text;
+  setLoading('btn-gen-oferta-historias', false);
+}
+
+async function generateOfertaDM() {
+  const nombre = document.getElementById('oferta-nombre')?.value || '';
+  const resultado = document.getElementById('oferta-resultado')?.value || '';
+  const precio = document.getElementById('oferta-precio')?.value || '';
+  if (!nombre.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  setLoading('btn-gen-oferta-dm', true);
+  document.getElementById('oferta-dm-output').style.display = 'block';
+  document.getElementById('oferta-dm-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera mensajes de seguimiento para el lanzamiento de este producto:
+Producto: ${nombre} — Precio: ${precio}
+Resultado: ${resultado}
+${ctx}
+
+Genera:
+1️⃣ Mensaje de bienvenida (para quien comenta la palabra clave)
+2️⃣ Mensaje de entrega (con espacio para el link)
+3️⃣ Mensaje de seguimiento (para quien no compró aún)
+
+Máximo 3-4 líneas cada uno. Cálido, profesional, sin presión.
+Indicar: "Copia y pega en ManyChat"`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('oferta-dm-output').textContent = text;
+  setLoading('btn-gen-oferta-dm', false);
+}
+
+async function generateOfertaEntregable() {
+  const nombre = document.getElementById('oferta-nombre')?.value || '';
+  const tipo = document.querySelector('#oferta-entregable-chips .chip.selected')?.textContent || 'Checklist';
+  if (!nombre.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  setLoading('btn-gen-oferta-entregable', true);
+  document.getElementById('oferta-entregable-output').style.display = 'block';
+  document.getElementById('oferta-entregable-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera un entregable gratuito de lanzamiento para atraer leads al producto: ${nombre}
+Tipo de entregable: ${tipo}
+${ctx}
+
+El entregable debe:
+→ Dar valor real relacionado con el producto
+→ Dejar a la persona queriendo más (lo que vende)
+→ Estar listo para diseñar en Canva o PDF
+→ Máximo 1 página de contenido
+
+Genera el contenido completo listo para copiar y diseñar.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('oferta-entregable-output').textContent = text;
+  setLoading('btn-gen-oferta-entregable', false);
+}
+
 async function generateOferta() {
   const nombre = document.getElementById('oferta-nombre').value;
   const precio = document.getElementById('oferta-precio').value;
@@ -2580,26 +3128,45 @@ async function generateOferta() {
   const resultado = document.getElementById('oferta-resultado').value;
   const incluye = document.getElementById('oferta-incluye').value;
   const urgencia = document.querySelector('#chips-urgencia .chip.selected')?.textContent || '';
+  const temporalidad = document.querySelector('#chips-temporalidad .chip.selected')?.textContent || '';
+  const temporalidadExtra = document.getElementById('oferta-temporalidad-extra')?.value?.trim() || '';
+  const temporalidadTexto = temporalidadExtra || temporalidad;
+  
+  // Plataformas seleccionadas (múltiple)
+  const plataformasSeleccionadas = [...document.querySelectorAll('#chips-plataformas .chip.selected')]
+    .map(c => c.textContent.trim()).join(', ') || 'Feed / Post';
+  const plataformaExtra = document.getElementById('oferta-plataforma-extra')?.value?.trim() || '';
+  const todasLasPlataformas = plataformaExtra ? `${plataformasSeleccionadas}, ${plataformaExtra}` : plataformasSeleccionadas;
+
   if (!nombre.trim()) { alert('Agrega el nombre de tu oferta 💸'); return; }
   setLoading('btn-gen-oferta', true);
   document.getElementById('oferta-output-card').style.display = 'block';
-  const pMap = {
-    instagram:'post de ventas para redes sociales (máx 280 palabras, emojis, saltos de línea, CTA con palabra clave, hashtags)',
-    dm:'mensaje directo (DM) de ventas (máx 150 palabras, conversacional, casual, directo al punto, sin hashtags, emoji moderado, CTA claro al final)',
-    whatsapp:'mensaje de WhatsApp (conversacional, asteriscos para negritas, máx 200 palabras, emoji moderado)',
-    email:'email de ventas (asunto + cuerpo con secciones, CTA botón)',
-    todos:'los 4 formatos separados con =====: post para feed, mensaje DM, WhatsApp y email'
-  };
-  const prompt = `Escribe ${pMap[currentPlatform]} para esta oferta usando un estilo cercano y persuasivo:
+  document.getElementById('oferta-reels-card').style.display = 'block';
+  document.getElementById('oferta-historias-card').style.display = 'block';
+  document.getElementById('oferta-dm-card').style.display = 'block';
+  document.getElementById('oferta-entregable-card').style.display = 'block';
+
+  const prompt = `Genera copy de venta para esta oferta en los siguientes formatos: ${todasLasPlataformas}
+Separa cada formato con ===== y el nombre del formato.
+
 PRODUCTO: ${nombre}
 PRECIO: ${precio}
 PROBLEMA: ${problema}
 RESULTADO: ${resultado}
 INCLUYE: ${incluye}
-MOTIVACIÓN PARA ACTUAR: ${urgencia}
+MOTIVACIÓN: ${urgencia}
+TEMPORALIDAD/URGENCIA: ${temporalidadTexto}
+${getProfileContext()}
 
-Fórmula: Dolor reconocible → Sueño → "Imagina recibir todo listo para montar en 2 horas" → Qué incluye (lista) → Prueba social → Precio + invitación cálida → CTA directo (vende sin presionar, con confianza)
-Tono: empoderador, directo, "chica CEO"`;
+URGENCIA REAL EN EL COPY:
+→ Usa la temporalidad para crear urgencia genuina
+→ Ejemplos: "Tienes [tiempo] para entrar antes de que [consecuencia]"
+→ "El precio sube / los bonos desaparecen / los cupos se cierran el [fecha/tiempo]"
+→ Hazlo real, específico y con consecuencia clara
+
+Fórmula: Dolor reconocible → Transformación → Qué incluye → Urgencia real → CTA directo
+Tono: empoderador, directo, "chica CEO" — vende sin presionar, con confianza`;
+
   await streamToEl(prompt, 'oferta-output', SYS);
   setLoading('btn-gen-oferta', false);
 }
@@ -2656,14 +3223,54 @@ async function suggestCarruselTopics() {
   }
 }
 
+async function generateCarruselEntregable() {
+  const tema = document.getElementById('carrusel-tema')?.value || '';
+  const tipo = document.querySelector('#carrusel-entregable-chips .chip.selected')?.textContent || 'Checklist';
+  setLoading('btn-gen-carrusel-entregable', true);
+  document.getElementById('carrusel-entregable-output').style.display = 'block';
+  document.getElementById('carrusel-entregable-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera un entregable gratuito relacionado con este carrusel.
+Tema del carrusel: ${tema || 'el tema del carrusel'}
+Tipo de entregable: ${tipo}
+${ctx}
+
+El entregable debe complementar el carrusel y dejar a la persona queriendo más.
+Listo para diseñar en Canva. Genera el contenido completo.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('carrusel-entregable-output').textContent = text;
+  setLoading('btn-gen-carrusel-entregable', false);
+}
+
+async function generateCarruselEntregablePDF() {
+  if (!document.getElementById('carrusel-entregable-output').textContent.trim()) {
+    await generateCarruselEntregable();
+  }
+  alert('💡 Para generar el PDF completo con diseño profesional, copia el contenido y úsalo en Canva. ¡Muy pronto disponible directamente en Jackia! 🚀');
+}
+
 async function generateCarrusel() {
-  const tema = document.getElementById('carrusel-tema').value;
+  const modoCarrusel = window._carruselModo || 'plan';
+  const tema = modoCarrusel === 'libre' ? document.getElementById('carrusel-tema')?.value || '' : '';
   const slides = document.getElementById('carrusel-slides').value;
   const keyword = document.getElementById('carrusel-keyword').value;
-  if (!tema.trim()) { alert('Cuéntame de qué trata tu carrusel 😊'); return; }
+  if (modoCarrusel === 'libre' && !tema.trim()) { alert('Cuéntame de qué trata tu carrusel 😊'); return; }
   if (!checkDailyLimit('carruseles')) return;
   setLoading('btn-gen-carrusel', true);
   document.getElementById('carrusel-output-card').style.display = 'block';
+  document.getElementById('carrusel-dm-card').style.display = 'block';
+  document.getElementById('carrusel-entregable-card').style.display = 'block';
+
+  // DM logic
+  const dmCon = document.getElementById('carrusel-dm-con-keyword');
+  const dmSin = document.getElementById('carrusel-dm-sin-keyword');
+  if (keyword.trim()) {
+    dmCon.style.display = 'block';
+    dmSin.style.display = 'none';
+  } else {
+    dmCon.style.display = 'none';
+    dmSin.style.display = 'block';
+  }
   const prompt = `Crea el texto completo de un carrusel para redes sociales sobre: ${tema}
 NÚMERO DE SLIDES: ${slides}
 PALABRA CLAVE: ${keyword}
@@ -2716,10 +3323,31 @@ async function generateReelDia() {
   document.getElementById('reeldia-output-card2').style.display = 'block';
   document.getElementById('reeldia-output-card3').style.display = 'block';
   document.getElementById('reeldia-dm-card').style.display = 'block';
+  const dmConKeyword = document.getElementById('reeldia-dm-con-keyword');
+  const dmSinKeyword = document.getElementById('reeldia-dm-sin-keyword');
+  if (keyword.trim()) {
+    dmConKeyword.style.display = 'block';
+    dmSinKeyword.style.display = 'none';
+  } else {
+    dmConKeyword.style.display = 'none';
+    dmSinKeyword.style.display = 'block';
+  }
 
   const ctx = getProfileContext();
   
-  // Duración en palabras para el prompt
+  // Verificar si hay estilo viral guardado
+  let estiloViral = '';
+  try {
+    const savedEstilo = localStorage.getItem('jackia_estilo_viral');
+    if (savedEstilo) {
+      const estilo = JSON.parse(savedEstilo);
+      const horasDiff = (new Date() - new Date(estilo.fecha)) / (1000*60*60);
+      if (horasDiff < 24) {
+        estiloViral = `\nESTILO VIRAL A REPLICAR — usa la misma estructura y tipo de gancho de este contenido exitoso adaptado al tema nuevo: "${estilo.porque.substring(0,300)}"`;
+        localStorage.removeItem('jackia_estilo_viral');
+      }
+    }
+  } catch(e) {}
   const durMap = {
     '⭐ 5-7 seg (mayor retención)': 'MUY CORTO: máximo 2 frases impactantes, sin desarrollo, solo hook + CTA de 1 línea',
     '15-30 seg': 'CORTO: hook + 1 punto clave + CTA, máximo 50 palabras en total',
@@ -2789,6 +3417,88 @@ async function suggestHistoriasTopics() {
   }
 }
 
+function setModoCarrusel(modo) {
+  const btnPlan = document.getElementById('btn-carrusel-modo-plan');
+  const btnLibre = document.getElementById('btn-carrusel-modo-libre');
+  const divPlan = document.getElementById('carrusel-modo-plan');
+  const divLibre = document.getElementById('carrusel-modo-libre');
+  if (modo === 'plan') {
+    btnPlan.style.border = '2px solid #D4AF37';
+    btnPlan.style.background = 'rgba(212,175,55,0.1)';
+    btnPlan.style.color = '#D4AF37';
+    btnLibre.style.border = '2px solid rgba(0,0,0,0.1)';
+    btnLibre.style.background = 'transparent';
+    btnLibre.style.color = '#888';
+    divPlan.style.display = 'block';
+    divLibre.style.display = 'none';
+  } else {
+    btnLibre.style.border = '2px solid #E8315A';
+    btnLibre.style.background = 'rgba(232,49,90,0.1)';
+    btnLibre.style.color = '#E8315A';
+    btnPlan.style.border = '2px solid rgba(0,0,0,0.1)';
+    btnPlan.style.background = 'transparent';
+    btnPlan.style.color = '#888';
+    divPlan.style.display = 'none';
+    divLibre.style.display = 'block';
+  }
+  window._carruselModo = modo;
+}
+
+function setModoReel(modo) {
+  const btnPlan = document.getElementById('btn-reel-modo-plan');
+  const btnLibre = document.getElementById('btn-reel-modo-libre');
+  const divPlan = document.getElementById('reel-modo-plan');
+  const divLibre = document.getElementById('reel-modo-libre');
+  if (modo === 'plan') {
+    btnPlan.style.border = '2px solid #D4AF37';
+    btnPlan.style.background = 'rgba(212,175,55,0.1)';
+    btnPlan.style.color = '#D4AF37';
+    btnLibre.style.border = '2px solid rgba(0,0,0,0.1)';
+    btnLibre.style.background = 'transparent';
+    btnLibre.style.color = '#888';
+    divPlan.style.display = 'block';
+    divLibre.style.display = 'none';
+  } else {
+    btnLibre.style.border = '2px solid #E8315A';
+    btnLibre.style.background = 'rgba(232,49,90,0.1)';
+    btnLibre.style.color = '#E8315A';
+    btnPlan.style.border = '2px solid rgba(0,0,0,0.1)';
+    btnPlan.style.background = 'transparent';
+    btnPlan.style.color = '#888';
+    divPlan.style.display = 'none';
+    divLibre.style.display = 'block';
+  }
+  window._reelModo = modo;
+}
+
+function setModoHistorias(modo) {
+  const btnPlan = document.getElementById('btn-modo-plan');
+  const btnLibre = document.getElementById('btn-modo-libre');
+  const divPlan = document.getElementById('historias-modo-plan');
+  const divLibre = document.getElementById('historias-modo-libre');
+  
+  if (modo === 'plan') {
+    btnPlan.style.border = '2px solid #D4AF37';
+    btnPlan.style.background = 'rgba(212,175,55,0.1)';
+    btnPlan.style.color = '#D4AF37';
+    btnLibre.style.border = '2px solid rgba(255,255,255,0.2)';
+    btnLibre.style.background = 'transparent';
+    btnLibre.style.color = '#888';
+    divPlan.style.display = 'block';
+    divLibre.style.display = 'none';
+  } else {
+    btnLibre.style.border = '2px solid #E8315A';
+    btnLibre.style.background = 'rgba(232,49,90,0.1)';
+    btnLibre.style.color = '#E8315A';
+    btnPlan.style.border = '2px solid rgba(255,255,255,0.2)';
+    btnPlan.style.background = 'transparent';
+    btnPlan.style.color = '#888';
+    divPlan.style.display = 'none';
+    divLibre.style.display = 'block';
+  }
+  window._historiasModo = modo;
+}
+
 async function generateHistoriasHoy() {
   // MODO PRUEBA: sin bloqueos
 
@@ -2802,18 +3512,61 @@ async function generateHistoriasHoy() {
   setLoading('btn-gen-historiasHoy', true);
   document.getElementById('historiasHoy-output-card').style.display = 'block';
   // El DM automático solo aplica si hay palabra clave para activarlo
-  document.getElementById('historiasHoy-dm-card').style.display = keyword.trim() ? 'block' : 'none';
+  document.getElementById('historiasHoy-dm-card').style.display = 'block';
+  const historiasDmCon = document.getElementById('historias-dm-con-keyword');
+  const historiasDmSin = document.getElementById('historias-dm-sin-keyword');
+  if (keyword.trim()) {
+    historiasDmCon.style.display = 'block';
+    historiasDmSin.style.display = 'none';
+  } else {
+    historiasDmCon.style.display = 'none';
+    historiasDmSin.style.display = 'block';
+  }
 
   const ctaInstruccion = keyword.trim()
     ? `el CTA con la palabra clave "${keyword}" va SOLO en la ÚLTIMA historia (la número ${cantidad}) — las demás historias NO deben llevar CTA ni mencionar la palabra clave, solo construyen conexión/valor`
     : `NO hay palabra clave, así que el CTA de la ÚLTIMA historia (la número ${cantidad}) debe invitar a seguir la cuenta, compartir y guardar la historia — nunca inventes una palabra clave. Las demás historias NO deben llevar ningún CTA, solo construyen conexión/valor`;
-  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}. Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro' : 'marca personal'}. Cada historia debe mostrar resultados reales o construir confianza, no solo ser bonita. IMPORTANTE: ${ctaInstruccion}.
-Formato EXACTO de respuesta (sin nada más, sin sugerencias de imagen ni foto — solo el texto de cada historia):
+  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}.
+${ctx}
+
+ESTRUCTURA OBLIGATORIA (adaptar al nicho y etapa de la usuaria):
+
+HISTORIA 1 → GANCHO PODEROSO:
+El más fuerte de todas. Debe atrapar en los primeros segundos o no verán las demás. Usar el banco de ganchos adaptado al nicho.
+
+HISTORIAS 2 hasta ${cantidad - 2} → DESARROLLO CON VALOR:
+Según su etapa:
+- Empezando → proceso real, lo que está aprendiendo, avances honestos
+- Estancada → qué estaba haciendo mal, qué cambió, transformación en proceso
+- Con resultados → valor educativo + testimonio de clienta con resultado real y específico
+Cada historia lleva a la siguiente — mantener curiosidad.
+
+HISTORIA ${cantidad - 1} → RESULTADO O PRUEBA SOCIAL:
+- Empezando → mini resultado propio o aprendizaje clave de la semana
+- Estancada → cambio visible desde que aplicó algo diferente
+- Con resultados → testimonio específico de clienta con antes/después o número concreto
+
+HISTORIA FINAL → CTA + RETENCIÓN:
+CTA adaptado a su etapa:
+- Empezando → "Sígueme para aprender conmigo"
+- Estancada → "Comenta [palabra] y te cuento cómo cambié esto"
+- Con resultados → "Escríbeme si quieres este resultado para tu negocio"
++ Cierre profesional que genere expectativa para mañana/esta semana. Sin revelar exactamente qué viene. Cálido, profesional, genera FOMO sutil.
+
+REGLAS DE TEXTO:
+- 4-6 líneas por historia — ni muy corto ni muy largo
+- Frases cortas y directas
+- Tono cercano y profesional — como si hablaras con una amiga que respetas
+- Gancho diferente en cada historia — nunca repetir estructura
+- Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro, hablar en general o segunda persona' : 'marca personal, primera persona, auténtico'}
+- IMPORTANTE: ${ctaInstruccion}
+
+Formato EXACTO (sin sugerencias de imagen ni foto):
 HISTORIA 1:
-[texto de la historia 1, SIN CTA]
+[texto]
 HISTORIA 2:
-[texto de la historia 2, SIN CTA]
-(y así hasta la historia ${cantidad}, que sí lleva el CTA final)`;
+[texto]
+(así hasta historia ${cantidad})`;
   const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}". Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
   const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
@@ -2861,6 +3614,49 @@ HISTORIA 2:
 }
 
 // ── M6: DM CIERRE
+async function generateDMEntregablePDF() {
+  const producto = document.getElementById('dm-producto')?.value || '';
+  const tipo = document.querySelector('#dm-entregable-chips .chip.selected')?.textContent || 'Checklist';
+  if (!producto.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  
+  // Primero genera el contenido si no existe
+  if (!document.getElementById('dm-entregable-output').textContent.trim()) {
+    await generateDMEntregable();
+  }
+  
+  const contenido = document.getElementById('dm-entregable-output').textContent;
+  if (!contenido.trim()) return;
+  
+  // Generar PDF simple con el contenido
+  const blob = new Blob([`ENTREGABLE: ${tipo}\nProducto: ${producto}\n\n${contenido}`], {type: 'text/plain'});
+  alert('💡 Para generar el PDF completo con diseño profesional, copia el contenido y usa Canva o Claude Code. ¡Muy pronto estará disponible directamente en Jackia! 🚀');
+}
+
+async function generateDMEntregable() {
+  const producto = document.getElementById('dm-producto')?.value || '';
+  const tipo = document.querySelector('#dm-entregable-chips .chip.selected')?.textContent || 'Checklist';
+  if (!producto.trim()) { alert('Primero llena el nombre del producto 😊'); return; }
+  setLoading('btn-gen-dm-entregable', true);
+  document.getElementById('dm-entregable-output').style.display = 'block';
+  document.getElementById('dm-entregable-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera un entregable gratuito de cierre de venta para el producto: ${producto}
+Tipo: ${tipo}
+${ctx}
+
+El entregable debe:
+→ Dar valor inmediato relacionado con el producto
+→ Dejar a la persona queriendo comprar el producto completo
+→ Estar listo para diseñar en Canva o PDF
+→ Máximo 1 página de contenido
+→ Incluir título atractivo y estructura clara
+
+Genera el contenido completo listo para copiar y diseñar.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('dm-entregable-output').textContent = text;
+  setLoading('btn-gen-dm-entregable', false);
+}
+
 async function generateDM() {
   const producto = document.getElementById('dm-producto').value;
   const precio = document.getElementById('dm-precio').value;
@@ -2871,6 +3667,7 @@ async function generateDM() {
   if (!checkDailyLimit('dm')) return;
   setLoading('btn-gen-dm', true);
   document.getElementById('dm-output-card').style.display = 'block';
+  document.getElementById('dm-entregable-card').style.display = 'block';
   const prompt = `Crea los 3 mensajes de cierre de ventas por DM con tono cercano y persuasivo para:
 
 PRODUCTO: ${producto}
@@ -3069,6 +3866,80 @@ Sin comillas genéricas. Contenido REAL y directo.`;
   setLoading('btn-gen-historias-entregable', false);
 }
 
+function previewCaptura(input, tipo) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById(`radio-${tipo}-img`).src = e.target.result;
+    document.getElementById(`radio-${tipo}-preview`).style.display = 'block';
+    document.getElementById(`radio-${tipo}-placeholder`).style.display = 'none';
+    window[`_captura${tipo.charAt(0).toUpperCase() + tipo.slice(1)}Base64`] = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewFotoPerfil(input) {
+  previewCaptura(input, 'perfil');
+}
+
+async function generateRadiografia() {
+  const extra = document.getElementById('radio-extra')?.value || '';
+  const plataforma = document.querySelector('#radio-plataforma-chips .chip.selected')?.textContent || 'Instagram';
+  const capturaPerfilBase64 = window._capturaPerfilBase64 || null;
+  const capturaFeedBase64 = window._capturaFeedBase64 || null;
+  
+  if (!capturaPerfilBase64 && !extra.trim()) { 
+    alert('Sube al menos la captura de tu perfil para analizar 📱'); 
+    return; 
+  }
+  
+  setLoading('btn-gen-radiografia', true);
+  document.getElementById('radiografia-output-card').style.display = 'block';
+  const ctx = getProfileContext();
+  
+  let perfilInfo = capturaPerfilBase64 ? 'ANALIZA LA IMAGEN DEL PERFIL SUBIDA — lee todo lo que ves: foto, nombre, @usuario, bio, seguidores, destacadas.' : '';
+  let feedInfo = capturaFeedBase64 ? 'ANALIZA TAMBIÉN LA IMAGEN DEL FEED SUBIDA — coherencia visual, tipo de contenido, estilo.' : '';
+  
+  const prompt = `Eres experta en optimización de perfiles de ${plataforma}. ${perfilInfo} ${feedInfo}
+${ctx}
+${extra ? `Información adicional: ${extra}` : ''}
+
+RADIOGRAFÍA COMPLETA DEL PERFIL (puntúa /10 cada elemento):
+
+📊 ANÁLISIS:
+→ Foto de perfil /10: [¿legible? ¿genera confianza? ¿cara visible?]
+→ Nombre y @usuario /10: [¿keywords? ¿fácil de encontrar?]
+→ Bio /10: [¿conecta con el cliente? ¿CTA claro? ¿límite respetado?]
+→ Link en bio /10: [¿aprovechado? ¿qué hay?]
+→ Destacadas /10: [¿las correctas? ¿bien organizadas?]
+→ Feed /10: [¿coherente? ¿estilo claro? ¿vende?]
+→ TOTAL: /60
+
+🚨 3 CAMBIOS URGENTES (más impacto):
+1. [primero]
+2. [segundo]  
+3. [tercero]
+
+💡 ¿En 5 segundos se entiende qué vende y a quién? [Sí/No + por qué]
+💸 ¿Dónde se está escapando el dinero? [directo y específico]
+
+---
+VERSIONES MEJORADAS LISTAS PARA COPIAR:
+
+👤 NOMBRE OPTIMIZADO: [Nombre | Keyword]
+📝 BIO MEJORADA: [lista para copiar]
+🔗 LINK RECOMENDADO: [qué poner]
+⭐ DESTACADAS RECOMENDADAS: [4-5 con qué incluir en cada una]
+📱 ESTRATEGIA DE FEED: [qué tipo de contenido publicar]`;
+
+  const text = await callClaude(prompt, SYS);
+  const partes = text.split('VERSIONES MEJORADAS');
+  document.getElementById('radiografia-analisis').textContent = partes[0]?.trim() || text;
+  document.getElementById('radiografia-nueva-bio').textContent = partes[1] ? 'VERSIONES MEJORADAS' + partes[1] : '';
+  setLoading('btn-gen-radiografia', false);
+}
+
 async function generatePerfil() {
   const usuario = document.getElementById('perfil-usuario')?.value?.trim() || '';
   const producto = document.getElementById('perfil-producto')?.value?.trim();
@@ -3123,6 +3994,29 @@ Tono: directa, cercana y empática — como una amiga experta que quiere que le 
   setLoading('btn-gen-perfil', false);
 }
 
+function usarEstiloParaReel() {
+  const porque = document.getElementById('analizar-porque')?.textContent || '';
+  const version = document.getElementById('analizar-version')?.textContent || '';
+  // Guardar el estilo en localStorage para usarlo en Mi Reel de Hoy
+  try {
+    localStorage.setItem('jackia_estilo_viral', JSON.stringify({
+      porque: porque.substring(0, 500),
+      version: version.substring(0, 300),
+      fecha: new Date().toISOString()
+    }));
+  } catch(e) {}
+  // Ir al módulo Mi Reel de Hoy
+  showPanel('reeldelDia', null);
+  // Mostrar mensaje
+  setTimeout(() => {
+    const temaEl = document.getElementById('reeldia-tema');
+    if (temaEl && !temaEl.value) {
+      temaEl.placeholder = '✨ Estilo cargado — escribe el tema de tu reel y Jackia usará el mismo formato viral';
+      temaEl.style.borderColor = '#D4AF37';
+    }
+  }, 500);
+}
+
 async function generateAnalizar() {
   const contenido = document.getElementById('anal-contenido')?.value?.trim();
   const negocio = document.getElementById('anal-negocio')?.value?.trim();
@@ -3130,7 +4024,7 @@ async function generateAnalizar() {
   if (!negocio) { alert('Cuéntame qué vendes tú para adaptarlo 😊'); return; }
   setLoading('btn-gen-analizar', true);
   document.getElementById('analizar-output-card').style.display = 'block';
-  const prompt = `Analiza este contenido de redes sociales y adáptalo al negocio de la usuaria.
+  const prompt = `Analiza este contenido viral de redes sociales y adáptalo COMPLETO al negocio de la usuaria.
 
 CONTENIDO A ANALIZAR:
 ${contenido}
@@ -3138,17 +4032,30 @@ ${contenido}
 NEGOCIO DE LA USUARIA: ${negocio}
 ${getProfileContext()}
 
-Responde en 2 secciones separadas con exactamente estos títulos:
+Responde con exactamente estas secciones:
 
 POR QUÉ FUNCIONA:
 [Explica en 3-5 puntos concretos qué hace que este contenido funcione — el gancho, el formato, la emoción que genera, por qué la gente comenta o guarda]
 
-MI VERSIÓN ADAPTADA:
-[Escribe una versión completamente nueva adaptada al negocio de la usuaria, con el mismo estilo y estructura que funcionó en el original, pero con su nicho, su cliente y su producto. Lista para copiar y publicar directamente.]`;
+MI VERSIÓN ADAPTADA — COMPLETA:
+
+📌 PORTADA (máximo 6 palabras, que detenga el scroll):
+[texto de la portada]
+
+🎬 GUIÓN DEL REEL (adaptado al mismo estilo y estructura del original):
+[guión completo listo para grabar]
+
+✍️ CAPTION (listo para copiar y pegar):
+[caption completo con gancho, desarrollo y hashtags]
+
+💬 LLAMADO A LA ACCIÓN:
+[CTA específico — qué quieres que haga quien lo ve]
+
+Todo adaptado al nicho, cliente ideal y producto de la usuaria. Listo para copiar y publicar directamente.`;
 
   const text = await callClaude(prompt, SYS);
   const porqueMatch = text.match(/POR QUÉ FUNCIONA[:\s]*([\s\S]*?)(?=MI VERSIÓN|$)/i);
-  const versionMatch = text.match(/MI VERSIÓN ADAPTADA[:\s]*([\s\S]*?)$/i);
+  const versionMatch = text.match(/MI VERSIÓN ADAPTADA[^\n]*[\s]*([\s\S]*?)$/i);
   
   document.getElementById('analizar-porque').textContent = porqueMatch ? porqueMatch[1].trim() : text;
   document.getElementById('analizar-version').textContent = versionMatch ? versionMatch[1].trim() : '';
@@ -3335,6 +4242,277 @@ const AFIRMACIONES = [
   "Bendecida. Agradecida. Enfocada. 💎"
 ];
 
+// ── DE CERO A LISTA
+let cerosPasos = JSON.parse(localStorage.getItem('jackia_cero_pasos') || '[]');
+
+function marcarPaso(num) {
+  if (!cerosPasos.includes(num)) cerosPasos.push(num);
+  localStorage.setItem('jackia_cero_pasos', JSON.stringify(cerosPasos));
+  // Actualizar check
+  const check = document.getElementById(`cero-check${num}`);
+  if (check) { check.textContent = '✅'; check.style.background = 'rgba(72,199,142,0.2)'; check.style.borderColor = '#48C78E'; }
+  // Desbloquear siguiente paso
+  const next = num + 1;
+  const nextPaso = document.getElementById(`cero-paso${next}`);
+  const nextBtn = document.getElementById(`btn-cero${next}`);
+  if (nextPaso) { nextPaso.style.opacity = '1'; }
+  if (nextBtn) { nextBtn.disabled = false; }
+  // Actualizar progreso
+  const pct = (cerosPasos.length / 6) * 100;
+  document.getElementById('cero-progreso-bar').style.width = pct + '%';
+  document.getElementById('cero-progreso-text').textContent = `${cerosPasos.length} de 6 pasos`;
+  if (cerosPasos.length >= 6) document.getElementById('cero-completado').style.display = 'block';
+}
+
+async function generarCero1() {
+  const usuario = document.getElementById('cero-usuario')?.value || '';
+  setLoading('btn-cero1', true);
+  document.getElementById('cero1-output').style.display = 'block';
+  document.getElementById('cero1-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera la presentación digital para esta emprendedora que está empezando desde cero.
+${ctx}
+Usuario sugerido: ${usuario || 'aún por definir'}
+
+Genera:
+1. Propuesta de nombre de usuario optimizado con keywords del nicho
+2. Cómo presentarse en redes siendo nueva (sin mentir ni exagerar)
+3. Su propuesta de valor en 1 frase poderosa
+4. Qué tipo de contenido compartirá para atraer a su cliente ideal
+
+Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero1-output').textContent = text;
+  setLoading('btn-cero1', false);
+}
+
+async function generarCero2() {
+  setLoading('btn-cero2', true);
+  document.getElementById('cero2-output').style.display = 'block';
+  document.getElementById('cero2-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera el perfil completo de Instagram para esta emprendedora que empieza desde cero.
+${ctx}
+
+Genera:
+📌 NOMBRE OPTIMIZADO (máx 30 caracteres con keyword del nicho):
+[nombre | especialidad]
+
+📝 BIO INSTAGRAM (máx 150 caracteres):
+[bio lista para copiar]
+
+📝 BIO FACEBOOK (máx 255 caracteres):
+[bio adaptada para Facebook]
+
+🔗 SUGERENCIA DE LINK EN BIO:
+[qué poner]
+
+Adaptar según su etapa (empezando desde cero — honesta, sin prometer resultados que no tiene).`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero2-output').textContent = text;
+  setLoading('btn-cero2', false);
+}
+
+async function generarCero3() {
+  setLoading('btn-cero3', true);
+  document.getElementById('cero3-output').style.display = 'block';
+  document.getElementById('cero3-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera las historias destacadas para esta emprendedora que empieza desde cero.
+${ctx}
+
+Para quien empieza SIN resultados, sugiere máximo 4 destacadas:
+1. 🙋 Sobre mí → qué incluir
+2. 🔄 Mi proceso → qué mostrar
+3. 📚 Lo que aprendo → qué compartir
+4. 🎁 Recurso gratis → si tiene uno
+
+Para cada destacada:
+→ Nombre de la destacada
+→ Qué contenido poner (3-5 ideas concretas)
+→ Cómo hacerla sin resultados propios`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero3-output').textContent = text;
+  setLoading('btn-cero3', false);
+}
+
+async function generarCero4() {
+  setLoading('btn-cero4', true);
+  document.getElementById('cero4-output').style.display = 'block';
+  document.getElementById('cero4-actions').style.display = 'flex';
+  const prompt = `Genera una guía paso a paso de configuración para Instagram y Facebook para una emprendedora que empieza desde cero.
+
+Incluye:
+📱 INSTAGRAM:
+→ Cómo convertir a cuenta Creator/Business
+→ Configuraciones clave a activar
+→ Botón de contacto
+→ Estadísticas
+→ Respuestas automáticas
+
+📘 FACEBOOK:
+→ Cómo crear página de negocio
+→ Configuración básica
+→ Álbumes de portafolio
+
+🔗 CONEXIÓN:
+→ Conectar Instagram con Facebook paso a paso
+
+Formato: lista numerada, simple y directa.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero4-output').textContent = text;
+  setLoading('btn-cero4', false);
+}
+
+async function generarCero5Mensajes() {
+  setLoading('btn-cero5-mensajes', true);
+  document.getElementById('cero5-output').style.display = 'block';
+  document.getElementById('cero5-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const producto = document.getElementById('cero5-producto')?.value || '';
+  const prompt = `Genera el sistema de mensajes automáticos básico para esta emprendedora que empieza desde cero.
+${ctx}
+Producto: ${producto}
+
+Genera:
+💌 MENSAJE DE BIENVENIDA AUTOMÁTICO (Instagram):
+[listo para configurar en respuestas automáticas]
+
+💬 MENSAJE DE PRESENTACIÓN (para nuevos seguidores):
+[cálido, profesional, sin vender inmediatamente]
+
+📋 CHECKLIST — Qué debe tener listo antes de vender:
+[lista simple y práctica]`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero5-output').textContent = text;
+  document.getElementById('btn-cero5').disabled = false;
+  setLoading('btn-cero5-mensajes', false);
+}
+
+async function generarCero5Landing() {
+  const producto = document.getElementById('cero5-producto')?.value || '';
+  const precio = document.getElementById('cero5-precio')?.value || '';
+  const problema = document.getElementById('cero5-problema')?.value || '';
+  const resultado = document.getElementById('cero5-resultado')?.value || '';
+  if (!producto.trim()) { alert('Agrega el nombre de tu producto 😊'); return; }
+  setLoading('btn-cero5', true);
+  document.getElementById('cero5-output').style.display = 'block';
+  document.getElementById('cero5-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  
+  const prompt = `Genera una landing page HTML completa y profesional para este producto.
+${ctx}
+Producto: ${producto}
+Precio: ${precio}
+Problema: ${problema}
+Resultado: ${resultado}
+
+LANDING PAGE PRO (básica pero efectiva):
+Secciones:
+1. Hero con gancho poderoso y CTA
+2. El problema que resuelven
+3. La solución (beneficios del producto)
+4. Qué incluye
+5. Precio y CTA final
+
+Diseño: fondo oscuro, colores rosa #E8315A y dorado #D4AF37, tipografía moderna, mobile-first.
+Genera el HTML completo listo para subir a Vercel.`;
+
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero5-output').textContent = text;
+  setLoading('btn-cero5', false);
+}
+
+async function generarCero5() {
+  await generarCero5Mensajes();
+}
+
+async function generarCero6() {
+  setLoading('btn-cero6', true);
+  document.getElementById('cero6-output').style.display = 'block';
+  document.getElementById('cero6-actions').style.display = 'flex';
+  const ctx = getProfileContext();
+  const prompt = `Genera el primer contenido para esta emprendedora que acaba de configurar todo y está lista para publicar.
+${ctx}
+
+Genera:
+🎬 PRIMER REEL DE PRESENTACIÓN:
+📌 Portada (máx 6 palabras)
+🎬 Guión completo listo para grabar
+✍️ Caption con CTA
+
+📅 PLAN DE LA PRIMERA SEMANA (7 días):
+Día 1 → Presentación personal
+Días 2-7 → Contenido de valor y conexión
+(según su nicho y etapa de cero)
+
+Tono: auténtico, empoderador, honesto sobre su inicio.`;
+  const text = await callClaude(prompt, SYS);
+  document.getElementById('cero6-output').textContent = text;
+  setLoading('btn-cero6', false);
+}
+
+// Restaurar progreso guardado
+function restoreCeroProgress() {
+  cerosPasos.forEach(num => {
+    const check = document.getElementById(`cero-check${num}`);
+    if (check) { check.textContent = '✅'; check.style.background = 'rgba(72,199,142,0.2)'; check.style.borderColor = '#48C78E'; }
+    const next = num + 1;
+    const nextPaso = document.getElementById(`cero-paso${next}`);
+    const nextBtn = document.getElementById(`btn-cero${next}`);
+    if (nextPaso) nextPaso.style.opacity = '1';
+    if (nextBtn) nextBtn.disabled = false;
+  });
+  const pct = (cerosPasos.length / 6) * 100;
+  const bar = document.getElementById('cero-progreso-bar');
+  const txt = document.getElementById('cero-progreso-text');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${cerosPasos.length} de 6 pasos`;
+  if (cerosPasos.length >= 6) {
+    const comp = document.getElementById('cero-completado');
+    if (comp) comp.style.display = 'block';
+  }
+}
+
+function showTodayPlan() {
+  const planStr = localStorage.getItem('jackia_plan_semanal');
+  const planFecha = localStorage.getItem('jackia_plan_fecha');
+  const todayEl = document.getElementById('home-today-plan');
+  if (!todayEl) return;
+  
+  if (!planStr) {
+    todayEl.innerHTML = `<div style="text-align:center;padding:16px;background:rgba(212,175,55,0.05);border:1px dashed rgba(212,175,55,0.3);border-radius:10px">
+      <div style="font-size:13px;color:#999;margin-bottom:10px">Aún no tienes un plan de contenido esta semana</div>
+      <button onclick="showPanel('plan',null)" class="btn-primary" style="font-size:12px;padding:8px 16px">📅 Crear mi Plan Semanal</button>
+    </div>`;
+    return;
+  }
+
+  const days = JSON.parse(planStr);
+  const today = new Date();
+  const planDate = new Date(planFecha);
+  const dayDiff = Math.floor((today - planDate) / (1000*60*60*24));
+  const dayIndex = Math.min(dayDiff, 6);
+  const todayPlan = days[dayIndex];
+
+  if (!todayPlan) return;
+
+  const formatIcon = todayPlan.format?.toLowerCase().includes('video') ? '🎬' 
+    : todayPlan.format?.toLowerCase().includes('carrusel') ? '📊'
+    : todayPlan.format?.toLowerCase().includes('historia') ? '📱' : '✍️';
+
+  const panelMap = {'video':'reeldelDia','carrusel':'carruseles','historia':'historiasHoy','post':'captions'};
+  const panelKey = Object.keys(panelMap).find(k => todayPlan.format?.toLowerCase().includes(k)) || 'reeldelDia';
+
+  todayEl.innerHTML = `<div style="background:linear-gradient(135deg,rgba(232,49,90,0.08),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:16px">
+    <div style="font-size:11px;color:#D4AF37;font-weight:700;margin-bottom:6px">📅 HOY — DÍA ${todayPlan.day}</div>
+    <div style="font-size:16px;font-weight:700;color:#FFFFFF;margin-bottom:4px">${formatIcon} ${todayPlan.format}</div>
+    <div style="font-size:13px;color:#DDDDDD;margin-bottom:12px">${todayPlan.topic}</div>
+    ${todayPlan.hook ? `<div style="font-size:12px;color:#999;margin-bottom:12px;font-style:italic">"${todayPlan.hook}"</div>` : ''}
+    <button onclick="showPanel('${panelMap[panelKey]}',null)" class="btn-primary" style="font-size:12px;padding:8px 16px;width:100%">✦ Generar mi contenido de hoy</button>
+  </div>`;
+}
+
 function showDailyAffirmation() {
   const el = document.getElementById('daily-affirmation');
   if (!el) return;
@@ -3391,6 +4569,8 @@ window.addEventListener('DOMContentLoaded', () => {
     updateUsageBar();
     showDailyAffirmation();
     updateStreak();
+    showTodayPlan();
+    restoreCeroProgress();
     restoreOutputs();
     restoreChat();
   } catch(e) { console.log(e); }
@@ -3444,15 +4624,42 @@ function resetOnboarding() {
 
 function getProfileContext() {
   if (!userProfile) return '';
-  const n = {productos_propios:'productos digitales propios (ebooks, cursos, plantillas)',reventa_mrr:'productos de reventa MRR/PLR',afiliados:'marketing de afiliados (recomienda productos de otros por comisión)',coaching:'coaching y mentoria',otro:'emprendimiento'};
-  const e = {marca_personal:'cuenta con cara visible (marca personal)',faceless:'cuenta faceless sin mostrar cara',ambos:'cuenta mixta (marca personal y faceless)'};
-  const o = {primera_venta:'hacer su primera venta en dolares',escalar_ventas:'escalar sus ventas este mes',crecer_audiencia:'crecer audiencia',lanzar_producto:'lanzar un producto nuevo'};
+  const n = {productos_propios:'productos digitales propios (ebooks, cursos, plantillas)',reventa_mrr:'productos de reventa MRR/PLR',afiliados:'marketing de afiliados (recomienda productos de otros por comisión)',coaching:'coaching y mentoria',belleza_moda:'belleza, moda y lifestyle',otro:'emprendimiento'};
+  const e = {marca_personal:'cuenta con cara visible (marca personal)',faceless:'cuenta faceless sin mostrar cara',ambos:'cuenta mixta — a veces en cámara, a veces faceless'};
+  const o = {primera_venta:'hacer su primera venta en dólares',escalar_ventas:'escalar sus ventas este mes',crecer_audiencia:'crecer audiencia y seguidores',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarse como referente',comunidad:'construir comunidad activa'};
   const m = {latam:'toda Hispanoamérica',espana:'España',eeuu_espanol:'hispanohablantes en EEUU',internacional:'todo el mundo hispanohablante'};
-  const v = {cero:'empezando desde cero',intermedio:'tiene seguidores pero no vende consistentemente',avanzado:'ya vende y quiere escalar'};
-  let ctx = 'PERFIL USUARIA: nicho=' + (n[userProfile.nicho]||'emprendimiento') + ', estilo=' + (e[userProfile.estilo]||'') + ', objetivo=' + (o[userProfile.objetivo]||'') + ', mercado=' + ((Array.isArray(userProfile.mercado)?userProfile.mercado:[userProfile.mercado]).map(mk=>m[mk]||'').filter(Boolean).join(' y ')) + ', nivel=' + (v[userProfile.nivel]||'') + '.';
+  const v = {cero:'empezando desde cero — NO prometer resultados que no tiene, hablar de su proceso honesto',intermedio:'tiene presencia pero está estancada — necesita transformar su estrategia',avanzado:'ya vende y quiere escalar — puede hablar de resultados y testimonios'};
+  
+  // Nicho (puede ser multiple)
+  const nichos = Array.isArray(userProfile.nicho) ? userProfile.nicho : [userProfile.nicho];
+  const nichoTexto = nichos.map(ni => n[ni]||'emprendimiento').filter(Boolean).join(' + ');
+  
+  // Objetivos (puede ser multiple)
+  const objetivos = Array.isArray(userProfile.objetivo) ? userProfile.objetivo : [userProfile.objetivo];
+  const objetivoTexto = objetivos.map(obj => o[obj]||'').filter(Boolean).join(' y ');
+  
+  // Mercado
+  const mercados = Array.isArray(userProfile.mercado) ? userProfile.mercado : [userProfile.mercado];
+  const mercadoTexto = mercados.map(mk => m[mk]||'').filter(Boolean).join(' y ');
+  
+  let ctx = 'PERFIL COMPLETO DE LA USUARIA:';
+  ctx += ' Nicho/Modelo de negocio: ' + nichoTexto + '.';
+  ctx += ' Tipo de cuenta: ' + (e[userProfile.estilo]||'no especificado') + '.';
+  ctx += ' Objetivo: ' + (objetivoTexto||'crecer y vender') + '.';
+  ctx += ' Mercado: ' + (mercadoTexto||'hispanohablantes') + '.';
+  ctx += ' Nivel: ' + (v[userProfile.nivel]||'emprendiendo') + '.';
+  
+  if (userProfile.frecuencia) ctx += ' Frecuencia de publicación: ' + userProfile.frecuencia + '.';
+  if (userProfile.nichoExtra) ctx += ' Detalle adicional del negocio: "' + userProfile.nichoExtra + '".';
+  if (userProfile.objetivoExtra) ctx += ' Objetivo adicional: "' + userProfile.objetivoExtra + '".';
+  if (userProfile.infoAdicional) ctx += ' Info adicional: "' + userProfile.infoAdicional + '".';
+  
   if (userProfile.clienteDolor) {
-    ctx += ' CLIENTE DE LA USUARIA Y SU DOLOR (usar SIEMPRE como base para aplicar los 3 Pilares del hook — quién es, qué desea, qué le duele): "' + userProfile.clienteDolor + '"';
+    ctx += ' CLIENTE IDEAL Y SU DOLOR (base para TODO el contenido — quién es, qué desea, qué le duele): "' + userProfile.clienteDolor + '".';
   }
+  
+  ctx += ' IMPORTANTE: Adaptar TODO el contenido a este perfil sin que la usuaria tenga que repetir esta información. Usar el tipo de cuenta para saber si el contenido es faceless o en cámara.';
+  
   return ctx;
 }
 
@@ -3627,8 +4834,27 @@ function startTimer() {
 function finishOnboarding() {
   const ob = window._ob || {};
   const clienteDolor = document.getElementById('ob-cliente-dolor')?.value.trim() || '';
+  const nichoExtra = document.getElementById('ob-nicho-extra')?.value.trim() || '';
+  const objetivoExtra = document.getElementById('ob-objetivo-extra')?.value.trim() || '';
+  const infoAdicional = document.getElementById('ob-info-adicional')?.value.trim() || '';
+  const frecuenciaExtra = document.getElementById('ob-frecuencia-extra')?.value.trim() || '';
+  const frecuenciaChip = document.querySelector('#ob-frecuencia-chips .chip.selected')?.textContent || '';
+  const frecuencia = frecuenciaExtra || frecuenciaChip || '';
   const mercadoArr = (Array.isArray(ob.mercado) && ob.mercado.length) ? ob.mercado : ['latam'];
-  userProfile = { nicho: ob.nicho||'productos_propios', clienteDolor: clienteDolor, estilo: ob.estilo||'marca_personal', objetivo: ob.objetivo||'primera_venta', mercado: mercadoArr, nivel: ob.nivel||'cero' };
+  const nichoArr = (Array.isArray(ob.nicho) && ob.nicho.length) ? ob.nicho : [ob.nicho||'productos_propios'];
+  const objetivoArr = (Array.isArray(ob.objetivo) && ob.objetivo.length) ? ob.objetivo : [ob.objetivo||'primera_venta'];
+  userProfile = { 
+    nicho: nichoArr, 
+    nichoExtra: nichoExtra,
+    clienteDolor: clienteDolor, 
+    estilo: ob.estilo||'marca_personal', 
+    objetivo: objetivoArr, 
+    objetivoExtra: objetivoExtra,
+    mercado: mercadoArr, 
+    nivel: ob.nivel||'cero',
+    frecuencia: frecuencia,
+    infoAdicional: infoAdicional
+  };
   try { localStorage.setItem('jackia_profile', JSON.stringify(userProfile)); } catch(e){}
   document.getElementById('onboarding-modal').classList.add('hidden');
   injectProfileBadge();
