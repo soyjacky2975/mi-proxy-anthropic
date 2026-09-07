@@ -514,14 +514,12 @@
           <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding. Aquí generamos cómo presentarte al mundo.</div>
           <div class="keyword-tip" style="margin-top:8px">📧 Antes de empezar: asegúrate de tener un correo electrónico a la mano — lo vas a necesitar para crear tus cuentas.</div>
 
-          <label style="margin-top:10px">¿Con cuál red social vas a empezar primero?</label>
+          <label style="margin-top:10px">¿Con cuál grupo de redes vas a empezar primero?</label>
           <div class="chips" id="cero-red-chips">
-            <button class="chip selected" onclick="setSingle(this)">Instagram</button>
-            <button class="chip" onclick="setSingle(this)">Facebook</button>
+            <button class="chip selected" onclick="setSingle(this)">Instagram + Facebook + Threads</button>
             <button class="chip" onclick="setSingle(this)">TikTok</button>
-            <button class="chip" onclick="setSingle(this)">Threads</button>
           </div>
-          <div class="keyword-tip" style="margin-top:8px">💡 Recomendación: empieza por UNA sola red y domínala antes de abrir las demás — así no te dispersas.</div>
+          <div class="keyword-tip" style="margin-top:8px">💡 Instagram, Facebook y Threads son de Meta — ve creándolas una por una con calma, y cuando las tengas todas listas, se integran entre sí (mismo usuario, bio y contenido). TikTok es distinto: usuario y formato de contenido propios, va aparte.</div>
 
           <label style="margin-top:10px">¿Cuál es tu nombre de usuario ideal?</label>
           <input type="text" id="cero-usuario" placeholder="Ej: @mariadecoración · @coach.emprendedoras · @faceless.marketing">
@@ -4696,7 +4694,7 @@ function verGuiaGeneral() {
     <h2>Antes de empezar</h2>
     <ul>
       <li>Ten a la mano un correo electrónico — lo vas a necesitar para crear tus cuentas.</li>
-      <li>Elige UNA sola red social para empezar (Instagram, Facebook, TikTok o Threads). No abras varias a la vez — dispersa tu energía y resultados.</li>
+      <li>Elige con cuál grupo vas a empezar: <strong>Instagram + Facebook + Threads</strong> o <strong>TikTok</strong>. Instagram, Facebook y Threads son de Meta — puedes irlas creando una por una, con calma, y cuando ya las tengas todas listas se integran entre sí (mismo usuario, bio y contenido). TikTok es distinto: usuario y formato de contenido propios, va aparte.</li>
     </ul>
 
     <h2>Paso 1 — Tu Identidad Digital</h2>
@@ -4816,7 +4814,7 @@ function renderBiblioteca() {
 function getRedPrincipal() {
   const chip = document.querySelector('#cero-red-chips .chip.selected')?.textContent?.trim();
   if (chip) { try { localStorage.setItem('jackia_red_principal', chip); } catch(e){} return chip; }
-  try { return localStorage.getItem('jackia_red_principal') || 'Instagram'; } catch(e){ return 'Instagram'; }
+  try { return localStorage.getItem('jackia_red_principal') || 'Instagram + Facebook + Threads'; } catch(e){ return 'Instagram + Facebook + Threads'; }
 }
 
 async function generarCero1() {
@@ -4858,7 +4856,7 @@ async function generarCero2() {
   document.getElementById('cero2-actions').style.display = 'flex';
   const ctx = getProfileContext();
   const red = getRedPrincipal();
-  const prompt = `Genera el perfil completo de ${red} (y también Facebook como respaldo) para esta emprendedora que empieza desde cero.
+  const prompt = `Genera el perfil completo para ${red} para esta emprendedora que empieza desde cero.
 ${ctx}
 Red social principal: ${red}
 
