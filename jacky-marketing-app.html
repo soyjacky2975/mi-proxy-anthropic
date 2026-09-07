@@ -2037,6 +2037,14 @@
           <h1 class="page-title">📚 Biblioteca</h1>
           <p class="page-subtitle">Tus guías y PDFs generados quedan guardados aquí</p>
         </div>
+        <div class="card" style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,rgba(232,49,90,0.08),rgba(212,175,55,0.08))">
+          <div>
+            <div style="font-weight:700;font-size:14px">📘 Guía: Cómo usar "De Cero a Lista"</div>
+            <div style="font-size:11px;color:var(--muted)">El paso a paso completo, para cualquier usuaria nueva</div>
+          </div>
+          <button class="btn-primary" style="font-size:12px" onclick="verGuiaGeneral()">👁️ Ver / Descargar</button>
+        </div>
+        <div style="font-weight:700;font-size:13px;margin:16px 0 8px;color:var(--muted)">Mis guías personalizadas generadas</div>
         <div id="biblioteca-lista"></div>
         <div class="card" style="text-align:center;padding:40px 24px;margin-top:16px">
           <div style="font-size:48px;margin-bottom:16px">🚧</div>
@@ -4672,6 +4680,50 @@ function marcarPaso(num) {
   document.getElementById('cero-progreso-bar').style.width = pct + '%';
   document.getElementById('cero-progreso-text').textContent = `${cerosPasos.length} de 6 pasos`;
   if (cerosPasos.length >= 6) document.getElementById('cero-completado').style.display = 'block';
+}
+
+function verGuiaGeneral() {
+  const html = `<!DOCTYPE html><html><head><title>Guía — Cómo usar De Cero a Lista</title>
+    <style>
+      body{font-family:Arial,sans-serif;color:#262019;padding:30px;max-width:700px;margin:0 auto;line-height:1.7}
+      h1{color:#E8315A}
+      h2{color:#D4AF37;border-bottom:1px solid #D4AF37;padding-bottom:6px;margin-top:26px}
+      li{margin-bottom:6px}
+    </style></head><body>
+    <h1>🚀 Guía: Cómo usar "De Cero a Lista"</h1>
+    <p>Este módulo te lleva paso a paso desde no tener nada configurado hasta estar lista para publicar y vender. Sigue el orden — cada paso se apoya en el anterior.</p>
+
+    <h2>Antes de empezar</h2>
+    <ul>
+      <li>Ten a la mano un correo electrónico — lo vas a necesitar para crear tus cuentas.</li>
+      <li>Elige UNA sola red social para empezar (Instagram, Facebook, TikTok o Threads). No abras varias a la vez — dispersa tu energía y resultados.</li>
+    </ul>
+
+    <h2>Paso 1 — Tu Identidad Digital</h2>
+    <p>Jackia te sugiere tu @usuario ideal (con keywords de tu nicho), cómo presentarte siendo nueva, tu propuesta de valor y qué tipo de contenido vas a compartir. Recibes 2 opciones para elegir.</p>
+
+    <h2>Paso 2 — Tu Bio y Nombre Optimizado</h2>
+    <p>Con el usuario ya definido, Jackia te da el nombre optimizado (el que aparece grande, con el que te van a encontrar) y la bio lista para copiar y pegar en tu perfil.</p>
+
+    <h2>Paso 3 — Tus Historias Destacadas</h2>
+    <p>Qué destacadas poner y qué contenido va en cada una, aunque todavía no tengas resultados propios que mostrar.</p>
+
+    <h2>Paso 4 — Configuración de tu Cuenta</h2>
+    <p>Guía técnica paso a paso: cómo pasar a cuenta profesional, qué activar, cómo conectar tus redes entre sí.</p>
+
+    <h2>Paso 5 — Tu Sistema de Ventas</h2>
+    <p>Con tu producto o servicio (si ya lo tienes), Jackia genera tus mensajes automáticos y tu landing page básica.</p>
+
+    <h2>Paso 6 — Tu Primer Contenido</h2>
+    <p>Tu primer reel de presentación (portada, guión y caption) más un plan de la primera semana completa.</p>
+
+    <h2>Al terminar</h2>
+    <p>Descarga tu guía personalizada en PDF (queda guardada en tu Biblioteca) y continúa directo a crear tu Plan de Contenido semanal.</p>
+    </body></html>`;
+  const win = window.open('', '_blank');
+  if (!win) { alert('Permite las ventanas emergentes para ver la guía 😊'); return; }
+  win.document.write(html);
+  win.document.close();
 }
 
 function construirGuiaHTML(red, secciones) {
