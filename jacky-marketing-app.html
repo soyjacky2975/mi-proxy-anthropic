@@ -333,10 +333,6 @@
   <div class="modal-box">
     <button class="modal-close" onclick="skipModal('commitment-modal')" aria-label="Cerrar">✕</button>
     <div class="modal-q">Mi meta es lo que me trajo aquí 💙</div>
-    <div id="commitment-meta-box" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:12px 14px;margin-bottom:14px">
-      <p style="font-size:11px;color:#D4AF37;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Mi meta</p>
-      <p id="commitment-meta-text" style="font-size:13px;color:#262019;font-weight:600"></p>
-    </div>
     <p style="color:#555049;font-size:13px;margin-bottom:16px;line-height:1.6">Cuéntale a Jackia qué te motiva — esto te va a recordar tu meta cuando más lo necesites.</p>
     <textarea id="commitment-text" placeholder="Ej: Quiero generar mis primeros ingresos digitales y tener más tiempo para mi familia..." style="min-height:90px;margin-bottom:16px"></textarea>
     <div style="background:#FFFFFF;border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:14px;margin-bottom:18px">
@@ -5566,16 +5562,10 @@ function personalizarCompromiso() {
   const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar tu trabajo y vivir de tu negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para tu familia',marca_reconocida:'construir tu marca y ser reconocida',primeros_clientes:'conseguir tus primeros clientes',vender_escalar:'vender más y escalar tu negocio',primera_venta:'hacer tu primera venta en dólares',escalar_ventas:'escalar tus ventas',crecer_audiencia:'crecer tu audiencia',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarte como referente',comunidad:'construir una comunidad activa'};
   const objetivos = Array.isArray(userProfile?.objetivo) ? userProfile.objetivo : [userProfile?.objetivo];
   const metas = objetivos.map(obj => o[obj]).filter(Boolean);
-  const metaBox = document.getElementById('commitment-meta-box');
-  const metaText = document.getElementById('commitment-meta-text');
   const compromisoTexto = document.getElementById('commitment-texto-personalizado');
   if (metas.length) {
     const metaStr = metas.length > 1 ? metas.slice(0,-1).join(', ') + ' y ' + metas.slice(-1) : metas[0];
-    metaText.textContent = metaStr.charAt(0).toUpperCase() + metaStr.slice(1) + '.';
-    metaBox.style.display = 'block';
     compromisoTexto.textContent = `Voy a aplicar el método con consistencia para lograr ${metaStr}. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.`;
-  } else {
-    metaBox.style.display = 'none';
   }
 }
 
