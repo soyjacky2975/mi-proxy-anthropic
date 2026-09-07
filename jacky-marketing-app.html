@@ -2118,6 +2118,20 @@ function setLoading(btnId, loading) {
 }
 
 // ── API CALL
+// Limpia símbolos de formato markdown que a veces cuela la IA (**negrita**,
+// *listas*, __texto__, ## títulos, etc.) para que el texto quede plano y
+// listo para copiar y pegar en redes sociales.
+function cleanMarkdown(text) {
+  if (!text) return text;
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')   // **negrita** -> negrita
+    .replace(/__(.+?)__/g, '$1')        // __negrita__ -> negrita
+    .replace(/^#{1,6}\s+/gm, '')        // ## Título -> Título
+    .replace(/^[ \t]*[*\-]\s+/gm, '• ') // * item / - item -> • item
+    .replace(/\*(.+?)\*/g, '$1')        // *cursiva* -> cursiva (después de listas)
+    .replace(/`(.+?)`/g, '$1');         // `código` -> código
+}
+
 async function callClaude(prompt, systemPrompt) {
   const response = await fetch('https://mi-proxy-anthropic.vercel.app/api/generate', {
     method:'POST',
@@ -2130,7 +2144,7 @@ async function callClaude(prompt, systemPrompt) {
     })
   });
   const data = await response.json();
-  if (data.content && data.content[0]) return data.content[0].text;
+  if (data.content && data.content[0]) return cleanMarkdown(data.content[0].text);
   throw new Error('Sin respuesta');
 }
 
@@ -2498,6 +2512,8 @@ HISTORIA REAL DE JACKY (usar como inspiración en storytelling):
 REGLA UNIVERSAL — APLICA A CUALQUIER NICHO O PROFESIÓN (muy importante, prioridad alta):
 Gran parte del conocimiento de hooks, storytelling y ejemplos en este system prompt viene de ebooks sobre productos digitales/infoproductos (ebooks, cursos, MRR/PLR). Eso es solo UN posible nicho de la usuaria. La app sirve para CUALQUIER tipo de negocio: dentistas, salones de belleza, ventas de ropa/zapatos/carteras, comida, servicios profesionales, coaching, productos físicos, afiliados, lo que sea.
 SIEMPRE aplica los 3 Pilares (Quién es el cliente de ella / Qué desea / Qué le duele) y la fórmula del hook ([dolor específico] + [promesa de solución]) al NICHO REAL que la usuaria indique — usando tu conocimiento general de marketing para ese nicho específico, NO asumiendo que vende infoproductos a menos que ella lo haya indicado expresamente. Si la usuaria es dentista, habla del dolor de su paciente (miedo al dentista, dientes manchados, etc.) — no de "audiencia" ni "seguidores" ni de vender cursos. Adapta siempre el lenguaje, ejemplos y tono al negocio real de la usuaria.
+
+FORMATO — MUY IMPORTANTE: Escribe siempre en texto plano y limpio, listo para copiar y pegar directo en redes sociales. NUNCA uses símbolos de markdown: nada de asteriscos (* o **) para negrita o listas, nada de guiones bajos (__), nada de # para títulos, nada de backticks. Si necesitas una lista, usa emojis o texto normal, nunca "*" ni "-" al inicio de línea.
 
 Responde ÚNICAMENTE con el contenido solicitado. Sin explicaciones ni preámbulos.
 
