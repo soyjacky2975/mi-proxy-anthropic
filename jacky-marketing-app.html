@@ -466,6 +466,7 @@
       <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
       <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
+      <button class="nav-item" onclick="showPanel('portadas',this)"><span class="nav-icon">🎯</span> Portadas para Reels</button>
       <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
       <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Crea Tu Oferta</button>
       <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
@@ -649,6 +650,7 @@
         <div class="module-cards">
           <div class="module-card" onclick="showPanel('plan',null)"><div class="module-card-icon">📅</div><div class="module-card-title">Plan de Contenido</div><div class="module-card-desc">Planifica tu contenido — Semanal o mensual</div></div>
           <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM — Pro: 1/día · Premium: ilimitado</div></div>
+          <div class="module-card" onclick="showPanel('portadas',null)"><div class="module-card-icon">🎯</div><div class="module-card-title">Portadas para Reels</div><div class="module-card-desc">Varias opciones de portada con ganchos virales validados</div></div>
           <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat — Pro: 1/día · Premium: ilimitado</div></div>
           <div class="module-card" onclick="showPanel('ofertas',null)"><div class="module-card-icon">💸</div><div class="module-card-title">Crea Tu Oferta</div><div class="module-card-desc">Copy de venta para publicar en redes, historia o post</div></div>
           <div class="module-card" onclick="showPanel('dm',null)"><div class="module-card-icon">💬</div><div class="module-card-title">Seguimiento & Cierre</div><div class="module-card-desc">Mensajes de seguimiento y cierre por DM o WhatsApp</div></div>
@@ -1415,6 +1417,45 @@
         </div>
       </div>
 
+      <!-- PORTADAS PARA REELS — con ganchos virales validados -->
+      <div class="panel" id="panel-portadas">
+        <div class="page-header">
+          <div class="page-eyebrow">Módulo dedicado</div>
+          <h1 class="page-title">Portadas para Reels 🎯</h1>
+          <p class="page-subtitle">Solo portadas — usando los ganchos virales ya validados de Jackia, varias opciones para elegir</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Configura tu portada</div>
+          <div class="keyword-tip">💡 Cada opción usa una estructura de gancho distinta (revelación, polémico, curiosidad, lista, etc.) — todas probadas, adaptadas a tu tema.</div>
+          <label>¿Cómo es tu cuenta?</label>
+          <div class="chips" id="portadas-estilo-chips">
+            <button class="chip selected" onclick="setSingle(this)">🎬 En cámara</button>
+            <button class="chip" onclick="setSingle(this)">🎭 Faceless</button>
+            <button class="chip" onclick="setSingle(this)">✨ Ambos (en cámara & Faceless)</button>
+          </div>
+          <label>¿De qué trata tu reel?</label>
+          <div style="position:relative">
+            <textarea id="portadas-tema" placeholder="Ej: Cómo gané mis primeros $500 vendiendo un ebook desde mi teléfono..." style="padding-right:46px"></textarea>
+            <button class="btn-mic btn-mic-textarea" id="mic-portadas-tema" onclick="toggleMic('portadas-tema', this)" title="Hablar en vez de escribir">🎤</button>
+          </div>
+          <label>¿Cuántas opciones quieres?</label>
+          <div class="chips" id="portadas-cantidad-chips">
+            <button class="chip" onclick="setSingle(this)">4</button>
+            <button class="chip selected" onclick="setSingle(this)">6</button>
+            <button class="chip" onclick="setSingle(this)">8</button>
+          </div>
+          <label>¿Tienes un gancho propio que quieras usar? (opcional)</label>
+          <input type="text" id="portadas-hook-propio" placeholder="Ej: La verdad que nadie te dice sobre trabajar desde casa">
+          <div style="font-size:11px;color:var(--muted);margin-top:-10px;margin-bottom:12px">Si escribes uno aquí, se usa en la generación y se guarda en tu banco de ganchos para la próxima vez 💾</div>
+          <div id="portadas-custom-hooks-list" style="margin-bottom:12px"></div>
+          <button class="btn-primary" id="btn-gen-portadas" onclick="generatePortadas()" style="margin-top:6px">✦ Generar Portadas</button>
+        </div>
+        <div class="card" id="portadas-output-card" style="display:none">
+          <div class="card-title">Tus Portadas</div>
+          <div id="portadas-output-list"></div>
+        </div>
+      </div>
+
       <!-- MIS HISTORIAS & DM DE HOY (Sistema Completo) -->
       <div class="panel" id="panel-historiasHoy">
         <div class="page-header">
@@ -2040,6 +2081,7 @@ function showPanel(id, btn) {
   if (btn) btn.classList.add('active');
   closeMobileMenu();
   document.querySelector('.content')?.scrollTo(0, 0);
+  if (id === 'portadas' && typeof renderCustomHooksList === 'function') renderCustomHooksList();
 }
 
 // ── SALIR DE PANTALLAS DE BIENVENIDA (onboarding / compromiso)
@@ -2191,6 +2233,7 @@ const OUTPUT_CARD_MAP = {
   'reeldia-entrega-output': ['reeldia-dm-card'],
   'reeldia-entregable-output': ['reeldia-entregable-output-card'],
   'historiasHoy-output-list': ['historiasHoy-output-card'],
+  'portadas-output-list': ['portadas-output-card'],
   'historiasHoy-bienvenida-output': ['historiasHoy-dm-card'],
   'historiasHoy-entrega-output': ['historiasHoy-dm-card'],
   'historiasHoy-entregable-output': ['historiasHoy-entregable-output-card'],
@@ -3328,6 +3371,117 @@ async function suggestReeldiaTopics() {
   } catch(e) {
     box.innerHTML = '<p style="color:#CDA0A5;font-size:12px">No pude generar sugerencias, intenta escribir tu tema directamente 💪</p>';
   }
+}
+
+// ── BANCO DE GANCHOS PROPIOS (guardados por la usuaria) ──
+function getCustomHooks() {
+  try { return JSON.parse(localStorage.getItem('jackia_custom_hooks') || '[]'); } catch(e) { return []; }
+}
+function saveCustomHook(hook) {
+  if (!hook.trim()) return;
+  const hooks = getCustomHooks();
+  if (!hooks.includes(hook.trim())) {
+    hooks.push(hook.trim());
+    try { localStorage.setItem('jackia_custom_hooks', JSON.stringify(hooks)); } catch(e){}
+  }
+  renderCustomHooksList();
+}
+function deleteCustomHook(index) {
+  const hooks = getCustomHooks();
+  hooks.splice(index, 1);
+  try { localStorage.setItem('jackia_custom_hooks', JSON.stringify(hooks)); } catch(e){}
+  renderCustomHooksList();
+}
+function renderCustomHooksList() {
+  const el = document.getElementById('portadas-custom-hooks-list');
+  if (!el) return;
+  const hooks = getCustomHooks();
+  if (!hooks.length) { el.innerHTML = ''; return; }
+  el.innerHTML = '<label style="margin-bottom:6px">Tus ganchos guardados:</label>' + hooks.map((h, i) =>
+    `<div style="display:flex;align-items:center;gap:8px;background:#F4EEE7;border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px">
+      <span style="flex:1">${h}</span>
+      <button onclick="deleteCustomHook(${i})" style="background:none;border:none;color:#CDA0A5;cursor:pointer;font-size:14px">✕</button>
+    </div>`
+  ).join('');
+}
+
+async function generatePortadas() {
+  const tema = document.getElementById('portadas-tema').value;
+  const estilo = document.querySelector('#portadas-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
+  const cantidad = document.querySelector('#portadas-cantidad-chips .chip.selected')?.textContent || '6';
+  const hookPropioInput = document.getElementById('portadas-hook-propio');
+  const hookPropio = hookPropioInput.value.trim();
+  if (!tema.trim()) { alert('Cuéntame de qué trata tu reel 😊'); return; }
+  if (hookPropio) { saveCustomHook(hookPropio); hookPropioInput.value = ''; }
+  setLoading('btn-gen-portadas', true);
+  document.getElementById('portadas-output-card').style.display = 'block';
+  const listEl = document.getElementById('portadas-output-list');
+  listEl.innerHTML = '<p style="color:#D4AF37;font-size:13px">Generando tus portadas...</p>';
+
+  const misGanchos = getCustomHooks();
+  const misGanchosTexto = misGanchos.length
+    ? `\nGANCHOS PROPIOS DE LA USUARIA (dale prioridad a incluir estos, adaptados al tema si hace falta):\n${misGanchos.map((h,i) => (i+1)+'. "'+h+'"').join('\n')}\n`
+    : '';
+
+  const bancoGanchos = `1. "No pierdas tu tiempo haciendo ___ mejor haz ___"
+2. "Nadie habla de [tema específico]"
+3. "Esto es lo único que necesitas para [resultado]"
+4. "Aquí está la verdad sobre [tema]"
+5. "La mayoría cree que ___ hasta que ___"
+6. "Si tuviera que empezar de nuevo [en nicho/tema]"
+7. "No te va a gustar pero [verdad sobre tema]"
+8. "Nunca, pero nunca [error específico del nicho]"
+9. "Lo que nadie te cuenta sobre [tema específico]"
+10. "Lo que nadie te cuenta cuando empiezas con [tema]"
+11. "Esto es lo que hago cada semana para conseguir [resultado]"
+12. "Si tuviera que empezar de cero con [tema], haría esto"
+13. "El error que cometí durante meses con [tema]"
+14. "Antes y después de aplicar esto en [tema]"
+15. "Lo que cambió cuando dejé de [acción]"
+16. "¿Todavía sigues pensando que [creencia común] es lo que te hace [resultado]?"
+17. "Si tienes [problema], te voy a decir cómo solucionarlo en [X] pasos"
+18. "El 90% de la gente odiará lo que voy a decir, pero si sigues [haciendo X], [consecuencia]"
+19. "POV: [situación específica de tu audiencia]"
+20. "3 cosas que nadie te dice sobre [tema]"
+21. "Deja de [hacer X] si no quieres [consecuencia]"
+22. "La razón por la que no estás logrando [resultado]"
+23. "Esto cambió todo en mi [negocio/nicho]"
+24. "¿Sabías que todavía puedes [beneficio] incluso si [objeción]?"`;
+
+  const prompt = `Escribe ${cantidad} opciones de PORTADA para un reel (el título/texto grande que va encima del video, lo primero que ve la persona) sobre: "${tema}".
+Estilo: ${estilo.includes('Faceless') ? 'faceless — no uses "yo", habla en general o en segunda persona' : 'marca personal, primera persona, auténtico'}.
+${getProfileContext()}
+
+BANCO DE GANCHOS VALIDADOS (usa EXACTAMENTE estas estructuras, rellenando los espacios [entre corchetes] con el tema/nicho real de la usuaria — no inventes estructuras nuevas):
+${bancoGanchos}
+${misGanchosTexto}
+REGLA CLAVE: elige ${cantidad} estructuras DIFERENTES de la lista de arriba (nunca repitas la misma dos veces), y rellénalas con el tema específico de la usuaria. Cada portada: máximo 8 palabras, sin las comillas ni los corchetes en el resultado final — solo el texto ya completado y natural.
+
+Formato EXACTO de respuesta (sin nada más):
+PORTADA 1:
+[texto]
+PORTADA 2:
+[texto]
+(y así hasta completar las ${cantidad})`;
+
+  try {
+    const text = await callClaude(prompt, SYS);
+    const partes = text.split(/PORTADA\s*\d+[:.]?\s*/i).map(s => s.trim()).filter(Boolean);
+    let html = '';
+    partes.forEach((texto, i) => {
+      html += `<div class="card" style="margin-bottom:10px">
+        <div class="output-box" id="portada-opcion-${i}" style="min-height:auto;padding:14px 18px;font-size:16px;font-weight:700">${texto}</div>
+        <div class="output-actions">
+          <button class="btn-copy" onclick="copyText('portada-opcion-${i}',this)">📋 Copiar opción ${i+1}</button>
+        </div>
+      </div>`;
+    });
+    listEl.innerHTML = html;
+    persistOutput('portadas-output-list');
+  } catch(e) {
+    listEl.innerHTML = '<p style="color:#CDA0A5">Error generando portadas, intenta de nuevo.</p>';
+  }
+  setLoading('btn-gen-portadas', false);
 }
 
 async function generateReelDia() {
