@@ -1848,7 +1848,7 @@
             <div class="chat-msg jacky"><div class="msg-name">✦ Jackia</div><div class="msg-body">Hola! Soy tu asistente de marketing basada en una metodología probada 💖 Puedes preguntarme sobre estrategia, contenido, objeciones de clientes, qué publicar hoy — lo que necesites. ¿En qué te ayudo?</div></div>
           </div>
           <div class="chat-input-row">
-            <textarea class="chat-input" id="chat-input" rows="1" placeholder="Escribe tu pregunta... (Enter para enviar, Shift+Enter para nueva línea)" onkeydown="handleChatKeydown(event)" oninput="autoGrowChatInput(this)"></textarea>
+            <textarea class="chat-input" id="chat-input" rows="1" placeholder="Escribe tu pregunta a Jackia..." onkeydown="handleChatKeydown(event)" oninput="autoGrowChatInput(this)"></textarea>
             <div class="chat-input-buttons">
               <button class="btn-mic" id="mic-chat-input" onclick="toggleMic('chat-input', this)" title="Hablar en vez de escribir">🎤</button>
               <button class="btn-send" id="btn-send" onclick="sendChat()">Enviar ✦</button>
@@ -4721,7 +4721,11 @@ function sendSugg(el) {
 
 // Enter envía el mensaje; Shift+Enter agrega una línea nueva
 function handleChatKeydown(event) {
-  if (event.key === 'Enter' && !event.shiftKey) {
+  // En celular (pantalla táctil) Enter solo hace salto de línea — no hay
+  // forma cómoda de usar Shift+Enter con teclado táctil. Ahí se envía con
+  // el botón "Enviar". En computadora (teclado físico), Enter sí envía.
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  if (event.key === 'Enter' && !event.shiftKey && !isTouchDevice) {
     event.preventDefault();
     sendChat();
   }
