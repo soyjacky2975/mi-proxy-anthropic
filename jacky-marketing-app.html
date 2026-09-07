@@ -2222,9 +2222,14 @@ async function callClaude(prompt, systemPrompt) {
 
 // Igual que callClaude, pero manda una imagen (foto/captura) junto con el
 // texto — para que Jackia pueda "ver" y leer lo que hay en la imagen.
-async function callClaudeWithImage(prompt, systemPrompt, imageDataUrl) {
-  const match = imageDataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-  if (!match) throw new Error('Imagen inválida');
+// imageDataUrls puede ser una sola imagen (string) o varias (array).
+async function callClaudeWithImage(prompt, systemPrompt, imageDataUrls) {
+  const urls = Array.isArray(imageDataUrls) ? imageDataUrls : [imageDataUrls];
+  const imageBlocks = urls.filter(Boolean).map(url => {
+    const match = url.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+    if (!match) throw new Error('Imagen inválida');
+    return {type:'image', source:{type:'base64', media_type: match[1], data: match[2]}};
+  });
   const response = await fetch('https://mi-proxy-anthropic.vercel.app/api/generate', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -2233,7 +2238,7 @@ async function callClaudeWithImage(prompt, systemPrompt, imageDataUrl) {
       max_tokens:1000,
       system:systemPrompt,
       messages:[{role:'user',content:[
-        {type:'image', source:{type:'base64', media_type: match[1], data: match[2]}},
+        ...imageBlocks,
         {type:'text', text: prompt}
       ]}]
     })
@@ -3397,7 +3402,7 @@ NÚMERO DE SLIDES: ${slides}
 PALABRA CLAVE: ${keyword}
 
 Escribe el texto exacto de cada slide, numerado (Slide 1, Slide 2, etc.):
-- Slide 1: Hook que detiene el scroll, relacionado al tema
+- Slide 1: LEY DE LOS 3 SEGUNDOS — este es el hook, tiene que detener el scroll de inmediato (curiosidad, identificación o sorpresa desde la primera palabra), relacionado al tema
 - Slides intermedios: contenido de valor real, un punto claro por slide
 - Último slide: CTA claro con la palabra clave ("Comenta ${keyword} y te lo envío" o similar)
 
@@ -3508,6 +3513,8 @@ ${bancoGanchos}
 ${misGanchosTexto}
 REGLA CLAVE: elige ${cantidad} estructuras DIFERENTES de la lista de arriba (nunca repitas la misma dos veces), y rellénalas con el tema específico de la usuaria. Cada portada: máximo 8 palabras, sin las comillas ni los corchetes en el resultado final — solo el texto ya completado y natural.
 
+LEY DE LOS 3 SEGUNDOS: la portada tiene que DETENER EL SCROLL en los primeros 3 segundos — es lo único que la persona ve antes de decidir si sigue viendo o desliza. Debe generar una reacción inmediata (curiosidad, identificación o sorpresa) desde la primera palabra, sin rodeos ni introducciones lentas.
+
 Formato EXACTO de respuesta (sin nada más):
 PORTADA 1:
 [texto]
@@ -3555,7 +3562,7 @@ async function regeneratePortadaOption(i) {
 Estilo: ${estilo.includes('Faceless') ? 'faceless — no uses "yo"' : 'marca personal, primera persona'}.
 ${getProfileContext()}
 Usa una estructura de gancho viral (revelación, polémico, curiosidad, lista, pregunta, "nadie habla de esto", antes/después, etc.) DISTINTA a estas portadas que ya tengo: ${existentes}
-Máximo 8 palabras. Responde ÚNICAMENTE con el texto de la portada nueva, sin comillas, sin numeración, sin explicación.`;
+Máximo 8 palabras. LEY DE LOS 3 SEGUNDOS: debe detener el scroll de inmediato, generando curiosidad o identificación desde la primera palabra. Responde ÚNICAMENTE con el texto de la portada nueva, sin comillas, sin numeración, sin explicación.`;
   try {
     const nuevo = await callClaude(prompt, SYS);
     box.textContent = nuevo;
@@ -3673,7 +3680,7 @@ async function generateReelDia() {
 
   const promptPortada = `Escribe SOLO 2 opciones de texto para portada de reel (título grande que va encima del video) sobre: "${tema}".
 Estilo: ${esFaceless ? 'faceless — NO uses "yo", habla en general o en segunda persona' : esHibrido ? 'mixto — puede ser personal o general según lo que genere más impacto' : 'marca personal, primera persona, auténtico'}.
-Cada opción máximo 6 palabras, con gancho fuerte.
+Cada opción máximo 6 palabras, con gancho fuerte. LEY DE LOS 3 SEGUNDOS: debe detener el scroll de inmediato — es lo único que la persona ve antes de decidir si sigue o desliza.
 ${ctx}
 Formato exacto:
 Opción 1: [texto]
@@ -3684,6 +3691,7 @@ Sin comillas, sin explicaciones, solo las 2 opciones.`;
 Duración: ${durInstruccion}
 Estilo: ${estiloInstruccion}
 ${ctx}
+LEY DE LOS 3 SEGUNDOS: las primeras palabras del guión (lo que se dice/muestra apenas empieza el video) tienen que detener el scroll de inmediato — sin introducciones lentas, directo a generar curiosidad, identificación o sorpresa.
 IMPORTANTE: NO uses comillas genéricas ni ejemplos entre comillas. Escribe el contenido REAL y DIRECTO como si fuera para publicar ahora mismo. Sin títulos de sección como "HOOK:" o "DESARROLLO:". Solo el texto fluido.`;
 
   const promptCaption = `Escribe el caption completo y listo para publicar para este reel sobre: "${tema}".
@@ -4243,7 +4251,10 @@ VERSIONES MEJORADAS LISTAS PARA COPIAR:
 ⭐ DESTACADAS RECOMENDADAS: [4-5 con qué incluir en cada una]
 📱 ESTRATEGIA DE FEED: [qué tipo de contenido publicar]`;
 
-  const text = await callClaude(prompt, SYS);
+  const imagenes = [capturaPerfilBase64, capturaFeedBase64].filter(Boolean);
+  const text = imagenes.length
+    ? await callClaudeWithImage(prompt, SYS, imagenes)
+    : await callClaude(prompt, SYS);
   const partes = text.split('VERSIONES MEJORADAS');
   document.getElementById('radiografia-analisis').textContent = partes[0]?.trim() || text;
   document.getElementById('radiografia-nueva-bio').textContent = partes[1] ? 'VERSIONES MEJORADAS' + partes[1] : '';
