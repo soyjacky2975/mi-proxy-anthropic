@@ -514,11 +514,6 @@
           <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding. Aquí generamos cómo presentarte al mundo.</div>
           <div class="keyword-tip" style="margin-top:8px">📧 Antes de empezar: asegúrate de tener un correo electrónico a la mano — lo vas a necesitar para crear tus cuentas.</div>
 
-          <label style="margin-top:10px">¿Con cuál grupo de redes vas a empezar primero?</label>
-          <div class="chips" id="cero-red-chips">
-            <button class="chip selected" onclick="setSingle(this)">Instagram + Facebook + Threads</button>
-            <button class="chip" onclick="setSingle(this)">TikTok</button>
-          </div>
           <div class="keyword-tip" style="margin-top:8px">💡 Instagram, Facebook y Threads son de Meta — ve creándolas una por una con calma, y cuando las tengas todas listas, se integran entre sí (mismo usuario, bio y contenido). TikTok es distinto: usuario y formato de contenido propios, va aparte.</div>
 
           <label style="margin-top:10px">¿Cuál es tu nombre de usuario ideal?</label>
@@ -538,8 +533,14 @@
             <div id="cero-check2" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">2</div>
             <div style="font-weight:700;font-size:14px">Tu Bio y Nombre Optimizado</div>
           </div>
-          <div class="keyword-tip">💡 Jackia genera tu bio para Instagram y Facebook — lista para copiar y pegar.</div>
-          <button class="btn-primary" id="btn-cero2" onclick="generarCero2()" style="margin-top:8px">✦ Generar mi Bio</button>
+          <div class="keyword-tip">💡 Genera cada red por separado, a tu ritmo — se van agregando abajo, una por una.</div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn-primary" id="btn-cero2-instagram" onclick="generarCero2('Instagram')" style="flex:1;font-size:12px">✦ Instagram</button>
+            <button class="btn-primary" id="btn-cero2-facebook" onclick="generarCero2('Facebook')" style="flex:1;font-size:12px">✦ Facebook</button>
+            <button class="btn-primary" id="btn-cero2-threads" onclick="generarCero2('Threads')" style="flex:1;font-size:12px">✦ Threads</button>
+            <button class="btn-primary" id="btn-cero2-tiktok" onclick="generarCero2('TikTok')" style="flex:1;font-size:12px">✦ TikTok</button>
+            <button class="btn-primary" id="btn-cero2-youtube" disabled style="flex:1;font-size:12px" title="Próximamente">✦ YouTube (Próximamente)</button>
+          </div>
           <div class="output-box" id="cero2-output" style="min-height:80px;margin-top:10px;display:none"></div>
           <div id="cero2-actions" style="display:none" class="output-actions">
             <button class="btn-copy" onclick="copyText('cero2-output',this)">📋 Copiar</button>
@@ -4850,35 +4851,36 @@ Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
   setLoading('btn-cero1', false);
 }
 
-async function generarCero2() {
-  setLoading('btn-cero2', true);
-  document.getElementById('cero2-output').style.display = 'block';
+async function generarCero2(red) {
+  const btnId = `btn-cero2-${red.toLowerCase()}`;
+  setLoading(btnId, true);
+  const out = document.getElementById('cero2-output');
+  out.style.display = 'block';
   document.getElementById('cero2-actions').style.display = 'flex';
   const ctx = getProfileContext();
-  const red = getRedPrincipal();
-  const prompt = `Genera el perfil completo para ${red} para esta emprendedora que empieza desde cero.
+  const limiteBio = red === 'Instagram' ? 'máx 150 caracteres' : red === 'Threads' ? 'máx 150 caracteres' : red === 'Facebook' ? 'máx 255 caracteres' : red === 'YouTube' ? 'máx 1000 caracteres, con keywords para SEO' : 'máx 80 caracteres (TikTok es más corto)';
+  const prompt = `Genera el perfil para ${red} para esta emprendedora que empieza desde cero.
 ${ctx}
-Red social principal: ${red}
 
 Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato:
 
 OPCIÓN 1:
 📌 NOMBRE OPTIMIZADO (máx 30 caracteres con keyword del nicho): [nombre | especialidad]
-📝 BIO INSTAGRAM (máx 150 caracteres): [bio lista para copiar]
-📝 BIO FACEBOOK (máx 255 caracteres): [bio adaptada para Facebook]
+📝 BIO ${red.toUpperCase()} (${limiteBio}): [bio lista para copiar]
 🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
 
 OPCIÓN 2:
 📌 NOMBRE OPTIMIZADO: [otra variante | especialidad]
-📝 BIO INSTAGRAM: [bio distinta, otro enfoque]
-📝 BIO FACEBOOK: [bio distinta]
+📝 BIO ${red.toUpperCase()}: [bio distinta, otro enfoque]
 🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
 
 Adaptar según su etapa (empezando desde cero — honesta, sin prometer resultados que no tiene).`;
   const text = await callClaude(prompt, SYS);
-  document.getElementById('cero2-output').textContent = text;
+  const bloqueAnterior = out.dataset.filled === 'true' ? out.innerHTML + '\n\n———\n\n' : '';
+  out.innerHTML = bloqueAnterior + `📱 ${red.toUpperCase()}\n\n` + text.replace(/</g,'&lt;');
+  out.dataset.filled = 'true';
   persistOutput('cero2-output');
-  setLoading('btn-cero2', false);
+  setLoading(btnId, false);
 }
 
 async function generarCero3() {
