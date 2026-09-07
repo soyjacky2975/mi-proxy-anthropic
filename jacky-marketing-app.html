@@ -804,8 +804,9 @@
             <button class="chip" onclick="setSingle(this)">30 días</button>
           </div>
 
-          <div style="margin-top:12px;padding:12px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.2);border-radius:8px;font-size:12px;color:#999">
-            🔒 <strong style="color:#E8315A">Premium</strong> — Generar plan para otra cuenta
+          <div style="margin-top:12px;padding:12px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.2);border-radius:8px;font-size:12px">
+            <strong style="color:#E8315A">Opcional</strong> — ¿Generar plan para otra cuenta?
+            <textarea id="plan-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto..." style="margin-top:8px;min-height:60px"></textarea>
           </div>
 
           <button class="btn-primary" id="btn-gen-plan" data-label="Crear Plan" onclick="generatePlan()" style="margin-top:12px">✦ Crear mi Plan de Contenido</button>
@@ -814,6 +815,10 @@
           <div class="card">
             <div class="card-title">Tu Plan de Contenido</div>
             <div id="plan-grid" class="plan-grid"></div>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="generatePlan()">🔄 Generar plan nuevo</button>
+              <button class="btn-secondary" style="flex:1;font-size:12px;color:#E8315A" onclick="borrarPlan()">🗑️ Borrar plan</button>
+            </div>
           </div>
         </div>
       </div>
@@ -925,8 +930,8 @@
           <div class="card-title">Tu oferta</div>
           
           <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
-            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
-            <textarea id="oferta-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el lanzamiento completo para esa cuenta." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
+            <strong style="color:#E8315A">Opcional</strong> — ¿Generar para otra cuenta?
+            <textarea id="oferta-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el lanzamiento completo para esa cuenta." style="margin-top:8px;min-height:60px"></textarea>
           </div>
 
           <div class="form-row">
@@ -1129,8 +1134,8 @@
           </div>
 
           <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
-            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
-            <textarea id="carrusel-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el carrusel para esa cuenta." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
+            <strong style="color:#E8315A">Opcional</strong> — ¿Generar para otra cuenta?
+            <textarea id="carrusel-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta, producto... Jackia generará el carrusel para esa cuenta." style="margin-top:8px;min-height:60px"></textarea>
           </div>
 
           <label>¿Cómo quieres generar hoy?</label>
@@ -1275,12 +1280,8 @@
           </div>
 
           <div style="padding:12px 14px;background:rgba(232,49,90,0.05);border:1px solid rgba(232,49,90,0.15);border-radius:8px;font-size:12px;margin-bottom:12px">
-            🔒 <strong style="color:#E8315A">Premium</strong> — ¿Generar para otra cuenta?
-            <textarea id="reeldia-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta (faceless/cámara), producto que vende... Jackia generará contenido específico para ella." style="margin-top:8px;min-height:60px;opacity:0.5;pointer-events:none" disabled></textarea>
-            <div style="margin-top:8px;opacity:0.5">
-              <button type="button" class="btn-secondary" style="font-size:11px;padding:6px 12px" disabled>💡 Sugiéreme un tema para esa cuenta</button>
-              <input type="text" placeholder="O escribe el tema del reel para esa cuenta..." style="margin-top:6px;opacity:0.7" disabled>
-            </div>
+            <strong style="color:#E8315A">Opcional</strong> — ¿Generar para otra cuenta?
+            <textarea id="reeldia-otra-cuenta" placeholder="Describe la otra cuenta: nicho, cliente ideal, tipo de cuenta (faceless/cámara), producto que vende... Jackia generará contenido específico para ella." style="margin-top:8px;min-height:60px"></textarea>
           </div>
 
           <label>¿Cómo quieres generar hoy?</label>
@@ -3061,6 +3062,20 @@ ${diasLineas}`;
   setLoading('btn-gen-plan', false);
 }
 
+function borrarPlan() {
+  if (!confirm('¿Seguro que quieres borrar este plan de contenido?')) return;
+  try {
+    localStorage.removeItem('jackia_plan_semanal');
+    localStorage.removeItem('jackia_plan_fecha');
+    const saved = JSON.parse(localStorage.getItem('jackia_saved_outputs') || '{}');
+    delete saved['plan-grid'];
+    localStorage.setItem('jackia_saved_outputs', JSON.stringify(saved));
+  } catch(e) {}
+  document.getElementById('plan-output-area').style.display = 'none';
+  document.getElementById('plan-grid').innerHTML = '';
+  showTodayPlan();
+}
+
 function renderPlan(days) {
   const icons = {'Video':'🎬','Carrusel':'📊','Post':'🖼️','Historia':'⭕','Live':'🔴'};
   document.getElementById('plan-grid').innerHTML = days.map(d => {
@@ -4825,14 +4840,31 @@ function showTodayPlan() {
 
   const panelMap = {'video':'reeldelDia','carrusel':'carruseles','historia':'historiasHoy','post':'captions'};
   const panelKey = Object.keys(panelMap).find(k => todayPlan.format?.toLowerCase().includes(k)) || 'reeldelDia';
+  const panelDestino = panelMap[panelKey];
+
+  window._planTopicParaHoy = { panel: panelDestino, topic: todayPlan.topic || '', hook: todayPlan.hook || '' };
 
   todayEl.innerHTML = `<div style="background:linear-gradient(135deg,rgba(232,49,90,0.08),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:16px">
     <div style="font-size:11px;color:#D4AF37;font-weight:700;margin-bottom:6px">📅 HOY — DÍA ${todayPlan.day}</div>
     <div style="font-size:16px;font-weight:700;color:#FFFFFF;margin-bottom:4px">${formatIcon} ${todayPlan.format}</div>
     <div style="font-size:13px;color:#DDDDDD;margin-bottom:12px">${todayPlan.topic}</div>
     ${todayPlan.hook ? `<div style="font-size:12px;color:#999;margin-bottom:12px;font-style:italic">"${todayPlan.hook}"</div>` : ''}
-    <button onclick="showPanel('${panelMap[panelKey]}',null)" class="btn-primary" style="font-size:12px;padding:8px 16px;width:100%">✦ Generar mi contenido de hoy</button>
+    <button onclick="irAGenerarDesdePlan()" class="btn-primary" style="font-size:12px;padding:8px 16px;width:100%">✦ Generar mi contenido de hoy</button>
   </div>`;
+}
+
+function irAGenerarDesdePlan() {
+  const datos = window._planTopicParaHoy;
+  if (!datos) return;
+  showPanel(datos.panel, null);
+  setTimeout(() => {
+    const temaMap = { 'reeldelDia': 'reeldia-tema', 'carruseles': 'carrusel-tema', 'historiasHoy': 'historiasHoy-tema' };
+    const temaId = temaMap[datos.panel];
+    if (temaId) {
+      const temaEl = document.getElementById(temaId);
+      if (temaEl && !temaEl.value) temaEl.value = datos.topic;
+    }
+  }, 300);
 }
 
 function showDailyAffirmation() {
