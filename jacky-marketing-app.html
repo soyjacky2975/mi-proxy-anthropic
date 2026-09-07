@@ -2035,11 +2035,13 @@
       <div class="panel" id="panel-biblioteca">
         <div class="page-header">
           <h1 class="page-title">📚 Biblioteca</h1>
+          <p class="page-subtitle">Tus guías y PDFs generados quedan guardados aquí</p>
         </div>
-        <div class="card" style="text-align:center;padding:40px 24px">
+        <div id="biblioteca-lista"></div>
+        <div class="card" style="text-align:center;padding:40px 24px;margin-top:16px">
           <div style="font-size:48px;margin-bottom:16px">🚧</div>
-          <div style="font-weight:700;font-size:18px;color:var(--gold);margin-bottom:10px">En Construcción</div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Estamos construyendo algo increíble para ti.<br>Muy pronto tendrás acceso a todos los recursos,<br>guías y bonos exclusivos de Jackia. 🔥</div>
+          <div style="font-weight:700;font-size:18px;color:var(--gold);margin-bottom:10px">Más recursos en camino</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Muy pronto tendrás acceso a más guías,<br>plantillas y bonos exclusivos de Jackia. 🔥</div>
           <div style="font-size:12px;color:var(--muted)">¡Mantente pendiente! 👀</div>
         </div>
       </div>
@@ -4672,25 +4674,9 @@ function marcarPaso(num) {
   if (cerosPasos.length >= 6) document.getElementById('cero-completado').style.display = 'block';
 }
 
-function descargarGuiaPDF() {
-  const red = getRedPrincipal();
-  const secciones = [
-    { titulo: '1. Tu Identidad Digital', id: 'cero1-output' },
-    { titulo: '2. Tu Bio y Nombre Optimizado', id: 'cero2-output' },
-    { titulo: '3. Tus Historias Destacadas', id: 'cero3-output' },
-    { titulo: '4. Configuración de tu Cuenta', id: 'cero4-output' },
-    { titulo: '5. Tu Sistema de Ventas', id: 'cero5-output' },
-    { titulo: '6. Tu Primer Contenido', id: 'cero6-output' },
-  ];
-  const html = secciones.map(s => {
-    const el = document.getElementById(s.id);
-    const contenido = el && el.textContent.trim() ? el.textContent.trim() : '(No generaste este paso todavía)';
-    return `<h2>${s.titulo}</h2><pre>${contenido.replace(/</g,'&lt;')}</pre>`;
-  }).join('<hr>');
-
-  const win = window.open('', '_blank');
-  if (!win) { alert('Permite las ventanas emergentes para descargar tu guía 😊'); return; }
-  win.document.write(`<!DOCTYPE html><html><head><title>Mi Guía De Cero a Lista — ${red}</title>
+function construirGuiaHTML(red, secciones) {
+  const cuerpo = secciones.map(s => `<h2>${s.titulo}</h2><pre>${s.contenido.replace(/</g,'&lt;')}</pre>`).join('<hr>');
+  return `<!DOCTYPE html><html><head><title>Mi Guía De Cero a Lista — ${red}</title>
     <style>
       body{font-family:Arial,sans-serif;color:#262019;padding:30px;max-width:700px;margin:0 auto}
       h1{color:#E8315A}
@@ -4700,10 +4686,79 @@ function descargarGuiaPDF() {
     </style></head><body>
     <h1>🚀 Mi Guía De Cero a Lista</h1>
     <p><strong>Red social principal:</strong> ${red}</p>
-    ${html}
-    </body></html>`);
+    ${cuerpo}
+    </body></html>`;
+}
+
+function descargarGuiaPDF() {
+  const red = getRedPrincipal();
+  const secciones = [
+    { titulo: '1. Tu Identidad Digital', id: 'cero1-output' },
+    { titulo: '2. Tu Bio y Nombre Optimizado', id: 'cero2-output' },
+    { titulo: '3. Tus Historias Destacadas', id: 'cero3-output' },
+    { titulo: '4. Configuración de tu Cuenta', id: 'cero4-output' },
+    { titulo: '5. Tu Sistema de Ventas', id: 'cero5-output' },
+    { titulo: '6. Tu Primer Contenido', id: 'cero6-output' },
+  ].map(s => {
+    const el = document.getElementById(s.id);
+    const contenido = el && el.textContent.trim() ? el.textContent.trim() : '(No generaste este paso todavía)';
+    return { titulo: s.titulo, contenido };
+  });
+
+  const htmlGuia = construirGuiaHTML(red, secciones);
+
+  // Guardar en la Biblioteca para poder volver a verla/descargarla despues
+  try {
+    const guias = JSON.parse(localStorage.getItem('jackia_biblioteca_guias') || '[]');
+    guias.unshift({ id: Date.now(), titulo: `Guía De Cero a Lista — ${red}`, fecha: new Date().toISOString(), html: htmlGuia });
+    localStorage.setItem('jackia_biblioteca_guias', JSON.stringify(guias));
+  } catch(e) {}
+  renderBiblioteca();
+
+  const win = window.open('', '_blank');
+  if (!win) { alert('Permite las ventanas emergentes para descargar tu guía. Igual quedó guardada en tu Biblioteca 📚'); return; }
+  win.document.write(htmlGuia);
   win.document.close();
   setTimeout(() => win.print(), 300);
+}
+
+function verGuiaBiblioteca(id) {
+  let guias = [];
+  try { guias = JSON.parse(localStorage.getItem('jackia_biblioteca_guias') || '[]'); } catch(e) {}
+  const guia = guias.find(g => g.id === id);
+  if (!guia) return;
+  const win = window.open('', '_blank');
+  if (!win) { alert('Permite las ventanas emergentes para ver tu guía 😊'); return; }
+  win.document.write(guia.html);
+  win.document.close();
+}
+
+function borrarGuiaBiblioteca(id) {
+  if (!confirm('¿Borrar esta guía de tu Biblioteca?')) return;
+  try {
+    let guias = JSON.parse(localStorage.getItem('jackia_biblioteca_guias') || '[]');
+    guias = guias.filter(g => g.id !== id);
+    localStorage.setItem('jackia_biblioteca_guias', JSON.stringify(guias));
+  } catch(e) {}
+  renderBiblioteca();
+}
+
+function renderBiblioteca() {
+  const cont = document.getElementById('biblioteca-lista');
+  if (!cont) return;
+  let guias = [];
+  try { guias = JSON.parse(localStorage.getItem('jackia_biblioteca_guias') || '[]'); } catch(e) {}
+  if (guias.length === 0) { cont.innerHTML = ''; return; }
+  cont.innerHTML = guias.map(g => `<div class="card" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-weight:700;font-size:14px">📄 ${g.titulo}</div>
+      <div style="font-size:11px;color:var(--muted)">${new Date(g.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn-copy" onclick="verGuiaBiblioteca(${g.id})">👁️ Ver / Descargar</button>
+      <button class="btn-copy" style="color:#E8315A" onclick="borrarGuiaBiblioteca(${g.id})">🗑️</button>
+    </div>
+  </div>`).join('');
 }
 
 function getRedPrincipal() {
@@ -5057,6 +5112,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateStreak();
     showTodayPlan();
     restoreCeroProgress();
+    renderBiblioteca();
     restoreOutputs();
     restoreChat();
   } catch(e) { console.log(e); }
