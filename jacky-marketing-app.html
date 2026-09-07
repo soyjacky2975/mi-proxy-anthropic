@@ -4786,7 +4786,7 @@ async function sendChat() {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         model:'claude-sonnet-4-6', max_tokens:1000,
-        system: SYS + '\n\n' + getProfileContext() + '\n\nModo chat: respuestas conversacionales max 150 palabras. Si preguntan que publicar hoy da una idea especifica. Si preguntan sobre objeciones da el guion exacto. Se practica y accionable.',
+        system: SYS + '\n\n' + getProfileContext() + '\n\nModo chat: respuestas conversacionales max 150 palabras. Si preguntan que publicar hoy da una idea especifica. Si preguntan sobre objeciones da el guion exacto. Se practica y accionable. NUNCA agregues sugerencias de imagen, video o fondo a menos que te las pidan explícitamente — solo responde justo lo que se pregunta.',
         messages: chatHistory
       })
     });
