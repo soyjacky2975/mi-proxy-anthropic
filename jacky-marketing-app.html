@@ -512,7 +512,18 @@
             <div style="font-weight:700;font-size:14px">Tu Identidad Digital</div>
           </div>
           <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding. Aquí generamos cómo presentarte al mundo.</div>
-          <label>¿Cuál es tu nombre de usuario ideal?</label>
+          <div class="keyword-tip" style="margin-top:8px">📧 Antes de empezar: asegúrate de tener un correo electrónico a la mano — lo vas a necesitar para crear tus cuentas.</div>
+
+          <label style="margin-top:10px">¿Con cuál red social vas a empezar primero?</label>
+          <div class="chips" id="cero-red-chips">
+            <button class="chip selected" onclick="setSingle(this)">Instagram</button>
+            <button class="chip" onclick="setSingle(this)">Facebook</button>
+            <button class="chip" onclick="setSingle(this)">TikTok</button>
+            <button class="chip" onclick="setSingle(this)">Threads</button>
+          </div>
+          <div class="keyword-tip" style="margin-top:8px">💡 Recomendación: empieza por UNA sola red y domínala antes de abrir las demás — así no te dispersas.</div>
+
+          <label style="margin-top:10px">¿Cuál es tu nombre de usuario ideal?</label>
           <input type="text" id="cero-usuario" placeholder="Ej: @mariadecoración · @coach.emprendedoras · @faceless.marketing">
           <div class="keyword-tip" style="margin-top:8px">💡 Tip: usa keywords de tu nicho en el usuario para aparecer en búsquedas</div>
           <button class="btn-primary" id="btn-cero1" onclick="generarCero1()" style="margin-top:10px">✦ Generar mi presentación digital</button>
@@ -616,7 +627,10 @@
           <div style="font-size:48px;margin-bottom:12px">🎉</div>
           <div style="font-size:20px;font-weight:700;color:#D4AF37;margin-bottom:8px">¡Estás lista para crecer y vender!</div>
           <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Completaste todos los pasos — ahora ve a crear tu primer contenido</div>
-          <button class="btn-primary" onclick="showPanel('plan',null)" style="font-size:13px">📅 Crear mi Plan de Contenido</button>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button class="btn-secondary" onclick="descargarGuiaPDF()" style="font-size:13px">📄 Descargar mi guía paso a paso (PDF)</button>
+            <button class="btn-primary" onclick="showPanel('plan',null)" style="font-size:13px">📅 Crear mi Plan de Contenido</button>
+          </div>
         </div>
       </div>
 
@@ -4658,14 +4672,56 @@ function marcarPaso(num) {
   if (cerosPasos.length >= 6) document.getElementById('cero-completado').style.display = 'block';
 }
 
+function descargarGuiaPDF() {
+  const red = getRedPrincipal();
+  const secciones = [
+    { titulo: '1. Tu Identidad Digital', id: 'cero1-output' },
+    { titulo: '2. Tu Bio y Nombre Optimizado', id: 'cero2-output' },
+    { titulo: '3. Tus Historias Destacadas', id: 'cero3-output' },
+    { titulo: '4. Configuración de tu Cuenta', id: 'cero4-output' },
+    { titulo: '5. Tu Sistema de Ventas', id: 'cero5-output' },
+    { titulo: '6. Tu Primer Contenido', id: 'cero6-output' },
+  ];
+  const html = secciones.map(s => {
+    const el = document.getElementById(s.id);
+    const contenido = el && el.textContent.trim() ? el.textContent.trim() : '(No generaste este paso todavía)';
+    return `<h2>${s.titulo}</h2><pre>${contenido.replace(/</g,'&lt;')}</pre>`;
+  }).join('<hr>');
+
+  const win = window.open('', '_blank');
+  if (!win) { alert('Permite las ventanas emergentes para descargar tu guía 😊'); return; }
+  win.document.write(`<!DOCTYPE html><html><head><title>Mi Guía De Cero a Lista — ${red}</title>
+    <style>
+      body{font-family:Arial,sans-serif;color:#262019;padding:30px;max-width:700px;margin:0 auto}
+      h1{color:#E8315A}
+      h2{color:#D4AF37;border-bottom:1px solid #D4AF37;padding-bottom:6px;margin-top:30px}
+      pre{white-space:pre-wrap;font-family:Arial,sans-serif;font-size:14px;line-height:1.6}
+      hr{border:none;border-top:1px dashed #D4AF37;margin:20px 0}
+    </style></head><body>
+    <h1>🚀 Mi Guía De Cero a Lista</h1>
+    <p><strong>Red social principal:</strong> ${red}</p>
+    ${html}
+    </body></html>`);
+  win.document.close();
+  setTimeout(() => win.print(), 300);
+}
+
+function getRedPrincipal() {
+  const chip = document.querySelector('#cero-red-chips .chip.selected')?.textContent?.trim();
+  if (chip) { try { localStorage.setItem('jackia_red_principal', chip); } catch(e){} return chip; }
+  try { return localStorage.getItem('jackia_red_principal') || 'Instagram'; } catch(e){ return 'Instagram'; }
+}
+
 async function generarCero1() {
   const usuario = document.getElementById('cero-usuario')?.value || '';
+  const red = getRedPrincipal();
   setLoading('btn-cero1', true);
   document.getElementById('cero1-output').style.display = 'block';
   document.getElementById('cero1-actions').style.display = 'flex';
   const ctx = getProfileContext();
   const prompt = `Genera la identidad digital para esta emprendedora que está empezando desde cero.
 ${ctx}
+Red social principal con la que va a empezar: ${red} (adapta el tono y las recomendaciones a cómo funciona esa red específicamente)
 Usuario sugerido por ella: ${usuario || 'aún por definir — sugiere tú opciones'}
 
 Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
@@ -4694,8 +4750,10 @@ async function generarCero2() {
   document.getElementById('cero2-output').style.display = 'block';
   document.getElementById('cero2-actions').style.display = 'flex';
   const ctx = getProfileContext();
-  const prompt = `Genera el perfil completo de Instagram para esta emprendedora que empieza desde cero.
+  const red = getRedPrincipal();
+  const prompt = `Genera el perfil completo de ${red} (y también Facebook como respaldo) para esta emprendedora que empieza desde cero.
 ${ctx}
+Red social principal: ${red}
 
 Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato:
 
@@ -4723,7 +4781,8 @@ async function generarCero3() {
   document.getElementById('cero3-output').style.display = 'block';
   document.getElementById('cero3-actions').style.display = 'flex';
   const ctx = getProfileContext();
-  const prompt = `Genera las historias destacadas para esta emprendedora que empieza desde cero.
+  const red = getRedPrincipal();
+  const prompt = `Genera las historias destacadas para esta emprendedora que empieza desde cero, para ${red}. Si ${red} no tiene destacadas (ej: TikTok), adapta la idea a lo más parecido que sí tenga esa red (ej: pin de videos, playlist).
 ${ctx}
 
 Para quien empieza SIN resultados, sugiere máximo 4 destacadas:
@@ -4746,7 +4805,8 @@ async function generarCero4() {
   setLoading('btn-cero4', true);
   document.getElementById('cero4-output').style.display = 'block';
   document.getElementById('cero4-actions').style.display = 'flex';
-  const prompt = `Genera una guía paso a paso de configuración para Instagram y Facebook para una emprendedora que empieza desde cero.
+  const red = getRedPrincipal();
+  const prompt = `Genera una guía paso a paso de configuración para ${red} (principal) y también Instagram/Facebook si aplica, para una emprendedora que empieza desde cero.
 
 Incluye:
 📱 INSTAGRAM:
