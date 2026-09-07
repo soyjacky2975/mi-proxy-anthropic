@@ -1844,6 +1844,9 @@
             <button class="chat-sugg" onclick="sendSugg(this)">¿Cada cuánto debo vender?</button>
             <button class="chat-sugg" onclick="sendSugg(this)">¿Cómo consigo mis primeras 1000 seguidoras?</button>
           </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+            <button onclick="clearChat()" style="background:none;border:none;color:#8C7A72;font-size:12px;text-decoration:underline;cursor:pointer;padding:4px">🗑️ Borrar chat</button>
+          </div>
           <div class="chat-window" id="chat-window">
             <div class="chat-msg jacky"><div class="msg-name">✦ Jackia</div><div class="msg-body">Hola! Soy tu asistente de marketing basada en una metodología probada 💖 Puedes preguntarme sobre estrategia, contenido, objeciones de clientes, qué publicar hoy — lo que necesites. ¿En qué te ayudo?</div></div>
           </div>
@@ -4766,6 +4769,17 @@ function restoreChat() {
     const savedHtml = localStorage.getItem('jackia_chat_window_html');
     if (savedHistory) chatHistory = JSON.parse(savedHistory);
     if (savedHtml) document.getElementById('chat-window').innerHTML = savedHtml;
+  } catch(e){}
+}
+
+function clearChat() {
+  const ok = confirm('¿Borrar toda la conversación con Jackia? Esto no se puede deshacer.');
+  if (!ok) return;
+  chatHistory = [];
+  document.getElementById('chat-window').innerHTML = '<div class="chat-msg jacky"><div class="msg-name">✦ Jackia</div><div class="msg-body">Hola! Soy tu asistente de marketing basada en una metodología probada 💖 Puedes preguntarme sobre estrategia, contenido, objeciones de clientes, qué publicar hoy — lo que necesites. ¿En qué te ayudo?</div></div>';
+  try {
+    localStorage.removeItem('jackia_chat_history');
+    localStorage.removeItem('jackia_chat_window_html');
   } catch(e){}
 }
 
