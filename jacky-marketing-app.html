@@ -333,7 +333,17 @@
   <div class="modal-box">
     <button class="modal-close" onclick="skipModal('commitment-modal')" aria-label="Cerrar">✕</button>
     <div class="modal-q">Mi meta es lo que me trajo aquí 💙</div>
-    <p style="color:#555049;font-size:13px;margin-bottom:16px;line-height:1.6">Cuéntale a Jackia qué te motiva — esto te va a recordar tu meta cuando más lo necesites.</p>
+    <p style="color:#555049;font-size:13px;margin-bottom:10px;line-height:1.6">Confirma o ajusta tu meta — puedes elegir más de una:</p>
+    <div class="modal-options" id="commitment-meta-chips" style="margin-bottom:14px">
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','ingresos_casa');actualizarTextoCompromiso()"><span class="modal-opt-icon">🏡</span><div><strong>Generar ingresos desde casa</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','dejar_trabajo');actualizarTextoCompromiso()"><span class="modal-opt-icon">🚪</span><div><strong>Dejar mi trabajo y vivir de mi negocio</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','independencia_financiera');actualizarTextoCompromiso()"><span class="modal-opt-icon">💰</span><div><strong>Tener independencia financiera</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','tiempo_familia');actualizarTextoCompromiso()"><span class="modal-opt-icon">👨‍👩‍👧</span><div><strong>Tener más tiempo para mi familia</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','marca_reconocida');actualizarTextoCompromiso()"><span class="modal-opt-icon">👑</span><div><strong>Construir mi marca y ser reconocida</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','primeros_clientes');actualizarTextoCompromiso()"><span class="modal-opt-icon">🚀</span><div><strong>Conseguir mis primeros clientes</strong></div></button>
+      <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','vender_escalar');actualizarTextoCompromiso()"><span class="modal-opt-icon">📈</span><div><strong>Vender más y escalar mi negocio</strong></div></button>
+    </div>
+    <p style="color:#555049;font-size:13px;margin-bottom:16px;line-height:1.6">Cuéntale a Jackia qué te motiva — esto te va a recordar tu meta cuando más lo necesites (opcional).</p>
     <textarea id="commitment-text" placeholder="Ej: Quiero generar mis primeros ingresos digitales y tener más tiempo para mi familia..." style="min-height:90px;margin-bottom:16px"></textarea>
     <div style="background:#FFFFFF;border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:14px;margin-bottom:18px">
       <p style="font-size:12px;color:#D4AF37;font-weight:700;margin-bottom:6px">💪 Mi compromiso:</p>
@@ -5559,19 +5569,39 @@ function finishOnboarding() {
 }
 
 function personalizarCompromiso() {
+  // Pre-marcar los chips de meta con lo que ya eligió en el onboarding
+  const objetivosActuales = Array.isArray(userProfile?.objetivo) ? [...userProfile.objetivo] : (userProfile?.objetivo ? [userProfile.objetivo] : []);
+  window._ob = window._ob || {};
+  window._ob.objetivo = [...objetivosActuales];
+  document.querySelectorAll('#commitment-meta-chips .modal-opt').forEach(btn => {
+    const match = btn.getAttribute('onclick')?.match(/'objetivo','([a-z_]+)'/);
+    const val = match ? match[1] : null;
+    btn.classList.toggle('selected', val && objetivosActuales.includes(val));
+  });
+  actualizarTextoCompromiso();
+}
+
+function actualizarTextoCompromiso() {
   const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar tu trabajo y vivir de tu negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para tu familia',marca_reconocida:'construir tu marca y ser reconocida',primeros_clientes:'conseguir tus primeros clientes',vender_escalar:'vender más y escalar tu negocio',primera_venta:'hacer tu primera venta en dólares',escalar_ventas:'escalar tus ventas',crecer_audiencia:'crecer tu audiencia',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarte como referente',comunidad:'construir una comunidad activa'};
-  const objetivos = Array.isArray(userProfile?.objetivo) ? userProfile.objetivo : [userProfile?.objetivo];
+  const objetivos = Array.isArray(window._ob?.objetivo) ? window._ob.objetivo : [];
   const metas = objetivos.map(obj => o[obj]).filter(Boolean);
   const compromisoTexto = document.getElementById('commitment-texto-personalizado');
   if (metas.length) {
     const metaStr = metas.length > 1 ? metas.slice(0,-1).join(', ') + ' y ' + metas.slice(-1) : metas[0];
     compromisoTexto.textContent = `Voy a aplicar el método con consistencia para lograr ${metaStr}. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.`;
+  } else {
+    compromisoTexto.textContent = 'Voy a aplicar el método con consistencia. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.';
   }
 }
 
 function finishCommitment() {
   const text = document.getElementById('commitment-text').value.trim();
   if (text) { try { localStorage.setItem('jackia_commitment', text); } catch(e){} }
+  // Guardar cualquier ajuste que haya hecho a su meta desde este modal
+  if (userProfile && Array.isArray(window._ob?.objetivo) && window._ob.objetivo.length) {
+    userProfile.objetivo = [...window._ob.objetivo];
+    try { localStorage.setItem('jackia_profile', JSON.stringify(userProfile)); } catch(e){}
+  }
   document.getElementById('commitment-modal').classList.add('hidden');
   showUpsell();
 }
