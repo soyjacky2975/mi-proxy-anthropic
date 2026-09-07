@@ -1454,6 +1454,22 @@
           <div class="card-title">Tus Portadas</div>
           <div id="portadas-output-list"></div>
         </div>
+
+        <div class="card" style="border-color:rgba(232,49,90,0.5);background:linear-gradient(135deg,rgba(232,49,90,0.06),rgba(212,175,55,0.05))">
+          <div class="card-title">🔍 Modelar una Portada que Viste</div>
+          <div class="keyword-tip">💡 ¿Viste una portada de reel que te encantó? Pégala aquí — Jackia la adapta a tu nicho, sin copiarla tal cual.</div>
+          <label>Pega la portada que quieres modelar</label>
+          <textarea id="portadas-modelar-original" placeholder="Ej: Nadie te dice esto sobre trabajar desde casa..."></textarea>
+          <button class="btn-primary" id="btn-gen-modelar-portada" onclick="generateModelarPortada()">✦ Modelar a mi Nicho</button>
+        </div>
+        <div class="card" id="portadas-modelar-output-card" style="display:none">
+          <div class="card-title">✍️ Tu versión adaptada</div>
+          <div class="output-box" id="portadas-modelar-output"></div>
+          <div class="output-actions">
+            <button class="btn-copy" onclick="copyText('portadas-modelar-output',this)">📋 Copiar</button>
+            <button class="btn-secondary" onclick="generateModelarPortada()">↻ Adaptar de nuevo</button>
+          </div>
+        </div>
       </div>
 
       <!-- MIS HISTORIAS & DM DE HOY (Sistema Completo) -->
@@ -2234,6 +2250,7 @@ const OUTPUT_CARD_MAP = {
   'reeldia-entregable-output': ['reeldia-entregable-output-card'],
   'historiasHoy-output-list': ['historiasHoy-output-card'],
   'portadas-output-list': ['portadas-output-card'],
+  'portadas-modelar-output': ['portadas-modelar-output-card'],
   'historiasHoy-bienvenida-output': ['historiasHoy-dm-card'],
   'historiasHoy-entrega-output': ['historiasHoy-dm-card'],
   'historiasHoy-entregable-output': ['historiasHoy-entregable-output-card'],
@@ -3482,6 +3499,24 @@ PORTADA 2:
     listEl.innerHTML = '<p style="color:#CDA0A5">Error generando portadas, intenta de nuevo.</p>';
   }
   setLoading('btn-gen-portadas', false);
+}
+
+async function generateModelarPortada() {
+  const original = document.getElementById('portadas-modelar-original').value;
+  if (!original.trim()) { alert('Pega la portada que quieres modelar 😊'); return; }
+  setLoading('btn-gen-modelar-portada', true);
+  document.getElementById('portadas-modelar-output-card').style.display = 'block';
+
+  const prompt = `Analiza esta portada de reel que le gustó a la usuaria: "${original}"
+
+${getProfileContext()}
+
+Identifica qué estructura de gancho usa (revelación, polémico, curiosidad, lista, pregunta, etc.) y crea UNA versión adaptada exactamente a mi nicho y negocio (arriba) — misma estructura y nivel de impacto, pero con mi tema real. NO copies la portada original tal cual, adáptala. Máximo 8 palabras.
+
+Responde ÚNICAMENTE con la portada adaptada, sin explicación de qué estructura usaste, sin comillas.`;
+
+  await streamToEl(prompt, 'portadas-modelar-output', SYS);
+  setLoading('btn-gen-modelar-portada', false);
 }
 
 async function generateReelDia() {
