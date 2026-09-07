@@ -4666,21 +4666,21 @@ async function generarCero1() {
   const ctx = getProfileContext();
   const prompt = `Genera la identidad digital para esta emprendedora que está empezando desde cero.
 ${ctx}
-Usuario sugerido por ella: ${usuario || 'aún por definir — sugiere tú una opción'}
+Usuario sugerido por ella: ${usuario || 'aún por definir — sugiere tú opciones'}
 
-Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
+Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
 
-📌 USUARIO SUGERIDO:
-[@usuario con keyword del nicho — si ella ya dio uno, mejóralo o confírmalo]
+OPCIÓN 1:
+📌 USUARIO SUGERIDO: [@usuario con keyword del nicho]
+🎤 CÓMO PRESENTARTE (siendo nueva, sin mentir ni exagerar): [1-2 frases]
+💎 PROPUESTA DE VALOR (1 frase poderosa): [frase]
+📸 TIPO DE CONTENIDO A COMPARTIR: [3-4 ideas concretas para atraer a su cliente ideal]
 
-🎤 CÓMO PRESENTARTE (siendo nueva, sin mentir ni exagerar):
-[1-2 frases]
-
-💎 PROPUESTA DE VALOR (1 frase poderosa):
-[frase]
-
-📸 TIPO DE CONTENIDO A COMPARTIR:
-[3-4 ideas concretas para atraer a su cliente ideal]
+OPCIÓN 2:
+📌 USUARIO SUGERIDO: [@usuario distinto, otro enfoque]
+🎤 CÓMO PRESENTARTE: [1-2 frases distintas]
+💎 PROPUESTA DE VALOR: [frase distinta]
+📸 TIPO DE CONTENIDO A COMPARTIR: [3-4 ideas distintas]
 
 Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
   const text = await callClaude(prompt, SYS);
@@ -4697,18 +4697,19 @@ async function generarCero2() {
   const prompt = `Genera el perfil completo de Instagram para esta emprendedora que empieza desde cero.
 ${ctx}
 
-Genera:
-📌 NOMBRE OPTIMIZADO (máx 30 caracteres con keyword del nicho):
-[nombre | especialidad]
+Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato:
 
-📝 BIO INSTAGRAM (máx 150 caracteres):
-[bio lista para copiar]
+OPCIÓN 1:
+📌 NOMBRE OPTIMIZADO (máx 30 caracteres con keyword del nicho): [nombre | especialidad]
+📝 BIO INSTAGRAM (máx 150 caracteres): [bio lista para copiar]
+📝 BIO FACEBOOK (máx 255 caracteres): [bio adaptada para Facebook]
+🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
 
-📝 BIO FACEBOOK (máx 255 caracteres):
-[bio adaptada para Facebook]
-
-🔗 SUGERENCIA DE LINK EN BIO:
-[qué poner]
+OPCIÓN 2:
+📌 NOMBRE OPTIMIZADO: [otra variante | especialidad]
+📝 BIO INSTAGRAM: [bio distinta, otro enfoque]
+📝 BIO FACEBOOK: [bio distinta]
+🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
 
 Adaptar según su etapa (empezando desde cero — honesta, sin prometer resultados que no tiene).`;
   const text = await callClaude(prompt, SYS);
