@@ -816,8 +816,16 @@
             <div class="card-title">Tu Plan de Contenido</div>
             <div id="plan-grid" class="plan-grid"></div>
             <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="generatePlan()">🔄 Generar plan nuevo</button>
+              <button class="btn-secondary" id="btn-plan-alterno" style="flex:1;font-size:12px" onclick="generatePlanAlterno()">✨ Generar otra opción (sin borrar esta)</button>
               <button class="btn-secondary" style="flex:1;font-size:12px;color:#E8315A" onclick="borrarPlan()">🗑️ Borrar plan</button>
+            </div>
+          </div>
+          <div class="card" id="plan-alterno-card" style="display:none;margin-top:14px;border:1.5px solid rgba(212,175,55,0.5)">
+            <div class="card-title">✨ Nueva opción de plan</div>
+            <div id="plan-grid-alterno" class="plan-grid"></div>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+              <button class="btn-primary" style="flex:1;font-size:12px" onclick="usarPlanAlterno()">✅ Usar esta opción</button>
+              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="document.getElementById('plan-alterno-card').style.display='none'">Descartar, quedarme con la anterior</button>
             </div>
           </div>
         </div>
@@ -2993,22 +3001,19 @@ ${getProfileContext()}`;
 }
 
 // ── M2: PLAN
-async function generatePlan() {
+async function buildPlanDays() {
   const especial = document.querySelector('#chips-plan-especial .chip.selected')?.textContent || 'Semana normal';
   const especialExtra = document.getElementById('plan-especial-extra')?.value?.trim() || '';
   const diasSeleccionados = document.querySelector('#chips-plan-dias .chip.selected')?.textContent || '7 días';
   const numDias = parseInt(diasSeleccionados) || 7;
   const frecuencia = document.querySelector('#chips-frec .chip.selected')?.textContent || '5 veces';
-  if (!checkDailyLimit('plan')) return;
-  setLoading('btn-gen-plan', true);
-  document.getElementById('plan-output-area').style.display = 'block';
-  document.getElementById('plan-grid').innerHTML = `<p style="color:#D4AF37;font-size:13px;padding:12px">Armando tu plan de ${numDias} días... ✨</p>`;
-  
-  const ctx = getProfileContext();
+  const otraCuenta = document.getElementById('plan-otra-cuenta')?.value?.trim() || '';
+
+  const ctx = otraCuenta ? `\nGenera este plan para la siguiente cuenta (no la cuenta principal de la usuaria): ${otraCuenta}` : getProfileContext();
   const semanaEspecial = especial.includes('normal') ? '' : `\nSEMANA ESPECIAL: ${especial}${especialExtra ? ' — ' + especialExtra : ''}. Adapta el plan para destacar esto.`;
-  
+
   const formatos = ['Video', 'Carrusel', 'Historia', 'Video', 'Post', 'Carrusel', 'Video', 'Historia', 'Video', 'Carrusel', 'Post', 'Video', 'Historia', 'Carrusel', 'Video'];
-  const diasLineas = Array.from({length: numDias}, (_, i) => 
+  const diasLineas = Array.from({length: numDias}, (_, i) =>
     `DIA ${i+1} | Formato: ${formatos[i % formatos.length]} | Tema: [tema aqui] | Gancho: [primera linea aqui] | Palabra clave: [palabra]`
   ).join('\n');
 
@@ -3023,35 +3028,41 @@ Usa ganchos variados del banco: imperativos, curiosidad, listado, problema, auto
 Escribe exactamente ${numDias} días con este formato:
 ${diasLineas}`;
 
+  const text = await callClaude(prompt, SYS);
+  // Parser flexible — acepta DIA, DÍA, Día, día con o sin número
+  let lines = text.split('\n').filter(l => /^d[iíI]a\s*\d/i.test(l.trim()));
+  if (lines.length === 0) {
+    lines = text.split('\n').filter(l => l.includes('|') && l.trim().length > 20);
+  }
+  if (lines.length === 0) {
+    const allLines = text.split('\n').filter(l => l.trim().length > 15).slice(0, 7);
+    return allLines.map((line, i) => ({
+      day: i + 1, format: 'Post', topic: line.trim().substring(0, 80), hook: '', keyword: ''
+    }));
+  }
+  return lines.slice(0, 7).map((line, i) => {
+    const formatMatch = line.match(/Formato[:\s]+([^|\n]+)/i);
+    const temaMatch = line.match(/Tema[:\s]+([^|\n]+)/i);
+    const ganchoMatch = line.match(/Gancho[:\s]+([^|\n]+)/i);
+    const keywordMatch = line.match(/Palabra\s*clave[:\s]+([^|\n]+)/i);
+    return {
+      day: i + 1,
+      format: formatMatch ? formatMatch[1].trim() : 'Post',
+      topic: temaMatch ? temaMatch[1].trim() : line.trim().substring(0, 60),
+      hook: ganchoMatch ? ganchoMatch[1].trim() : '',
+      keyword: keywordMatch ? keywordMatch[1].trim() : ''
+    };
+  });
+}
+
+async function generatePlan() {
+  if (!checkDailyLimit('plan')) return;
+  setLoading('btn-gen-plan', true);
+  document.getElementById('plan-output-area').style.display = 'block';
+  document.getElementById('plan-alterno-card').style.display = 'none';
+  document.getElementById('plan-grid').innerHTML = `<p style="color:#D4AF37;font-size:13px;padding:12px">Armando tu plan... ✨</p>`;
   try {
-    const text = await callClaude(prompt, SYS);
-    // Parser flexible — acepta DIA, DÍA, Día, día con o sin número
-    let lines = text.split('\n').filter(l => /^d[iíI]a\s*\d/i.test(l.trim()));
-    if (lines.length === 0) {
-      // Fallback: tomar cualquier línea con | que tenga contenido
-      lines = text.split('\n').filter(l => l.includes('|') && l.trim().length > 20);
-    }
-    if (lines.length === 0) {
-      // Último recurso: mostrar texto como cards simples
-      const allLines = text.split('\n').filter(l => l.trim().length > 15).slice(0, 7);
-      renderPlan(allLines.map((line, i) => ({
-        day: i + 1, format: 'Post', topic: line.trim().substring(0, 80), hook: '', keyword: ''
-      })));
-      return;
-    }
-    const days = lines.slice(0, 7).map((line, i) => {
-      const formatMatch = line.match(/Formato[:\s]+([^|\n]+)/i);
-      const temaMatch = line.match(/Tema[:\s]+([^|\n]+)/i);
-      const ganchoMatch = line.match(/Gancho[:\s]+([^|\n]+)/i);
-      const keywordMatch = line.match(/Palabra\s*clave[:\s]+([^|\n]+)/i);
-      return {
-        day: i + 1,
-        format: formatMatch ? formatMatch[1].trim() : 'Post',
-        topic: temaMatch ? temaMatch[1].trim() : line.trim().substring(0, 60),
-        hook: ganchoMatch ? ganchoMatch[1].trim() : '',
-        keyword: keywordMatch ? keywordMatch[1].trim() : ''
-      };
-    });
+    const days = await buildPlanDays();
     renderPlan(days);
     // Guardar plan en localStorage para que el Home lo muestre
     localStorage.setItem('jackia_plan_semanal', JSON.stringify(days));
@@ -3060,6 +3071,43 @@ ${diasLineas}`;
     document.getElementById('plan-grid').innerHTML = '<p style="color:#CDA0A5;font-size:13px;padding:12px">⚠️ Error generando el plan. Por favor intenta de nuevo. 💪</p>';
   }
   setLoading('btn-gen-plan', false);
+}
+
+// Genera una opción alterna de plan SIN tocar ni borrar el plan actual — la usuaria decide cuál se queda
+async function generatePlanAlterno() {
+  setLoading('btn-plan-alterno', true);
+  const alternoCard = document.getElementById('plan-alterno-card');
+  alternoCard.style.display = 'block';
+  document.getElementById('plan-grid-alterno').innerHTML = `<p style="color:#D4AF37;font-size:13px;padding:12px">Armando otra opción... ✨</p>`;
+  alternoCard.scrollIntoView({behavior:'smooth', block:'nearest'});
+  try {
+    const days = await buildPlanDays();
+    window._planAlternoDays = days;
+    const icons = {'Video':'🎬','Carrusel':'📊','Post':'🖼️','Historia':'⭕','Live':'🔴'};
+    document.getElementById('plan-grid-alterno').innerHTML = days.map(d => {
+      const icon = Object.entries(icons).find(([k]) => (d.format||'').includes(k))?.[1] || '📱';
+      return `<div class="plan-day">
+        <div class="plan-day-num">Día ${d.day}</div>
+        <div class="plan-day-topic">${icon} ${d.topic}</div>
+        <div class="plan-day-format">${d.format||'Post'}</div>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px;font-style:italic">"${(d.hook||'').substring(0,55)}..."</div>
+        ${d.keyword ? `<div style="color:var(--fresa);font-size:10px;font-weight:700;margin-top:4px">→ comenta ${d.keyword}</div>` : ''}
+      </div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('plan-grid-alterno').innerHTML = '<p style="color:#CDA0A5;font-size:13px;padding:12px">⚠️ Error generando la opción. Intenta de nuevo. 💪</p>';
+  }
+  setLoading('btn-plan-alterno', false);
+}
+
+function usarPlanAlterno() {
+  const days = window._planAlternoDays;
+  if (!days) return;
+  renderPlan(days);
+  localStorage.setItem('jackia_plan_semanal', JSON.stringify(days));
+  localStorage.setItem('jackia_plan_fecha', new Date().toISOString().slice(0,10));
+  document.getElementById('plan-alterno-card').style.display = 'none';
+  document.getElementById('plan-output-area').scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function borrarPlan() {
@@ -3073,6 +3121,7 @@ function borrarPlan() {
   } catch(e) {}
   document.getElementById('plan-output-area').style.display = 'none';
   document.getElementById('plan-grid').innerHTML = '';
+  document.getElementById('plan-alterno-card').style.display = 'none';
   showTodayPlan();
 }
 
