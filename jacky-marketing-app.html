@@ -183,9 +183,10 @@
   .chat-msg.jacky{background:linear-gradient(135deg,rgba(232,49,90,0.15),rgba(212,175,55,0.1));border:1px solid rgba(232,49,90,0.2);color:var(--texto);align-self:flex-start;border-bottom-left-radius:4px}
   .chat-msg.user{background:rgba(212,175,55,0.2);border:1px solid rgba(212,175,55,0.3);color:var(--blanco);align-self:flex-end;border-bottom-right-radius:4px}
   .msg-name{font-size:10px;font-weight:700;color:var(--fresa);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
-  .chat-input-row{display:flex;gap:10px}
-  .chat-input{flex:1;background:#F4EEE7;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);color:#262019;font-family:"DM Sans",sans-serif;font-size:14px;padding:10px 14px;outline:none;transition:border-color 0.2s}
+  .chat-input-row{display:flex;gap:10px;align-items:flex-end}
+  .chat-input{flex:1;background:#F4EEE7;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);color:#262019;font-family:"DM Sans",sans-serif;font-size:15px;padding:12px 14px;outline:none;transition:border-color 0.2s;resize:none;min-height:48px;max-height:160px;line-height:1.5;overflow-y:auto}
   .chat-input:focus{border-color:var(--fresa)}
+  @media(max-width:700px){.chat-input{font-size:16px}}
   .btn-mic{background:#EFE6DD;border:1px solid rgba(212,175,55,0.4);color:#D4AF37;border-radius:var(--r-sm);width:42px;height:42px;font-size:17px;cursor:pointer;flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
   .btn-speak{background:none;border:none;color:#D4AF37;font-size:13px;cursor:pointer;padding:2px 6px;vertical-align:middle;transition:transform 0.15s}
   .btn-speak:hover{transform:scale(1.2)}
@@ -1842,7 +1843,7 @@
             <div class="chat-msg jacky"><div class="msg-name">✦ Jackia</div><div class="msg-body">Hola! Soy tu asistente de marketing basada en una metodología probada 💖 Puedes preguntarme sobre estrategia, contenido, objeciones de clientes, qué publicar hoy — lo que necesites. ¿En qué te ayudo?</div></div>
           </div>
           <div class="chat-input-row">
-            <input class="chat-input" id="chat-input" type="text" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()">
+            <textarea class="chat-input" id="chat-input" rows="1" placeholder="Escribe tu pregunta... (Enter para enviar, Shift+Enter para nueva línea)" onkeydown="handleChatKeydown(event)" oninput="autoGrowChatInput(this)"></textarea>
             <button class="btn-mic" id="mic-chat-input" onclick="toggleMic('chat-input', this)" title="Hablar en vez de escribir">🎤</button>
             <button class="btn-send" id="btn-send" onclick="sendChat()">Enviar ✦</button>
           </div>
@@ -4704,7 +4705,26 @@ function renderScores(scores) {
 // ── CHAT
 let chatHistory = [];
 
-function sendSugg(el) { document.getElementById('chat-input').value = el.textContent; sendChat(); }
+function sendSugg(el) {
+  const input = document.getElementById('chat-input');
+  input.value = el.textContent;
+  autoGrowChatInput(input);
+  sendChat();
+}
+
+// Enter envía el mensaje; Shift+Enter agrega una línea nueva
+function handleChatKeydown(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendChat();
+  }
+}
+
+// El textarea crece con el contenido (hasta un máximo, luego hace scroll)
+function autoGrowChatInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
 
 // Guardar y restaurar el chat — para que no se pierda al salir a copiar/pegar
 function persistChat() {
@@ -4727,6 +4747,7 @@ async function sendChat() {
   const msg = input.value.trim();
   if (!msg) return;
   input.value = '';
+  input.style.height = 'auto';
   appendMsg(msg, 'user');
   chatHistory.push({role:'user', content: msg});
   persistChat();
