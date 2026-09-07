@@ -2308,6 +2308,12 @@ const OUTPUT_CARD_MAP = {
   'analizar-porque': ['analizar-output-card'],
   'analizar-version': ['analizar-output-card'],
   'bio-output': ['bio-output-card'],
+  'cero1-output': ['cero1-output', 'cero1-actions'],
+  'cero2-output': ['cero2-output', 'cero2-actions'],
+  'cero3-output': ['cero3-output', 'cero3-actions'],
+  'cero4-output': ['cero4-output', 'cero4-actions'],
+  'cero5-output': ['cero5-output', 'cero5-actions'],
+  'cero6-output': ['cero6-output', 'cero6-actions'],
 };
 
 function toggleVisualTips(id) {
@@ -2336,7 +2342,7 @@ function restoreOutputs() {
     el.innerHTML = saved[elId];
     (OUTPUT_CARD_MAP[elId] || []).forEach(cardId => {
       const card = document.getElementById(cardId);
-      if (card) card.style.display = 'block';
+      if (card) card.style.display = card.classList.contains('output-actions') ? 'flex' : 'block';
     });
   });
 }
@@ -4671,6 +4677,7 @@ Genera:
 Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero1-output').textContent = text;
+  persistOutput('cero1-output');
   setLoading('btn-cero1', false);
 }
 
@@ -4698,6 +4705,7 @@ Genera:
 Adaptar según su etapa (empezando desde cero — honesta, sin prometer resultados que no tiene).`;
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero2-output').textContent = text;
+  persistOutput('cero2-output');
   setLoading('btn-cero2', false);
 }
 
@@ -4721,6 +4729,7 @@ Para cada destacada:
 → Cómo hacerla sin resultados propios`;
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero3-output').textContent = text;
+  persistOutput('cero3-output');
   setLoading('btn-cero3', false);
 }
 
@@ -4749,6 +4758,7 @@ Incluye:
 Formato: lista numerada, simple y directa.`;
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero4-output').textContent = text;
+  persistOutput('cero4-output');
   setLoading('btn-cero4', false);
 }
 
@@ -4773,6 +4783,7 @@ Genera:
 [lista simple y práctica]`;
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero5-output').textContent = text;
+  persistOutput('cero5-output');
   document.getElementById('btn-cero5').disabled = false;
   setLoading('btn-cero5-mensajes', false);
 }
@@ -4808,6 +4819,7 @@ Genera el HTML completo listo para subir a Vercel.`;
 
   const text = await callClaude(prompt, SYS);
   document.getElementById('cero5-output').textContent = text;
+  persistOutput('cero5-output');
   setLoading('btn-cero5', false);
 }
 
@@ -4897,9 +4909,9 @@ function showTodayPlan() {
 
   todayEl.innerHTML = `<div style="background:linear-gradient(135deg,rgba(232,49,90,0.08),rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:16px">
     <div style="font-size:11px;color:#D4AF37;font-weight:700;margin-bottom:6px">📅 HOY — DÍA ${todayPlan.day}</div>
-    <div style="font-size:16px;font-weight:700;color:#FFFFFF;margin-bottom:4px">${formatIcon} ${todayPlan.format}</div>
-    <div style="font-size:13px;color:#DDDDDD;margin-bottom:12px">${todayPlan.topic}</div>
-    ${todayPlan.hook ? `<div style="font-size:12px;color:#999;margin-bottom:12px;font-style:italic">"${todayPlan.hook}"</div>` : ''}
+    <div style="font-size:16px;font-weight:700;color:#262019;margin-bottom:4px">${formatIcon} ${todayPlan.format}</div>
+    <div style="font-size:13px;color:#3A322C;margin-bottom:12px">${todayPlan.topic}</div>
+    ${todayPlan.hook ? `<div style="font-size:12px;color:#8C7A72;margin-bottom:12px;font-style:italic">"${todayPlan.hook}"</div>` : ''}
     <button onclick="irAGenerarDesdePlan()" class="btn-primary" style="font-size:12px;padding:8px 16px;width:100%">✦ Generar mi contenido de hoy</button>
   </div>`;
 }
