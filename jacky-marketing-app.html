@@ -1440,9 +1440,9 @@
           </div>
           <label>¿Cuántas opciones quieres?</label>
           <div class="chips" id="portadas-cantidad-chips">
-            <button class="chip" onclick="setSingle(this)">4</button>
+            <button class="chip" onclick="setSingle(this)">2</button>
+            <button class="chip" onclick="setSingle(this)">3</button>
             <button class="chip selected" onclick="setSingle(this)">6</button>
-            <button class="chip" onclick="setSingle(this)">8</button>
           </div>
           <label>¿Tienes un gancho propio que quieras usar? (opcional)</label>
           <input type="text" id="portadas-hook-propio" placeholder="Ej: La verdad que nadie te dice sobre trabajar desde casa">
@@ -3486,10 +3486,12 @@ PORTADA 2:
     const partes = text.split(/PORTADA\s*\d+[:.]?\s*/i).map(s => s.trim()).filter(Boolean);
     let html = '';
     partes.forEach((texto, i) => {
-      html += `<div class="card" style="margin-bottom:10px">
+      html += `<div class="card" id="portada-card-${i}" style="margin-bottom:10px">
         <div class="output-box" id="portada-opcion-${i}" style="min-height:auto;padding:14px 18px;font-size:16px;font-weight:700">${texto}</div>
         <div class="output-actions">
           <button class="btn-copy" onclick="copyText('portada-opcion-${i}',this)">📋 Copiar opción ${i+1}</button>
+          <button class="btn-secondary" onclick="regeneratePortadaOption(${i})">🔄 Otra opción</button>
+          <button class="btn-secondary" onclick="deletePortadaOption(${i})">🗑️ Borrar</button>
         </div>
       </div>`;
     });
@@ -3499,6 +3501,36 @@ PORTADA 2:
     listEl.innerHTML = '<p style="color:#CDA0A5">Error generando portadas, intenta de nuevo.</p>';
   }
   setLoading('btn-gen-portadas', false);
+}
+
+function deletePortadaOption(i) {
+  document.getElementById('portada-card-' + i)?.remove();
+  persistOutput('portadas-output-list');
+}
+
+async function regeneratePortadaOption(i) {
+  const box = document.getElementById('portada-opcion-' + i);
+  const card = document.getElementById('portada-card-' + i);
+  const btn = card?.querySelector('.btn-secondary');
+  const tema = document.getElementById('portadas-tema').value;
+  const estilo = document.querySelector('#portadas-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
+  const existentes = Array.from(document.querySelectorAll('#portadas-output-list .output-box')).map(el => el.textContent).join(' | ');
+  if (btn) btn.disabled = true;
+  box.style.opacity = '0.5';
+  const prompt = `Escribe SOLO 1 opción NUEVA de portada de reel (título/texto grande que va encima del video) sobre: "${tema}".
+Estilo: ${estilo.includes('Faceless') ? 'faceless — no uses "yo"' : 'marca personal, primera persona'}.
+${getProfileContext()}
+Usa una estructura de gancho viral (revelación, polémico, curiosidad, lista, pregunta, "nadie habla de esto", antes/después, etc.) DISTINTA a estas portadas que ya tengo: ${existentes}
+Máximo 8 palabras. Responde ÚNICAMENTE con el texto de la portada nueva, sin comillas, sin numeración, sin explicación.`;
+  try {
+    const nuevo = await callClaude(prompt, SYS);
+    box.textContent = nuevo;
+    persistOutput('portadas-output-list');
+  } catch(e) {
+    alert('No se pudo generar otra opción, intenta de nuevo.');
+  }
+  box.style.opacity = '1';
+  if (btn) btn.disabled = false;
 }
 
 async function generateModelarPortada() {
