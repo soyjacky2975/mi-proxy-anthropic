@@ -4664,15 +4664,23 @@ async function generarCero1() {
   document.getElementById('cero1-output').style.display = 'block';
   document.getElementById('cero1-actions').style.display = 'flex';
   const ctx = getProfileContext();
-  const prompt = `Genera la presentación digital para esta emprendedora que está empezando desde cero.
+  const prompt = `Genera la identidad digital para esta emprendedora que está empezando desde cero.
 ${ctx}
-Usuario sugerido: ${usuario || 'aún por definir'}
+Usuario sugerido por ella: ${usuario || 'aún por definir — sugiere tú una opción'}
 
-Genera:
-1. Propuesta de nombre de usuario optimizado con keywords del nicho
-2. Cómo presentarse en redes siendo nueva (sin mentir ni exagerar)
-3. Su propuesta de valor en 1 frase poderosa
-4. Qué tipo de contenido compartirá para atraer a su cliente ideal
+Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
+
+📌 USUARIO SUGERIDO:
+[@usuario con keyword del nicho — si ella ya dio uno, mejóralo o confírmalo]
+
+🎤 CÓMO PRESENTARTE (siendo nueva, sin mentir ni exagerar):
+[1-2 frases]
+
+💎 PROPUESTA DE VALOR (1 frase poderosa):
+[frase]
+
+📸 TIPO DE CONTENIDO A COMPARTIR:
+[3-4 ideas concretas para atraer a su cliente ideal]
 
 Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
   const text = await callClaude(prompt, SYS);
