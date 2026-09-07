@@ -185,7 +185,7 @@
   .msg-name{font-size:10px;font-weight:700;color:var(--fresa);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
   .chat-input-row{display:flex;gap:10px;align-items:flex-end}
   .chat-input-buttons{display:flex;gap:10px;flex-shrink:0}
-  .chat-input{flex:1;background:#F4EEE7;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);color:#262019;font-family:"DM Sans",sans-serif;font-size:15px;padding:12px 14px;outline:none;transition:border-color 0.2s;resize:none;min-height:48px;max-height:160px;line-height:1.5;overflow-y:auto}
+  .chat-input{flex:1;background:#F4EEE7;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);color:#262019;font-family:"DM Sans",sans-serif;font-size:15px;padding:12px 14px;outline:none;transition:border-color 0.2s;resize:none;min-height:80px;max-height:200px;line-height:1.5;overflow-y:auto}
   .chat-input:focus{border-color:var(--fresa)}
   @media(max-width:700px){
     .chat-input{font-size:16px}
@@ -332,12 +332,16 @@
 <div class="modal-overlay hidden" id="commitment-modal">
   <div class="modal-box">
     <button class="modal-close" onclick="skipModal('commitment-modal')" aria-label="Cerrar">✕</button>
-    <div class="modal-q">¿Por qué estás aquí? 💭</div>
+    <div class="modal-q">Tu meta es lo que te trajo aquí 💙</div>
+    <div id="commitment-meta-box" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+      <p style="font-size:11px;color:#D4AF37;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Tu meta</p>
+      <p id="commitment-meta-text" style="font-size:13px;color:#262019;font-weight:600"></p>
+    </div>
     <p style="color:#555049;font-size:13px;margin-bottom:16px;line-height:1.6">Cuéntale a Jackia qué te motiva — esto te va a recordar tu meta cuando más lo necesites.</p>
     <textarea id="commitment-text" placeholder="Ej: Quiero generar mis primeros ingresos digitales y tener más tiempo para mi familia..." style="min-height:90px;margin-bottom:16px"></textarea>
     <div style="background:#FFFFFF;border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:14px;margin-bottom:18px">
       <p style="font-size:12px;color:#D4AF37;font-weight:700;margin-bottom:6px">💪 Mi compromiso:</p>
-      <p style="font-size:12px;color:#555049;line-height:1.6">Voy a aplicar el método con consistencia. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.</p>
+      <p id="commitment-texto-personalizado" style="font-size:12px;color:#555049;line-height:1.6">Voy a aplicar el método con consistencia. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.</p>
     </div>
     <button class="btn-primary" onclick="finishCommitment()" style="width:100%;justify-content:center">✦ Acepto mi compromiso — Empezar</button>
   </div>
@@ -352,6 +356,8 @@
       <div class="modal-dot" id="dot-3"></div>
       <div class="modal-dot" id="dot-4"></div>
       <div class="modal-dot" id="dot-5"></div>
+      <div class="modal-dot" id="dot-6"></div>
+      <div class="modal-dot" id="dot-7"></div>
     </div>
     <div class="modal-step active" id="step-0">
       <div class="modal-q">Hola! Soy Jackia 👋 Cuéntame sobre ti</div>
@@ -371,12 +377,28 @@
       <div class="modal-nav"><button class="btn-primary" onclick="nextStep(1)">Siguiente →</button></div>
     </div>
     <div class="modal-step" id="step-1">
-      <div class="modal-q">¿Quién es tu cliente? 🎯</div>
-      <div class="modal-hint">Cuéntanos: quién es, qué problema tiene, y qué solución le das tú. Esto es clave para atraer a quien de verdad necesita lo que ofreces — no solo "gustar" a cualquiera.</div>
-      <textarea id="ob-cliente-dolor" placeholder="Ej: Mis clientas son mujeres que quieren vender online pero no saben qué publicar (problema). Yo les ofrezco una app que les genera el contenido listo, resolviendo su miedo a no saber por dónde empezar (solución)." style="min-height:110px"></textarea>
+      <div class="modal-q">Cuéntanos más sobre tu negocio 💬</div>
+      <div class="modal-hint">Cuéntanos con tus palabras qué haces, qué vendes, o en qué etapa estás — mientras más detalle, mejor te ayuda Jackia.</div>
+      <textarea id="ob-negocio-desc" placeholder="Ej: Soy repostera y vendo tortas personalizadas / Tengo idea pero no sé por dónde empezar / No sé qué quiero vender todavía" style="min-height:100px"></textarea>
+      <div style="margin-top:10px">
+        <button class="btn-secondary" style="font-size:12px" onclick="sugerirNichoIA()">💡 No tengo idea — Jackia me sugiere nicho</button>
+        <div class="output-box" id="ob-negocio-sugerencia" style="display:none;margin-top:8px;min-height:40px"></div>
+      </div>
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(0)">← Atrás</button><button class="btn-primary" onclick="nextStep(2)">Siguiente →</button></div>
     </div>
     <div class="modal-step" id="step-2">
+      <div class="modal-q">¿Quién es tu cliente? 🎯</div>
+      <div class="modal-hint">Cuéntanos: quién es, qué problema tiene, y qué solución le das tú. Esto es clave para atraer a quien de verdad necesita lo que ofreces — no solo "gustar" a cualquiera.</div>
+      <textarea id="ob-cliente-dolor" placeholder="Ej: Mis clientas son mujeres que quieren vender online pero no saben qué publicar (problema). Yo les ofrezco una app que les genera el contenido listo, resolviendo su miedo a no saber por dónde empezar (solución)." style="min-height:110px"></textarea>
+      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(1)">← Atrás</button><button class="btn-primary" onclick="nextStep(3)">Siguiente →</button></div>
+    </div>
+    <div class="modal-step" id="step-3">
+      <div class="modal-q">¿Cómo estás en redes ahora mismo? 📱</div>
+      <div class="modal-hint">Cuéntanos tu situación actual — así Jackia sabe desde dónde partir contigo.</div>
+      <textarea id="ob-redes-actuales" placeholder="Ej: Tengo Instagram hace 3 meses pero casi no publico y no vendo nada" style="min-height:100px"></textarea>
+      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(2)">← Atrás</button><button class="btn-primary" onclick="nextStep(4)">Siguiente →</button></div>
+    </div>
+    <div class="modal-step" id="step-4">
       <div class="modal-q">¿Cómo apareces en redes sociales?</div>
       <div class="modal-hint">Esto define el tono de TODO el contenido que generes.</div>
       <div class="modal-options">
@@ -384,37 +406,33 @@
         <button class="modal-opt" onclick="selectOpt(this,'estilo','faceless')"><span class="modal-opt-icon">🎭</span><div><strong>Faceless — sin mostrarme</strong><div style="font-size:12px;color:var(--muted)">Cuenta anónima, el sistema trabaja por mí</div></div></button>
         <button class="modal-opt" onclick="selectOpt(this,'estilo','ambos')"><span class="modal-opt-icon">🔄</span><div><strong>Ambos — mezclo los dos</strong></div></button>
       </div>
-      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(1)">← Atrás</button><button class="btn-primary" onclick="nextStep(3)">Siguiente →</button></div>
-    </div>
-    <div class="modal-step" id="step-3">
-      <div class="modal-q">¿Cuál es tu objetivo este mes?</div>
-      <div class="modal-hint">Puedes elegir más de uno — Jackia adapta el contenido a todos tus objetivos.</div>
-      <div class="modal-options">
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','primera_venta')"><span class="modal-opt-icon">🚀</span><div><strong>Mi primera venta en dólares</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','escalar_ventas')"><span class="modal-opt-icon">💵</span><div><strong>Escalar mis ventas</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','crecer_audiencia')"><span class="modal-opt-icon">📈</span><div><strong>Crecer mi audiencia y seguidores</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','lanzar_producto')"><span class="modal-opt-icon">🎁</span><div><strong>Lanzar un producto nuevo</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','ganar_autoridad')"><span class="modal-opt-icon">👑</span><div><strong>Posicionarme como referente</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','comunidad')"><span class="modal-opt-icon">💙</span><div><strong>Construir comunidad activa</strong></div></button>
-      </div>
-      <div style="margin-top:12px">
-        <label style="font-size:12px;color:var(--muted)">¿Tienes otro objetivo? (opcional)</label>
-        <input type="text" id="ob-objetivo-extra" placeholder="Ej: conseguir mis primeros 1K seguidores este mes..." style="margin-top:6px">
-      </div>
-      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(2)">← Atrás</button><button class="btn-primary" onclick="nextStep(4)">Siguiente →</button></div>
-    </div>
-    <div class="modal-step" id="step-4">
-      <div class="modal-q">¿Dónde está tu audiencia?</div>
-      <div class="modal-hint">Ajustamos el español y referencias a tu mercado. Puedes elegir más de uno si vendes en varios países.</div>
-      <div class="modal-options" id="mercado-options">
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','latam')"><span class="modal-opt-icon">🌎</span><div><strong>Hispanoamérica</strong><div style="font-size:11px;color:var(--muted)">México, Colombia, Venezuela, Argentina...</div></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','espana')"><span class="modal-opt-icon">🇪🇸</span><div><strong>España</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','eeuu_espanol')"><span class="modal-opt-icon">🇺🇸</span><div><strong>Estados Unidos (español)</strong></div></button>
-        <button class="modal-opt" onclick="toggleMultiOpt(this,'mercado','internacional')"><span class="modal-opt-icon">🌍</span><div><strong>Internacional</strong><div style="font-size:11px;color:var(--muted)">Todo el mundo hispanohablante</div></div></button>
-      </div>
       <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(3)">← Atrás</button><button class="btn-primary" onclick="nextStep(5)">Siguiente →</button></div>
     </div>
     <div class="modal-step" id="step-5">
+      <div class="modal-q">¿Qué quieres lograr en tu emprendimiento y en tu vida?</div>
+      <div class="modal-hint">Puedes elegir más de uno — Jackia adapta el contenido a todos tus objetivos.</div>
+      <div class="modal-options">
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','ingresos_casa')"><span class="modal-opt-icon">🏡</span><div><strong>Generar ingresos desde casa</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','dejar_trabajo')"><span class="modal-opt-icon">🚪</span><div><strong>Dejar mi trabajo y vivir de mi negocio</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','independencia_financiera')"><span class="modal-opt-icon">💰</span><div><strong>Tener independencia financiera</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','tiempo_familia')"><span class="modal-opt-icon">👨‍👩‍👧</span><div><strong>Tener más tiempo para mi familia</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','marca_reconocida')"><span class="modal-opt-icon">👑</span><div><strong>Construir mi marca y ser reconocida</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','primeros_clientes')"><span class="modal-opt-icon">🚀</span><div><strong>Conseguir mis primeros clientes</strong></div></button>
+        <button class="modal-opt" onclick="toggleMultiOpt(this,'objetivo','vender_escalar')"><span class="modal-opt-icon">📈</span><div><strong>Vender más y escalar mi negocio</strong></div></button>
+      </div>
+      <div style="margin-top:12px">
+        <label style="font-size:12px;color:var(--muted)">¿Algo más? (opcional)</label>
+        <input type="text" id="ob-objetivo-extra" placeholder="Ej: conseguir mis primeros 1K seguidores este mes..." style="margin-top:6px">
+      </div>
+      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(4)">← Atrás</button><button class="btn-primary" onclick="nextStep(6)">Siguiente →</button></div>
+    </div>
+    <div class="modal-step" id="step-6">
+      <div class="modal-q">¿Qué te ha impedido avanzar hasta hoy? 💭</div>
+      <div class="modal-hint">Sé honesta — esto ayuda a Jackia a acompañarte mejor en tu proceso.</div>
+      <textarea id="ob-impedimento" placeholder="Ej: Me da miedo la cámara / No sé qué publicar / No tengo tiempo" style="min-height:100px"></textarea>
+      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(5)">← Atrás</button><button class="btn-primary" onclick="nextStep(7)">Siguiente →</button></div>
+    </div>
+    <div class="modal-step" id="step-7">
       <div class="modal-q">¿Cuánto tiempo llevas en redes sociales?</div>
       <div class="modal-hint">Adaptamos el nivel del contenido a donde estás.</div>
       <div class="modal-options">
@@ -438,7 +456,7 @@
         <label style="font-size:12px;color:var(--muted)">¿Hay algo más que Jackia deba saber sobre ti o tu negocio? (opcional)</label>
         <textarea id="ob-info-adicional" placeholder="Ej: Tengo un podcast, vendo en español e inglés, mi audiencia es principalmente de México, tengo un grupo de WhatsApp activo..." style="min-height:70px;margin-top:6px"></textarea>
       </div>
-      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(4)">← Atrás</button><button class="btn-primary" onclick="finishOnboarding()">✦ Empezar!</button></div>
+      <div class="modal-nav"><button class="btn-secondary" onclick="nextStep(6)">← Atrás</button><button class="btn-primary" onclick="finishOnboarding()">✦ Empezar!</button></div>
     </div>
   </div>
 </div>
@@ -461,23 +479,26 @@
   <div class="main">
     <nav class="sidebar" id="sidebar">
       <button class="sidebar-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
-      <div class="sidebar-label">Plan Pro</div>
+      <div class="sidebar-label">Plan Pro $19.99</div>
+      <button class="nav-item" onclick="showPanel('tumejorversion',this)"><span class="nav-icon">🧠</span> Tu Mejor Versión</button>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
       <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
       <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
       <button class="nav-item" onclick="showPanel('portadas',this)"><span class="nav-icon">🎯</span> Portadas para Reels</button>
       <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
+      <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
       <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Crea Tu Oferta</button>
       <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
-      <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
       <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
-      <div class="sidebar-label">Premium</div>
-      <button class="nav-item" onclick="showPanel('biblioteca',this)"><span class="nav-icon">📚</span> Biblioteca</button>
+      <div class="sidebar-label">Premium $59.99</div>
       <button class="nav-item" onclick="showPanel('radiografiabio',this)"><span class="nav-icon">🔎</span> Radiografía de tu Bio</button>
-      <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
       <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analiza, Adapta y Modela</button>
+      <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
+      <button class="nav-item" onclick="showPanel('biblioteca',this)"><span class="nav-icon">📚</span> Biblioteca</button>
       <button class="nav-item" onclick="showPanel('chat',this)"><span class="nav-icon">🧠</span> Cerebro Jackia</button>
+      <div class="sidebar-label">IA Studio $99</div>
+      <button class="nav-item" onclick="showPanel('iastudio',this)"><span class="nav-icon">🚧</span> En Construcción</button>
       <div class="nav-pro">
         <p>Eres del <strong>plan gratuito</strong> — 7 días de contenido. Pasa a <strong>Pro</strong> y genera contenido nuevo cada mes, o a <strong>Premium</strong> para generaciones ilimitadas.</p>
         <button class="btn-upgrade">✨ Pro $19.99/mes (promo lanzamiento) — renovación automática mensual, cancela cuando quieras</button>
@@ -487,6 +508,38 @@
     <main class="content">
 
       <!-- HOME -->
+      <!-- TU MEJOR VERSION -->
+      <div class="panel" id="panel-tumejorversion">
+        <div class="page-header">
+          <h1 class="page-title">🧠 Tu Mejor Versión</h1>
+          <p class="page-subtitle">Construye tu mente de éxito y descubre la emprendedora que llevas dentro</p>
+        </div>
+        <div class="card" id="tumejorversion-mensaje-card" style="margin-bottom:16px">
+          <div class="card-title">💛 Mensaje para ti hoy</div>
+          <div class="output-box" id="tumejorversion-mensaje" style="min-height:90px">Cargando tu mensaje de hoy...</div>
+          <button class="btn-secondary" style="margin-top:10px;font-size:12px" onclick="generarMensajeMindset()">🔄 Otro mensaje</button>
+        </div>
+        <div class="card">
+          <div class="card-title">✍️ Cuéntale a Jackia cómo te sientes hoy</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Miedo a la cámara, dudas, procrastinación, comparación con otras... Jackia te responde con mentalidad y un empujón para seguir.</p>
+          <textarea id="tumejorversion-input" placeholder="Ej: Hoy no tengo ganas de grabar, siento que no voy a lograrlo..." style="min-height:80px"></textarea>
+          <button class="btn-primary" id="btn-tumejorversion" style="margin-top:10px" onclick="generarApoyoMindset()">✦ Necesito un empujón</button>
+          <div class="output-box" id="tumejorversion-output" style="min-height:80px;margin-top:10px;display:none"></div>
+        </div>
+      </div>
+
+      <!-- IA STUDIO -->
+      <div class="panel" id="panel-iastudio">
+        <div class="page-header">
+          <h1 class="page-title">🎬 IA Studio</h1>
+        </div>
+        <div class="card" style="text-align:center;padding:40px 24px">
+          <div style="font-size:48px;margin-bottom:16px">🚧</div>
+          <div style="font-weight:700;font-size:18px;color:var(--gold);margin-bottom:10px">En Construcción</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7">Muy pronto: generación de imágenes y video con IA para tu contenido. 🔥</div>
+        </div>
+      </div>
+
       <!-- DE CERO A LISTA -->
       <div class="panel" id="panel-ceroalista">
         <div class="page-header">
@@ -511,27 +564,39 @@
             <div id="cero-check1" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">1</div>
             <div style="font-weight:700;font-size:14px">Tu Identidad Digital</div>
           </div>
-          <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding. Aquí generamos cómo presentarte al mundo.</div>
-          <div class="keyword-tip" style="margin-top:8px">📧 Antes de empezar: asegúrate de tener un correo electrónico a la mano — lo vas a necesitar para crear tus cuentas.</div>
+          <div class="keyword-tip">💡 Jackia ya conoce tu nicho del onboarding.</div>
 
-          <div class="keyword-tip" style="margin-top:8px">💡 Instagram, Facebook y Threads son de Meta — ve creándolas una por una con calma, y cuando las tengas todas listas, se integran entre sí (mismo usuario, bio y contenido). TikTok es distinto: usuario y formato de contenido propios, va aparte.</div>
+          <label style="margin-top:10px">¿Tienes correo para crear tus cuentas?</label>
+          <div class="chips" id="cero-correo-chips">
+            <button class="chip selected" onclick="setSingle(this);toggleCorreoSugerido(false)">Sí, ya tengo</button>
+            <button class="chip" onclick="setSingle(this);toggleCorreoSugerido(true)">No tengo</button>
+          </div>
+          <div id="cero-correo-sugerido-box" style="display:none;margin-top:8px">
+            <button class="btn-secondary" style="font-size:12px" onclick="sugerirCorreo()">✉️ Sugiéreme un correo</button>
+            <div class="output-box" id="cero-correo-output" style="min-height:40px;margin-top:8px;display:none"></div>
+          </div>
 
           <label style="margin-top:10px">¿Cuál es tu nombre de usuario ideal?</label>
           <input type="text" id="cero-usuario" placeholder="Ej: @mariadecoración · @coach.emprendedoras · @faceless.marketing">
-          <div class="keyword-tip" style="margin-top:8px">💡 Tip: usa keywords de tu nicho en el usuario para aparecer en búsquedas</div>
-          <button class="btn-primary" id="btn-cero1" onclick="generarCero1()" style="margin-top:10px">✦ Generar mi presentación digital</button>
-          <div class="output-box" id="cero1-output" style="min-height:80px;margin-top:10px;display:none"></div>
-          <div id="cero1-actions" style="display:none" class="output-actions">
-            <button class="btn-copy" onclick="copyText('cero1-output',this)">📋 Copiar</button>
-            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(1)">✅ Listo — siguiente paso</button>
+          <div class="keyword-tip" style="margin-top:8px">💡 Instagram, Facebook y Threads son de Meta — ve creándolas una por una con calma, y cuando las tengas todas listas, se integran entre sí (mismo usuario, bio y contenido). TikTok es distinto: usuario y formato de contenido propios, va aparte.</div>
+
+          <label style="margin-top:10px">Generar mi Usuario y Nombre — elige la red:</label>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn-primary" id="btn-cero1-instagram" onclick="generarCero1('Instagram')" style="flex:1;font-size:12px">✦ Instagram</button>
+            <button class="btn-primary" id="btn-cero1-facebook" onclick="generarCero1('Facebook')" style="flex:1;font-size:12px">✦ Facebook</button>
+            <button class="btn-primary" id="btn-cero1-threads" onclick="generarCero1('Threads')" style="flex:1;font-size:12px">✦ Threads</button>
+            <button class="btn-primary" id="btn-cero1-tiktok" onclick="generarCero1('TikTok')" style="flex:1;font-size:12px">✦ TikTok</button>
+            <button class="btn-primary" id="btn-cero1-youtube" disabled style="flex:1;font-size:12px" title="Próximamente">✦ YouTube (Próximamente)</button>
           </div>
+          <div id="cero1-bloques" style="margin-top:10px"></div>
+          <button class="btn-primary" id="cero1-listo-btn" style="font-size:12px;display:none;margin-top:6px" onclick="marcarPaso(1)">✅ Listo — siguiente paso</button>
         </div>
 
         <!-- PASO 2 -->
         <div class="card" id="cero-paso2" style="margin-bottom:12px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
             <div id="cero-check2" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">2</div>
-            <div style="font-weight:700;font-size:14px">Tu Bio y Nombre Optimizado</div>
+            <div style="font-weight:700;font-size:14px">Tu Bio</div>
           </div>
           <div class="keyword-tip">💡 Genera cada red por separado, a tu ritmo — se van agregando abajo, una por una.</div>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
@@ -541,11 +606,8 @@
             <button class="btn-primary" id="btn-cero2-tiktok" onclick="generarCero2('TikTok')" style="flex:1;font-size:12px">✦ TikTok</button>
             <button class="btn-primary" id="btn-cero2-youtube" disabled style="flex:1;font-size:12px" title="Próximamente">✦ YouTube (Próximamente)</button>
           </div>
-          <div class="output-box" id="cero2-output" style="min-height:80px;margin-top:10px;display:none"></div>
-          <div id="cero2-actions" style="display:none" class="output-actions">
-            <button class="btn-copy" onclick="copyText('cero2-output',this)">📋 Copiar</button>
-            <button class="btn-primary" style="font-size:12px" onclick="marcarPaso(2)">✅ Listo — siguiente paso</button>
-          </div>
+          <div id="cero2-bloques" style="margin-top:10px"></div>
+          <button class="btn-primary" id="cero2-listo-btn" style="font-size:12px;display:none;margin-top:6px" onclick="marcarPaso(2)">✅ Listo — siguiente paso</button>
         </div>
 
         <!-- PASO 3 -->
@@ -612,13 +674,8 @@
             <div id="cero-check6" style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);border:2px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">6</div>
             <div style="font-weight:700;font-size:14px">Tu Primer Contenido</div>
           </div>
-          <div class="keyword-tip">💡 Tu primer reel de presentación + plan de la primera semana.</div>
-          <button class="btn-primary" id="btn-cero6" onclick="generarCero6()" style="margin-top:8px">✦ Generar mi primer contenido</button>
-          <div class="output-box" id="cero6-output" style="min-height:80px;margin-top:10px;display:none"></div>
-          <div id="cero6-actions" style="display:none" class="output-actions">
-            <button class="btn-copy" onclick="copyText('cero6-output',this)">📋 Copiar</button>
-            <button class="btn-primary" style="font-size:12px;background:linear-gradient(135deg,#E8315A,#D4AF37)" onclick="marcarPaso(6)">🎉 ¡Lista para publicar!</button>
-          </div>
+          <div class="keyword-tip">💡 Ya tienes todo listo (usuario, bio, destacadas, cuenta configurada, sistema de ventas). Ahora vamos directo a crear tu Plan de Contenido — ahí Jackia usa todo lo que ya generaste para armarte tu primer contenido.</div>
+          <button class="btn-primary" id="btn-cero6" style="margin-top:8px;background:linear-gradient(135deg,#E8315A,#D4AF37)" onclick="marcarPaso(6);showPanel('plan',null)">🎉 ¡Lista! Crear mi Plan de Contenido</button>
         </div>
 
         <!-- COMPLETADO -->
@@ -1824,49 +1881,6 @@
         </div>
       </div>
 
-      <div class="panel" id="panel-perfil">
-        <div class="page-header">
-          <div class="page-eyebrow">Exclusivo Premium</div>
-          <h1 class="page-title">Analiza tu Perfil 🔎</h1>
-          <p class="page-subtitle">Tu perfil es tu vitrina digital. En 3 segundos deciden si se quedan o se van. Vamos a asegurarnos de que se queden.</p>
-        </div>
-        <div class="card">
-          <div class="keyword-tip">💡 <strong>¿Cómo funciona?</strong> Llena la información de tu perfil → Jackia audita los 6 puntos clave → Recibes un análisis completo con puntuación y los 3 cambios más urgentes.</div>
-          
-          <label>Tu @usuario de Instagram</label>
-          <input type="text" id="perfil-usuario" placeholder="Ej: @soyjackybusiness">
-          
-          <label>¿Qué vendes exactamente? <span style="font-size:11px;color:#888">(opcional)</span></label>
-          <input type="text" id="perfil-producto" placeholder="Ej: curso online, mentoría 1:1, servicio freelance...">
-          
-          <label>¿A quién le vendes? <span style="font-size:11px;color:#888">(opcional)</span></label>
-          <input type="text" id="perfil-cliente" placeholder="Ej: mujeres emprendedoras de 25-40 años que quieren vender por redes">
-          
-          <label>Tu nicho o temática <span style="font-size:11px;color:#888">(opcional)</span></label>
-          <input type="text" id="perfil-nicho" placeholder="Ej: marketing digital, coaching, belleza, productos digitales...">
-
-          <label>Pega tu bio actual aquí</label>
-          <textarea id="perfil-bio" placeholder="Copia y pega exactamente lo que dice tu bio de Instagram..." style="min-height:80px"></textarea>
-
-          <label>Describe tus historias destacadas actuales</label>
-          <textarea id="perfil-destacadas" placeholder="Ej: Tengo 3 destacadas: 'Sobre mí', 'Servicios' y 'Testimonios'..." style="min-height:60px"></textarea>
-
-          <label>Describe tus primeras 3 publicaciones del feed</label>
-          <textarea id="perfil-feed" placeholder="Ej: Un reel sobre marketing, una foto mía y un carrusel de tips..." style="min-height:60px"></textarea>
-
-          <button class="btn-primary" id="btn-gen-perfil" onclick="generatePerfil()" style="margin-top:12px">🔎 Analizar mi Perfil</button>
-        </div>
-
-        <div class="card" id="perfil-output-card" style="display:none">
-          <div class="card-title">📊 Análisis Completo de tu Perfil</div>
-          <div class="output-box" id="perfil-output" style="min-height:300px"></div>
-          <div class="output-actions">
-            <button class="btn-copy" onclick="copyText('perfil-output',this)">📋 Copiar análisis</button>
-            <button class="btn-secondary" onclick="generatePerfil()">↻ Nuevo análisis</button>
-          </div>
-        </div>
-      </div>
-
       <!-- ANALIZA ADAPTA Y MODELA -->
       <div class="panel" id="panel-analizar">
         <div class="page-header">
@@ -1952,84 +1966,6 @@
 
 
       <!-- RESEÑAS -->
-      <!-- OPTIMIZA TU BIO -->
-      <div class="panel" id="panel-bio">
-        <div class="page-header">
-          <div class="page-eyebrow">Plan Pro</div>
-          <h1 class="page-title">Optimiza tu Bio ✍️</h1>
-          <p class="page-subtitle">Tu bio es tu primera impresión. En 3 segundos el cliente decide si se queda o se va. Vamos a hacer que se quede.</p>
-        </div>
-        <div class="card">
-          <div class="keyword-tip">💡 <strong>Principio clave:</strong> Tu bio no habla de ti — habla de lo que tu cliente está buscando. Cuando la lea debe pensar: "Esto es exactamente para mí."</div>
-
-          <label>¿En qué etapa estás?</label>
-          <div class="chips" id="bio-etapa-chips" style="margin-bottom:16px">
-            <button class="chip selected" onclick="setBioEtapa(this,'empezando')">🌱 Empezando (sin resultados aún)</button>
-            <button class="chip" onclick="setBioEtapa(this,'resultados')">🔥 Ya tengo resultados</button>
-          </div>
-
-          <!-- SECCIÓN EMPEZANDO -->
-          <div id="bio-section-empezando">
-            <label>¿Qué estás aprendiendo o construyendo?</label>
-            <input type="text" id="bio-aprendiendo" placeholder="Ej: marketing digital, vender productos digitales, crear contenido con IA...">
-            
-            <label>¿Tienes una meta específica? (opcional)</label>
-            <div class="chips" id="bio-meta-chips" style="margin-bottom:8px">
-              <button class="chip" onclick="setSingle(this)">🎯 Reto 0 a 1K</button>
-              <button class="chip" onclick="setSingle(this)">🎯 Reto 0 a 5K</button>
-              <button class="chip" onclick="setSingle(this)">🎯 Reto 0 a 10K</button>
-              <button class="chip selected" onclick="setSingle(this)">Sin meta de número</button>
-            </div>
-
-            <label>¿Qué vas a compartir en tu contenido?</label>
-            <input type="text" id="bio-contenido-empezando" placeholder="Ej: todo lo que aprendo sobre marketing, mis errores y aciertos, tips reales...">
-
-            <label>¿Tienes un recurso gratis para ofrecer? (opcional)</label>
-            <input type="text" id="bio-recurso-empezando" placeholder="Ej: guía gratis, checklist, ebook...">
-          </div>
-
-          <!-- SECCIÓN CON RESULTADOS -->
-          <div id="bio-section-resultados" style="display:none">
-            <label>¿Cuál es tu objetivo principal?</label>
-            <div class="chips" id="bio-objetivo-chips" style="margin-bottom:12px">
-              <button class="chip selected" onclick="setSingle(this)">👥 Crecer seguidores</button>
-              <button class="chip" onclick="setSingle(this)">💰 Generar ventas</button>
-              <button class="chip" onclick="setSingle(this)">✨ Ambos</button>
-            </div>
-
-            <label>¿Quién eres? (tu autoridad en 1 línea)</label>
-            <input type="text" id="bio-autoridad" placeholder="Ej: Estratega de marketing digital, Coach certificada, Creadora de contenido...">
-
-            <label>¿Cuál es el mayor dolor de tu cliente ideal?</label>
-            <input type="text" id="bio-dolor" placeholder="Ej: publica pero no vende, no sabe qué publicar, no tiene tiempo...">
-
-            <label>¿Qué resultado concreto obtendrá tu cliente?</label>
-            <input type="text" id="bio-resultado" placeholder="Ej: vender con contenido sin complicarse, conseguir clientes por redes...">
-
-            <label>¿Tienes un recurso gratis para ofrecer? (opcional)</label>
-            <input type="text" id="bio-recurso-resultados" placeholder="Ej: guía gratis, checklist, masterclass...">
-
-            <label>¿Para qué plataforma?</label>
-            <div class="chips" id="bio-plataforma-chips" style="margin-bottom:8px">
-              <button class="chip selected" onclick="setSingle(this)">📸 Instagram (150 car.)</button>
-              <button class="chip" onclick="setSingle(this)">🎵 TikTok (80 car.)</button>
-              <button class="chip" onclick="setSingle(this)">📘 Facebook (255 car.)</button>
-            </div>
-          </div>
-
-          <button class="btn-primary" id="btn-gen-bio" onclick="generateBio()" style="margin-top:14px">✍️ Generar mi Bio</button>
-        </div>
-
-        <div class="card" id="bio-output-card" style="display:none">
-          <div class="card-title">✍️ Tu Bio Optimizada</div>
-          <div class="output-box" id="bio-output" style="min-height:120px"></div>
-          <div class="output-actions">
-            <button class="btn-copy" onclick="copyText('bio-output',this)">📋 Copiar Bio</button>
-            <button class="btn-secondary" onclick="generateBio()">↻ Generar otra versión</button>
-          </div>
-        </div>
-      </div>
-
       <!-- BIBLIOTECA -->
       <div class="panel" id="panel-biblioteca">
         <div class="page-header">
@@ -2141,6 +2077,38 @@ function showPanel(id, btn) {
   closeMobileMenu();
   document.querySelector('.content')?.scrollTo(0, 0);
   if (id === 'portadas' && typeof renderCustomHooksList === 'function') renderCustomHooksList();
+  if (id === 'tumejorversion' && typeof generarMensajeMindset === 'function') generarMensajeMindset();
+}
+
+// ── TU MEJOR VERSIÓN
+async function generarMensajeMindset() {
+  const box = document.getElementById('tumejorversion-mensaje');
+  box.textContent = 'Pensando en ti... 💛';
+  const ctx = getProfileContext();
+  const prompt = `Escribe un mensaje corto de mentalidad y motivación (máximo 4-5 líneas) para una emprendedora, adaptado a su etapa y a lo que le ha costado avanzar.
+${ctx}
+Tono: cálido, real, empoderador — sin frases genéricas de "solo cree en ti", algo específico y accionable para hoy.`;
+  try {
+    const text = await callClaude(prompt, SYS);
+    box.textContent = text;
+  } catch(e) { box.textContent = '⚠️ No pude generar el mensaje, intenta de nuevo.'; }
+}
+
+async function generarApoyoMindset() {
+  const input = document.getElementById('tumejorversion-input')?.value?.trim() || '';
+  if (!input) { alert('Cuéntale a Jackia cómo te sientes 💙'); return; }
+  setLoading('btn-tumejorversion', true);
+  const out = document.getElementById('tumejorversion-output');
+  out.style.display = 'block';
+  const ctx = getProfileContext();
+  const prompt = `Una emprendedora te escribe esto: "${input}"
+${ctx}
+Respóndele con mentalidad y un empujón real para seguir adelante hoy — cálida, directa, sin sermonear, máximo 150 palabras. Si aplica, dale un micro-paso concreto que pueda hacer ahora mismo.`;
+  try {
+    const text = await callClaude(prompt, SYS);
+    out.textContent = text;
+  } catch(e) { out.textContent = '⚠️ Error generando, intenta de nuevo.'; }
+  setLoading('btn-tumejorversion', false);
 }
 
 // ── SALIR DE PANTALLAS DE BIENVENIDA (onboarding / compromiso)
@@ -2331,8 +2299,6 @@ const OUTPUT_CARD_MAP = {
   'analizar-porque': ['analizar-output-card'],
   'analizar-version': ['analizar-output-card'],
   'bio-output': ['bio-output-card'],
-  'cero1-output': ['cero1-output', 'cero1-actions'],
-  'cero2-output': ['cero2-output', 'cero2-actions'],
   'cero3-output': ['cero3-output', 'cero3-actions'],
   'cero4-output': ['cero4-output', 'cero4-actions'],
   'cero5-output': ['cero5-output', 'cero5-actions'],
@@ -4699,10 +4665,10 @@ function verGuiaGeneral() {
     </ul>
 
     <h2>Paso 1 — Tu Identidad Digital</h2>
-    <p>Jackia te sugiere tu @usuario ideal (con keywords de tu nicho), cómo presentarte siendo nueva, tu propuesta de valor y qué tipo de contenido vas a compartir. Recibes 2 opciones para elegir.</p>
+    <p>Primero dinos si ya tienes correo (si no, Jackia te sugiere opciones) y tu usuario ideal. Luego, red por red (Instagram, Facebook, Threads, TikTok), Jackia te genera tu @usuario sugerido, tu nombre optimizado, cómo presentarte, tu propuesta de valor y qué contenido compartir. Puedes generar "otra opción" o borrar la que no te guste.</p>
 
-    <h2>Paso 2 — Tu Bio y Nombre Optimizado</h2>
-    <p>Con el usuario ya definido, Jackia te da el nombre optimizado (el que aparece grande, con el que te van a encontrar) y la bio lista para copiar y pegar en tu perfil.</p>
+    <h2>Paso 2 — Tu Bio</h2>
+    <p>Igual, red por red: Jackia te da la bio lista para copiar y pegar (adaptada al límite de caracteres de cada red) más una sugerencia de qué poner en el link de bio.</p>
 
     <h2>Paso 3 — Tus Historias Destacadas</h2>
     <p>Qué destacadas poner y qué contenido va en cada una, aunque todavía no tengas resultados propios que mostrar.</p>
@@ -4714,10 +4680,10 @@ function verGuiaGeneral() {
     <p>Con tu producto o servicio (si ya lo tienes), Jackia genera tus mensajes automáticos y tu landing page básica.</p>
 
     <h2>Paso 6 — Tu Primer Contenido</h2>
-    <p>Tu primer reel de presentación (portada, guión y caption) más un plan de la primera semana completa.</p>
+    <p>Este paso ya no genera nada nuevo — con todo lo anterior listo, te lleva directo a crear tu Plan de Contenido, donde Jackia usa todo lo que ya generaste (usuario, bio, destacadas, etc.) para armarte tu primer contenido real.</p>
 
     <h2>Al terminar</h2>
-    <p>Descarga tu guía personalizada en PDF (queda guardada en tu Biblioteca) y continúa directo a crear tu Plan de Contenido semanal.</p>
+    <p>Descarga tu guía personalizada en PDF (queda guardada en tu Biblioteca).</p>
     </body></html>`;
   const win = window.open('', '_blank');
   if (!win) { alert('Permite las ventanas emergentes para ver la guía 😊'); return; }
@@ -4743,14 +4709,17 @@ function construirGuiaHTML(red, secciones) {
 
 function descargarGuiaPDF() {
   const red = getRedPrincipal();
+  const bloquesATexto = (bloques) => bloques.length
+    ? bloques.map(b => `📱 ${b.red}\n\n${b.texto}`).join('\n\n———\n\n')
+    : '(No generaste este paso todavía)';
   const secciones = [
-    { titulo: '1. Tu Identidad Digital', id: 'cero1-output' },
-    { titulo: '2. Tu Bio y Nombre Optimizado', id: 'cero2-output' },
+    { titulo: '1. Tu Identidad Digital (usuario y nombre)', id: null, contenidoFn: () => bloquesATexto(getCeroBloques(1)) },
+    { titulo: '2. Tu Bio', id: null, contenidoFn: () => bloquesATexto(getCeroBloques(2)) },
     { titulo: '3. Tus Historias Destacadas', id: 'cero3-output' },
     { titulo: '4. Configuración de tu Cuenta', id: 'cero4-output' },
     { titulo: '5. Tu Sistema de Ventas', id: 'cero5-output' },
-    { titulo: '6. Tu Primer Contenido', id: 'cero6-output' },
   ].map(s => {
+    if (s.contenidoFn) return { titulo: s.titulo, contenido: s.contenidoFn() };
     const el = document.getElementById(s.id);
     const contenido = el && el.textContent.trim() ? el.textContent.trim() : '(No generaste este paso todavía)';
     return { titulo: s.titulo, contenido };
@@ -4813,73 +4782,132 @@ function renderBiblioteca() {
 }
 
 function getRedPrincipal() {
-  const chip = document.querySelector('#cero-red-chips .chip.selected')?.textContent?.trim();
-  if (chip) { try { localStorage.setItem('jackia_red_principal', chip); } catch(e){} return chip; }
+  // Deriva la(s) red(es) ya trabajadas en los Pasos 1 y 2; si no hay ninguna, usa el valor por defecto
+  const redes = new Set([...getCeroBloques(1), ...getCeroBloques(2)].map(b => b.red));
+  if (redes.size) return [...redes].join(' + ');
   try { return localStorage.getItem('jackia_red_principal') || 'Instagram + Facebook + Threads'; } catch(e){ return 'Instagram + Facebook + Threads'; }
 }
 
-async function generarCero1() {
+function toggleCorreoSugerido(mostrar) {
+  const box = document.getElementById('cero-correo-sugerido-box');
+  if (box) box.style.display = mostrar ? 'block' : 'none';
+}
+
+async function sugerirCorreo() {
   const usuario = document.getElementById('cero-usuario')?.value || '';
-  const red = getRedPrincipal();
-  setLoading('btn-cero1', true);
-  document.getElementById('cero1-output').style.display = 'block';
-  document.getElementById('cero1-actions').style.display = 'flex';
+  const out = document.getElementById('cero-correo-output');
+  out.style.display = 'block';
+  out.textContent = 'Pensando opciones... ✨';
   const ctx = getProfileContext();
-  const prompt = `Genera la identidad digital para esta emprendedora que está empezando desde cero.
+  const prompt = `Sugiere 3 opciones de correo electrónico profesional para esta emprendedora que empieza desde cero (para crear sus cuentas de redes sociales).
 ${ctx}
-Red social principal con la que va a empezar: ${red} (adapta el tono y las recomendaciones a cómo funciona esa red específicamente)
+Usuario que quiere usar: ${usuario || 'aún no definido — basa el correo en su nicho'}
+Responde SOLO con las 3 opciones, una por línea, sin numeración ni explicación, formato: nombre@gmail.com`;
+  try {
+    const text = await callClaude(prompt, SYS);
+    out.textContent = text;
+  } catch(e) { out.textContent = '⚠️ No pude generar opciones, intenta de nuevo.'; }
+}
+
+// ── Sistema de bloques (por red social) para Pasos 1 y 2, con Otra opción / Borrar
+function getCeroBloques(pasoNum) {
+  try { return JSON.parse(localStorage.getItem(`jackia_cero${pasoNum}_bloques`) || '[]'); } catch(e) { return []; }
+}
+function setCeroBloques(pasoNum, bloques) {
+  try { localStorage.setItem(`jackia_cero${pasoNum}_bloques`, JSON.stringify(bloques)); } catch(e) {}
+}
+
+function renderCeroBloques(pasoNum) {
+  const cont = document.getElementById(`cero${pasoNum}-bloques`);
+  if (!cont) return;
+  const bloques = getCeroBloques(pasoNum);
+  cont.innerHTML = bloques.map(b => `
+    <div style="margin-bottom:10px">
+      <div class="output-box" id="cero${pasoNum}-texto-${b.id}" style="margin-bottom:6px">
+        <div style="font-weight:700;color:#D4AF37;font-size:12px;margin-bottom:6px">📱 ${b.red}</div>
+        <div style="white-space:pre-wrap">${b.texto.replace(/</g,'&lt;')}</div>
+      </div>
+      <div class="output-actions">
+        <button class="btn-copy" onclick="copyText('cero${pasoNum}-texto-${b.id}',this)">📋 Copiar</button>
+        <button class="btn-copy" onclick="regenerarCeroBloque(${pasoNum},${b.id})">🔄 Otra opción</button>
+        <button class="btn-copy" style="color:#E8315A" onclick="borrarCeroBloque(${pasoNum},${b.id})">🗑️ Borrar</button>
+      </div>
+    </div>`).join('');
+  const listoBtn = document.getElementById(`cero${pasoNum}-listo-btn`);
+  if (listoBtn) listoBtn.style.display = bloques.length ? 'inline-flex' : 'none';
+}
+
+function borrarCeroBloque(pasoNum, id) {
+  const bloques = getCeroBloques(pasoNum).filter(b => b.id !== id);
+  setCeroBloques(pasoNum, bloques);
+  renderCeroBloques(pasoNum);
+}
+
+async function regenerarCeroBloque(pasoNum, id) {
+  const bloques = getCeroBloques(pasoNum);
+  const bloque = bloques.find(b => b.id === id);
+  if (!bloque) return;
+  if (pasoNum === 1) await generarCero1(bloque.red, id);
+  else await generarCero2(bloque.red, id);
+}
+
+async function generarCero1(red, regenerarId) {
+  const usuario = document.getElementById('cero-usuario')?.value || '';
+  const btnId = `btn-cero1-${red.toLowerCase()}`;
+  setLoading(btnId, true);
+  const ctx = getProfileContext();
+  const prompt = `Genera la identidad digital para ${red} para esta emprendedora que está empezando desde cero.
+${ctx}
 Usuario sugerido por ella: ${usuario || 'aún por definir — sugiere tú opciones'}
 
-Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
+Responde SOLO con este formato, con etiquetas claras y separadas (nada de párrafos mezclados):
 
-OPCIÓN 1:
 📌 USUARIO SUGERIDO: [@usuario con keyword del nicho]
+📛 NOMBRE OPTIMIZADO (máx 30 caracteres, con keyword del nicho): [nombre | especialidad]
 🎤 CÓMO PRESENTARTE (siendo nueva, sin mentir ni exagerar): [1-2 frases]
 💎 PROPUESTA DE VALOR (1 frase poderosa): [frase]
 📸 TIPO DE CONTENIDO A COMPARTIR: [3-4 ideas concretas para atraer a su cliente ideal]
 
-OPCIÓN 2:
-📌 USUARIO SUGERIDO: [@usuario distinto, otro enfoque]
-🎤 CÓMO PRESENTARTE: [1-2 frases distintas]
-💎 PROPUESTA DE VALOR: [frase distinta]
-📸 TIPO DE CONTENIDO A COMPARTIR: [3-4 ideas distintas]
-
 Tono: honesto, empoderador, para quien empieza sin resultados aún.`;
-  const text = await callClaude(prompt, SYS);
-  document.getElementById('cero1-output').textContent = text;
-  persistOutput('cero1-output');
-  setLoading('btn-cero1', false);
+  try {
+    const text = await callClaude(prompt, SYS);
+    let bloques = getCeroBloques(1);
+    if (regenerarId) {
+      bloques = bloques.map(b => b.id === regenerarId ? { ...b, texto: text } : b);
+    } else {
+      bloques.push({ id: Date.now(), red, texto: text });
+    }
+    setCeroBloques(1, bloques);
+    renderCeroBloques(1);
+  } catch(e) { alert('⚠️ Error generando, intenta de nuevo.'); }
+  setLoading(btnId, false);
 }
 
-async function generarCero2(red) {
+async function generarCero2(red, regenerarId) {
   const btnId = `btn-cero2-${red.toLowerCase()}`;
   setLoading(btnId, true);
-  const out = document.getElementById('cero2-output');
-  out.style.display = 'block';
-  document.getElementById('cero2-actions').style.display = 'flex';
   const ctx = getProfileContext();
   const limiteBio = red === 'Instagram' ? 'máx 150 caracteres' : red === 'Threads' ? 'máx 150 caracteres' : red === 'Facebook' ? 'máx 255 caracteres' : red === 'YouTube' ? 'máx 1000 caracteres, con keywords para SEO' : 'máx 80 caracteres (TikTok es más corto)';
-  const prompt = `Genera el perfil para ${red} para esta emprendedora que empieza desde cero.
+  const prompt = `Genera la bio para ${red} para esta emprendedora que empieza desde cero.
 ${ctx}
 
-Dame 2 OPCIONES completas y distintas entre sí, para que ella elija. Responde SOLO con este formato:
+Responde SOLO con este formato:
 
-OPCIÓN 1:
-📌 NOMBRE OPTIMIZADO (máx 30 caracteres con keyword del nicho): [nombre | especialidad]
 📝 BIO ${red.toUpperCase()} (${limiteBio}): [bio lista para copiar]
 🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
 
-OPCIÓN 2:
-📌 NOMBRE OPTIMIZADO: [otra variante | especialidad]
-📝 BIO ${red.toUpperCase()}: [bio distinta, otro enfoque]
-🔗 SUGERENCIA DE LINK EN BIO: [qué poner]
-
 Adaptar según su etapa (empezando desde cero — honesta, sin prometer resultados que no tiene).`;
-  const text = await callClaude(prompt, SYS);
-  const bloqueAnterior = out.dataset.filled === 'true' ? out.innerHTML + '\n\n———\n\n' : '';
-  out.innerHTML = bloqueAnterior + `📱 ${red.toUpperCase()}\n\n` + text.replace(/</g,'&lt;');
-  out.dataset.filled = 'true';
-  persistOutput('cero2-output');
+  try {
+    const text = await callClaude(prompt, SYS);
+    let bloques = getCeroBloques(2);
+    if (regenerarId) {
+      bloques = bloques.map(b => b.id === regenerarId ? { ...b, texto: text } : b);
+    } else {
+      bloques.push({ id: Date.now(), red, texto: text });
+    }
+    setCeroBloques(2, bloques);
+    renderCeroBloques(2);
+  } catch(e) { alert('⚠️ Error generando, intenta de nuevo.'); }
   setLoading(btnId, false);
 }
 
@@ -5030,6 +5058,8 @@ Tono: auténtico, empoderador, honesto sobre su inicio.`;
 
 // Restaurar progreso guardado
 function restoreCeroProgress() {
+  renderCeroBloques(1);
+  renderCeroBloques(2);
   cerosPasos.forEach(num => {
     const check = document.getElementById(`cero-check${num}`);
     if (check) { check.textContent = '✅'; check.style.background = 'rgba(72,199,142,0.2)'; check.style.borderColor = '#48C78E'; }
@@ -5190,7 +5220,18 @@ function nextStep(to) {
   document.getElementById('step-' + currentStep).classList.remove('active');
   document.getElementById('step-' + to).classList.add('active');
   currentStep = to;
-  for (let i=0;i<6;i++) document.getElementById('dot-'+i).classList.toggle('done', i <= to);
+  for (let i=0;i<8;i++) document.getElementById('dot-'+i).classList.toggle('done', i <= to);
+}
+
+async function sugerirNichoIA() {
+  const box = document.getElementById('ob-negocio-sugerencia');
+  box.style.display = 'block';
+  box.textContent = 'Pensando ideas para ti... ✨';
+  const prompt = `Una persona quiere emprender pero no sabe qué nicho o negocio elegir. Sugiere 3 ideas de nicho para emprender online, variadas (por ejemplo: productos digitales, coaching, reventa, afiliados, algo de belleza/lifestyle). Para cada una da: el nombre del nicho + una frase de por qué podría funcionar para alguien que empieza desde cero. Responde SOLO las 3 ideas, sin encabezados largos, tono cercano y motivador.`;
+  try {
+    const text = await callClaude(prompt, SYS);
+    box.textContent = text;
+  } catch(e) { box.textContent = '⚠️ No pude generar sugerencias, intenta de nuevo.'; }
 }
 
 function injectProfileBadge() {
@@ -5220,7 +5261,9 @@ function getProfileContext() {
   if (!userProfile) return '';
   const n = {productos_propios:'productos digitales propios (ebooks, cursos, plantillas)',reventa_mrr:'productos de reventa MRR/PLR',afiliados:'marketing de afiliados (recomienda productos de otros por comisión)',coaching:'coaching y mentoria',belleza_moda:'belleza, moda y lifestyle',otro:'emprendimiento'};
   const e = {marca_personal:'cuenta con cara visible (marca personal)',faceless:'cuenta faceless sin mostrar cara',ambos:'cuenta mixta — a veces en cámara, a veces faceless'};
-  const o = {primera_venta:'hacer su primera venta en dólares',escalar_ventas:'escalar sus ventas este mes',crecer_audiencia:'crecer audiencia y seguidores',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarse como referente',comunidad:'construir comunidad activa'};
+  const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar su trabajo y vivir de su negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para su familia',marca_reconocida:'construir su marca y ser reconocida',primeros_clientes:'conseguir sus primeros clientes',vender_escalar:'vender más y escalar su negocio',
+    // compatibilidad con perfiles antiguos
+    primera_venta:'hacer su primera venta en dólares',escalar_ventas:'escalar sus ventas este mes',crecer_audiencia:'crecer audiencia y seguidores',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarse como referente',comunidad:'construir comunidad activa'};
   const m = {latam:'toda Hispanoamérica',espana:'España',eeuu_espanol:'hispanohablantes en EEUU',internacional:'todo el mundo hispanohablante'};
   const v = {cero:'empezando desde cero — NO prometer resultados que no tiene, hablar de su proceso honesto',intermedio:'tiene presencia pero está estancada — necesita transformar su estrategia',avanzado:'ya vende y quiere escalar — puede hablar de resultados y testimonios'};
   
@@ -5251,7 +5294,10 @@ function getProfileContext() {
   if (userProfile.clienteDolor) {
     ctx += ' CLIENTE IDEAL Y SU DOLOR (base para TODO el contenido — quién es, qué desea, qué le duele): "' + userProfile.clienteDolor + '".';
   }
-  
+  if (userProfile.negocioDesc) ctx += ' Descripción de su negocio en sus propias palabras: "' + userProfile.negocioDesc + '".';
+  if (userProfile.redesActuales) ctx += ' Situación actual en redes sociales: "' + userProfile.redesActuales + '".';
+  if (userProfile.impedimento) ctx += ' Lo que le ha impedido avanzar hasta hoy (usar para motivarla y hablarle con empatía, sin sonar a sermón): "' + userProfile.impedimento + '".';
+
   ctx += ' IMPORTANTE: Adaptar TODO el contenido a este perfil sin que la usuaria tenga que repetir esta información. Usar el tipo de cuenta para saber si el contenido es faceless o en cámara.';
   
   return ctx;
@@ -5481,6 +5527,9 @@ function startTimer() {
 // Mostrar compromiso y upsell después del onboarding
 function finishOnboarding() {
   const ob = window._ob || {};
+  const negocioDesc = document.getElementById('ob-negocio-desc')?.value.trim() || '';
+  const redesActuales = document.getElementById('ob-redes-actuales')?.value.trim() || '';
+  const impedimento = document.getElementById('ob-impedimento')?.value.trim() || '';
   const clienteDolor = document.getElementById('ob-cliente-dolor')?.value.trim() || '';
   const nichoExtra = document.getElementById('ob-nicho-extra')?.value.trim() || '';
   const objetivoExtra = document.getElementById('ob-objetivo-extra')?.value.trim() || '';
@@ -5490,15 +5539,18 @@ function finishOnboarding() {
   const frecuencia = frecuenciaExtra || frecuenciaChip || '';
   const mercadoArr = (Array.isArray(ob.mercado) && ob.mercado.length) ? ob.mercado : ['latam'];
   const nichoArr = (Array.isArray(ob.nicho) && ob.nicho.length) ? ob.nicho : [ob.nicho||'productos_propios'];
-  const objetivoArr = (Array.isArray(ob.objetivo) && ob.objetivo.length) ? ob.objetivo : [ob.objetivo||'primera_venta'];
-  userProfile = { 
-    nicho: nichoArr, 
+  const objetivoArr = (Array.isArray(ob.objetivo) && ob.objetivo.length) ? ob.objetivo : [ob.objetivo||'primeros_clientes'];
+  userProfile = {
+    nicho: nichoArr,
     nichoExtra: nichoExtra,
-    clienteDolor: clienteDolor, 
-    estilo: ob.estilo||'marca_personal', 
-    objetivo: objetivoArr, 
+    negocioDesc: negocioDesc,
+    redesActuales: redesActuales,
+    impedimento: impedimento,
+    clienteDolor: clienteDolor,
+    estilo: ob.estilo||'marca_personal',
+    objetivo: objetivoArr,
     objetivoExtra: objetivoExtra,
-    mercado: mercadoArr, 
+    mercado: mercadoArr,
     nivel: ob.nivel||'cero',
     frecuencia: frecuencia,
     infoAdicional: infoAdicional
@@ -5506,7 +5558,25 @@ function finishOnboarding() {
   try { localStorage.setItem('jackia_profile', JSON.stringify(userProfile)); } catch(e){}
   document.getElementById('onboarding-modal').classList.add('hidden');
   injectProfileBadge();
+  personalizarCompromiso();
   document.getElementById('commitment-modal').classList.remove('hidden');
+}
+
+function personalizarCompromiso() {
+  const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar tu trabajo y vivir de tu negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para tu familia',marca_reconocida:'construir tu marca y ser reconocida',primeros_clientes:'conseguir tus primeros clientes',vender_escalar:'vender más y escalar tu negocio',primera_venta:'hacer tu primera venta en dólares',escalar_ventas:'escalar tus ventas',crecer_audiencia:'crecer tu audiencia',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarte como referente',comunidad:'construir una comunidad activa'};
+  const objetivos = Array.isArray(userProfile?.objetivo) ? userProfile.objetivo : [userProfile?.objetivo];
+  const metas = objetivos.map(obj => o[obj]).filter(Boolean);
+  const metaBox = document.getElementById('commitment-meta-box');
+  const metaText = document.getElementById('commitment-meta-text');
+  const compromisoTexto = document.getElementById('commitment-texto-personalizado');
+  if (metas.length) {
+    const metaStr = metas.length > 1 ? metas.slice(0,-1).join(', ') + ' y ' + metas.slice(-1) : metas[0];
+    metaText.textContent = metaStr.charAt(0).toUpperCase() + metaStr.slice(1) + '.';
+    metaBox.style.display = 'block';
+    compromisoTexto.textContent = `Voy a aplicar el método con consistencia para lograr ${metaStr}. Sé que los resultados dependen de mí — de publicar, de tomar acción y de no rendirme. Jackia me da las herramientas, yo pongo la constancia.`;
+  } else {
+    metaBox.style.display = 'none';
+  }
 }
 
 function finishCommitment() {
