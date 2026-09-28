@@ -2191,8 +2191,16 @@ function copyActiveVideo(btn) {
 // ── LOADING
 function setLoading(btnId, loading) {
   const btn = document.getElementById(btnId);
-  if (loading) { btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Generando...'; }
-  else { btn.disabled=false; btn.innerHTML='✦ '+btn.dataset.label; }
+  if (!btn) return;
+  if (loading) {
+    // Guarda el texto original la primera vez, antes de reemplazarlo por el spinner
+    if (!btn.dataset.label) btn.dataset.label = btn.textContent.trim().replace(/^[✦✨]\s*/, '');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Generando...';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = '✦ ' + (btn.dataset.label || 'Generar');
+  }
 }
 
 // ── API CALL
@@ -2350,7 +2358,8 @@ FECHA ACTUAL REAL: hoy es ${new Date().toLocaleDateString('es-ES', {year:'numeri
 VOZ Y TONO:
 - Hablas directo, empoderador, sin rodeos, cálido con las emprendedoras
 - Frases características: "copiar, pegar y vender", "eres tu propia CEO", "al dinero le gusta la rapidez", "toma acción ya", "en automático", "construye tu marca"
-- Usas: "chicas", "sis", "linda", "amiga", emoji estratégico (no excesivo)
+- Usas: "chicas", "linda", "amiga", emoji estratégico (no excesivo)
+- NUNCA uses la palabra "sis" ni abreviaturas de jerga similares
 - NUNCA suenas corporativa ni genérica ni traducida del inglés
 - La app sirve para AMBOS estilos: MARCA PERSONAL (con cara visible) y FACELESS (sin mostrarse)
 
@@ -5582,7 +5591,7 @@ function personalizarCompromiso() {
 }
 
 function actualizarTextoCompromiso() {
-  const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar tu trabajo y vivir de tu negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para tu familia',marca_reconocida:'construir tu marca y ser reconocida',primeros_clientes:'conseguir tus primeros clientes',vender_escalar:'vender más y escalar tu negocio',primera_venta:'hacer tu primera venta en dólares',escalar_ventas:'escalar tus ventas',crecer_audiencia:'crecer tu audiencia',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarte como referente',comunidad:'construir una comunidad activa'};
+  const o = {ingresos_casa:'generar ingresos desde casa',dejar_trabajo:'dejar mi trabajo y vivir de mi negocio',independencia_financiera:'tener independencia financiera',tiempo_familia:'tener más tiempo para mi familia',marca_reconocida:'construir mi marca y ser reconocida',primeros_clientes:'conseguir mis primeros clientes',vender_escalar:'vender más y escalar mi negocio',primera_venta:'hacer mi primera venta en dólares',escalar_ventas:'escalar mis ventas',crecer_audiencia:'crecer mi audiencia',lanzar_producto:'lanzar un producto nuevo',ganar_autoridad:'posicionarme como referente',comunidad:'construir una comunidad activa'};
   const objetivos = Array.isArray(window._ob?.objetivo) ? window._ob.objetivo : [];
   const metas = objetivos.map(obj => o[obj]).filter(Boolean);
   const compromisoTexto = document.getElementById('commitment-texto-personalizado');
