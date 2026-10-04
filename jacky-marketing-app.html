@@ -21,7 +21,18 @@
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{background:#FFFFFF !important;color:var(--texto);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
-  .app-shell{display:grid;grid-template-rows:auto 1fr;min-height:100vh}
+  body{background:linear-gradient(160deg,#FFFFFF 0%,#FAF6F2 55%,#F4EEE7 100%) fixed !important}
+  .app-shell{display:grid;grid-template-rows:auto 1fr;min-height:100vh;position:relative;z-index:1}
+  /* Fondo: blobs de color desenfocados que flotan muy lento (lámpara de lava) */
+  .bg-blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .bg-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.42;will-change:transform}
+  .bg-blob.b1{width:52vmax;height:52vmax;left:-12vmax;top:-14vmax;background:radial-gradient(circle at 40% 40%,#CDA0A5,rgba(205,160,165,0) 70%);animation:blobDrift1 46s ease-in-out infinite alternate}
+  .bg-blob.b2{width:46vmax;height:46vmax;right:-14vmax;top:18vh;background:radial-gradient(circle at 50% 50%,#D4AF37,rgba(212,175,55,0) 70%);opacity:.3;animation:blobDrift2 58s ease-in-out infinite alternate}
+  .bg-blob.b3{width:42vmax;height:42vmax;left:22vw;bottom:-18vmax;background:radial-gradient(circle at 50% 50%,#E8CFC2,rgba(232,207,194,0) 70%);opacity:.5;animation:blobDrift3 52s ease-in-out infinite alternate}
+  @keyframes blobDrift1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(12vw,10vh) scale(1.12)}100%{transform:translate(4vw,22vh) scale(.94)}}
+  @keyframes blobDrift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-14vw,-8vh) scale(.92)}100%{transform:translate(-5vw,12vh) scale(1.1)}}
+  @keyframes blobDrift3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-10vw,-12vh) scale(1.1)}100%{transform:translate(14vw,-4vh) scale(.95)}}
+  @media (prefers-reduced-motion:reduce){.bg-blob{animation:none}}
   header{background:#FAF7F3;border-bottom:1px solid rgba(212,175,55,0.4);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100}
   .logo{display:flex;align-items:center;gap:10px}
   .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--fresa),var(--oro));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
@@ -282,6 +293,7 @@
 </style>
 </head>
 <body>
+<div class="bg-blobs" aria-hidden="true"><div class="bg-blob b1"></div><div class="bg-blob b2"></div><div class="bg-blob b3"></div></div>
 
 
 <!-- UPSELL POST-REGISTRO -->
