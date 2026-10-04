@@ -69,6 +69,18 @@
   .btn-copy{background:rgba(212,175,55,0.15);color:#2E2A26;border:1px solid rgba(212,175,55,0.4);border-radius:var(--r-sm);padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;display:inline-flex;align-items:center;gap:6px}
   .btn-copy:hover{background:rgba(212,175,55,0.3)}
   .btn-copy.copied{background:rgba(72,199,142,0.2);border-color:rgba(72,199,142,0.4);color:#48C78E}
+
+  /* ── Botones táctiles: hover sube, presionar hunde + cambia de tono, onda desde el toque */
+  .btn-primary,.btn-secondary,.btn-copy,.btn-send,.btn-upgrade,.splash-btn,.chip,.modal-opt{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;transition:transform .16s cubic-bezier(.34,1.56,.64,1),box-shadow .16s ease,background-color .16s ease,filter .16s ease,border-color .16s ease,color .16s ease}
+  .btn-primary:not(:disabled):hover,.btn-send:not(:disabled):hover,.btn-upgrade:hover,.splash-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(205,160,165,.38);filter:brightness(1.04)}
+  .btn-secondary:not(:disabled):hover,.btn-copy:not(:disabled):hover,.chip:hover,.modal-opt:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(212,175,55,.22)}
+  .btn-primary:not(:disabled):active,.btn-send:not(:disabled):active,.btn-upgrade:active,.splash-btn:active{transform:translateY(1px) scale(.97);box-shadow:inset 0 3px 8px rgba(80,40,50,.28);filter:brightness(.88) saturate(1.1);transition-duration:.05s}
+  .btn-secondary:not(:disabled):active,.btn-copy:not(:disabled):active,.chip:active,.modal-opt:active{transform:translateY(1px) scale(.97);box-shadow:inset 0 2px 6px rgba(120,90,20,.22);background-color:rgba(212,175,55,.28);transition-duration:.05s}
+  .btn-primary:disabled,.btn-send:disabled{box-shadow:none;filter:none}
+  .ripple-wave{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);opacity:.55;background:rgba(212,175,55,.45);animation:rippleWave .6s ease-out forwards}
+  .btn-primary .ripple-wave,.btn-send .ripple-wave,.btn-upgrade .ripple-wave,.splash-btn .ripple-wave{background:rgba(255,255,255,.55)}
+  @keyframes rippleWave{to{transform:scale(1);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.btn-primary,.btn-secondary,.btn-copy,.btn-send,.btn-upgrade,.splash-btn,.chip,.modal-opt{transition:none}.ripple-wave{display:none}}
   .usage-bar{background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.2);border-radius:var(--r-sm);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;font-size:13px}
   .usage-track{flex:1;height:4px;background:#333333;border-radius:4px;margin:0 14px;overflow:hidden}
   .usage-fill{height:100%;background:linear-gradient(90deg,var(--fresa),var(--oro));border-radius:4px;width:40%;transition:width 0.4s ease}
@@ -5665,6 +5677,21 @@ function submitReview() {
   document.getElementById('review-form').style.display = 'none';
   document.getElementById('review-submitted').style.display = 'block';
 }
+
+// ── Onda de color desde el punto exacto del toque
+document.addEventListener('pointerdown', function(e) {
+  const btn = e.target.closest('.btn-primary,.btn-secondary,.btn-copy,.btn-send,.btn-upgrade,.splash-btn,.chip,.modal-opt');
+  if (!btn || btn.disabled) return;
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 2;
+  const wave = document.createElement('span');
+  wave.className = 'ripple-wave';
+  wave.style.width = wave.style.height = size + 'px';
+  wave.style.left = (e.clientX - rect.left - size / 2) + 'px';
+  wave.style.top = (e.clientY - rect.top - size / 2) + 'px';
+  btn.appendChild(wave);
+  setTimeout(() => wave.remove(), 650);
+});
 
 </script>
 <style>
