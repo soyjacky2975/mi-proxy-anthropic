@@ -288,7 +288,7 @@
   .miniapp-elegida .me-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--gold-text)}
   .miniapp-elegida .me-n{font-weight:700;font-size:15.5px}
   .miniapp-elegida .me-s{font-size:12.5px;color:var(--ink-3);line-height:1.4}
-  .miniapp-elegida button{flex:0 0 auto;border:1.5px solid rgba(212,175,55,.7);background:#fff;border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-1)}
+  .miniapp-elegida button{min-height:44px;flex:0 0 auto;border:1.5px solid rgba(212,175,55,.7);background:#fff;border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-1)}
   .molde-intro{font-size:13.5px;line-height:1.5;color:var(--ink-3);margin-bottom:12px}
   .molde-cats{display:grid;gap:10px}
   .molde-cat{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:#fff;border:1.5px solid rgba(212,175,55,.5);border-radius:16px;padding:16px;cursor:pointer;font-family:inherit;color:var(--ink-1);transition:border-color .2s,box-shadow .2s,transform .2s}
@@ -310,7 +310,7 @@
   .molde-det .molde-tip{border-top:0;padding-top:0;margin-top:8px}
   .molde-ia{margin-top:8px;font-size:12px;font-weight:700;color:var(--gold-text)}
   .molde-acc{display:flex;gap:8px;margin-top:auto;padding-top:12px}
-  .molde-btn{flex:1;border:1.5px solid rgba(212,175,55,.6);background:#fff;border-radius:10px;padding:8px 6px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-1)}
+  .molde-btn{min-height:44px;flex:1;border:1.5px solid rgba(212,175,55,.6);background:#fff;border-radius:10px;padding:8px 6px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-1)}
   .molde-btn-elegir{background:linear-gradient(120deg,#C9A24A,#D4AF37);border-color:transparent;color:#fff}
   .molde-card .molde-nombre{font-weight:700;font-size:15px;margin-bottom:4px}
   .molde-card .molde-desc{font-size:12.5px;color:var(--ink-3);line-height:1.5}
@@ -2437,6 +2437,7 @@ function showPanel(id, btn) {
   document.querySelector('.content')?.scrollTo(0, 0);
   if (id === 'portadas' && typeof renderCustomHooksList === 'function') renderCustomHooksList();
   if (id === 'tumejorversion' && typeof generarMensajeMindset === 'function') generarMensajeMindset();
+  if (id === 'miniapps' && typeof miniAppRestaurar === 'function') miniAppRestaurar();
   if (id === 'miniapps' && typeof renderMiniAppGallery === 'function') renderMiniAppGallery();
 }
 
@@ -5476,6 +5477,36 @@ function miniAppInstruccionesHtml(t, abierta) {
   const esc = x => String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   return '<details class="miniapp-instr"' + (abierta ? ' open' : '') + '><summary>📋 Instrucciones de este modelo: léelas antes de crear</summary><ol>' + t.instrucciones.map(x => '<li>' + esc(x) + '</li>').join('') + '</ol></details>';
 }
+// Guarda la última mini app (y sus ediciones) para que no se pierda al recargar
+function miniAppGuardar(outId) {
+  try {
+    const st = window._miniApps[outId];
+    if (!st) return;
+    localStorage.setItem('jackia_miniapp_ultima', JSON.stringify({
+      tplId: st.tplId, cfg: st.cfg,
+      opts: (window._miniAppOpts && window._miniAppOpts[outId]) || null,
+      tema: (document.getElementById('miniapp-tema') || {}).value || ''
+    }));
+  } catch (e) {}
+}
+function miniAppRestaurar() {
+  if (window._miniAppRestaurada) return;
+  window._miniAppRestaurada = true;
+  try {
+    const raw = localStorage.getItem('jackia_miniapp_ultima');
+    if (!raw || window._miniApps['miniapps-output']) return;
+    const d = JSON.parse(raw);
+    if (!d || !d.cfg || !MINIAPP_TEMPLATES[d.tplId]) return;
+    window._miniApps['miniapps-output'] = {tplId: d.tplId, cfg: d.cfg, brand: getMiniAppBrand()};
+    if (d.opts) window._miniAppOpts['miniapps-output'] = d.opts;
+    window._miniAppSel = d.tplId;
+    const t = document.getElementById('miniapp-tema');
+    if (t && !t.value) t.value = d.tema || '';
+    document.getElementById('miniapps-output-card').style.display = 'block';
+    document.getElementById('miniapps-output').style.display = 'block';
+    renderMiniAppUI('miniapps-output');
+  } catch (e) {}
+}
 function actualizarMiniAppElegida() {
   const box = document.getElementById('miniapp-elegida');
   const t = MINIAPP_TEMPLATES[window._miniAppSel];
@@ -5575,6 +5606,18 @@ function getMiniAppHtml(outId) {
   const st = window._miniApps[outId];
   if (!st) return '';
   let html = MINIAPP_TEMPLATES[st.tplId].render(st.cfg, st.brand);
+  // Título, descripción y vista previa para cuando se comparta el enlace (WhatsApp, Instagram)
+  try {
+    const tpl = MINIAPP_TEMPLATES[st.tplId], b = st.brand || {}, c = st.cfg || {};
+    const esc = x => String(x == null ? '' : x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const nombreApp = String(c.titulo || c.titular || tpl.nombre).slice(0, 70);
+    const titulo = esc(b.nombre ? nombreApp + ' · ' + String(b.nombre).slice(0, 40) : nombreApp);
+    const desc = esc(String(c.gancho || c.subtitular || c.frase || tpl.sirve || '').slice(0, 155));
+    const emoji = tpl.emoji || '🧩';
+    const icono = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + emoji + '</text></svg>');
+    const metas = '<meta name="description" content="' + desc + '"><meta property="og:type" content="website"><meta property="og:title" content="' + titulo + '"><meta property="og:description" content="' + desc + '"><meta name="twitter:card" content="summary"><link rel="icon" href="' + icono + '">';
+    html = html.replace(/<title>[^<]*<\/title>/, '<title>' + titulo + '</title>' + metas);
+  } catch (e) {}
   // Entrada suave en cascada: al abrir la mini app, sus bloques suben un poco y aparecen uno tras otro
   const fin = html.lastIndexOf('</body>');
   if (fin > -1) {
@@ -5665,13 +5708,13 @@ function renderMiniAppUI(outId) {
       '<div class="miniapp-edit-cuerpo"></div></details>' +
     '<div class="miniapp-actions">' +
       '<button class="btn-copy" onclick="copiarMiniApp(\'' + outId + '\',this)">📋 Copiar código</button>' +
-      '<button class="btn-copy" onclick="descargarMiniApp(\'' + outId + '\')">⬇️ Descargar .html</button>' +
+      '<button class="btn-copy" onclick="descargarMiniApp(\'' + outId + '\', this)">⬇️ Descargar .html</button>' +
       '<button class="btn-copy" onclick="pantallaCompletaMiniApp(\'' + outId + '\')">⛶ Pantalla completa</button>' +
       '<button class="btn-copy" onclick="generateMiniApp(window._miniAppOpts[\'' + outId + '\'])">🔄 Otra versión</button>' +
     '</div>' +
     '<div class="field-help">Cambia tus datos y colores arriba: la mini app se actualiza al instante. Para publicarla, descarga el archivo y súbelo gratis a Vercel (el instructivo de abajo te guía paso a paso); luego pon el link en tu bio.</div></div>';
   const frame = out.querySelector('.miniapp-frame');
-  const refresh = () => { frame.srcdoc = getMiniAppHtml(outId); };
+  const refresh = () => { frame.srcdoc = getMiniAppHtml(outId); miniAppGuardar(outId); };
   refresh();
   miniAppEditorCampos(st.cfg, out.querySelector('.miniapp-edit-cuerpo'), () => { clearTimeout(st._t2); st._t2 = setTimeout(refresh, 300); }, 0);
   out.querySelectorAll('[data-mb]').forEach(inp => inp.addEventListener('input', () => {
@@ -5710,7 +5753,7 @@ async function generateMiniApp(o) {
   out.style.display = 'block';
   out.style.whiteSpace = 'normal';
   if (o.actionsId) document.getElementById(o.actionsId).style.display = 'none';
-  out.innerHTML = '<p style="color:var(--gold-text);font-size:14px;margin:0">Adaptando tu mini app a tu negocio… ✨</p>';
+  out.innerHTML = '<p style="color:var(--gold-text);font-size:14px;margin:0">Adaptando tu mini app a tu negocio… ✨ Puede tardar unos 20 segundos.</p>';
   const tplId = o.template || 'arquetipo';
   const tpl = MINIAPP_TEMPLATES[tplId];
   const sys = 'Eres Jackia, estratega de marketing para emprendedoras hispanohablantes. Respondes ÚNICAMENTE con JSON válido, sin markdown ni texto adicional. Todo el texto está en español correcto (comillas «», raya —, ¿ ¡). No limites el contenido a una red social concreta: di «redes sociales» a menos que la dueña mencione una red específica en su descripción.';
@@ -5735,7 +5778,8 @@ function copiarMiniApp(id, btn) {
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(ok).catch(() => alert('No se pudo copiar automáticamente. Usa «Descargar .html».'));
   else alert('No se pudo copiar automáticamente. Usa «Descargar .html».');
 }
-function descargarMiniApp(id) {
+function descargarMiniApp(id, btn) {
+  if (btn) { const t0 = btn.textContent; btn.textContent = '✓ Descargado'; setTimeout(() => { btn.textContent = t0; }, 2200); }
   const blob = new Blob([getMiniAppHtml(id)], {type: 'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -5826,6 +5870,7 @@ function clearSavedContent() {
     localStorage.removeItem('jackia_saved_outputs');
     localStorage.removeItem('jackia_chat_history');
     localStorage.removeItem('jackia_chat_window_html');
+    localStorage.removeItem('jackia_miniapp_ultima');
   } catch(e){}
   location.reload();
 }
