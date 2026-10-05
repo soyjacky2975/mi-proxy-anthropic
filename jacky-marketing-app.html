@@ -4700,7 +4700,7 @@ Reglas:
 - "faq": exactamente 4 preguntas que frenan la compra (precio, tiempo, si sirve para ella, cómo se recibe) con respuestas cortas y generales de máximo 25 palabras. NO inventes políticas, fechas, plazos ni condiciones específicas; si algo depende de la dueña, invita a escribirle.
 - "incluye": entre 4 y 6 cosas que incluye la oferta, solo las que la dueña mencionó o que sean muy razonables para el tipo de oferta.
 - "precio" y "precioAntes": SOLO si la dueña los menciona; si no, deja 0. Nunca inventes precios ni descuentos.
-- "garantia": una frase de confianza general (por ejemplo invitar a escribir si hay dudas). NO inventes garantías de devolución, plazos ni condiciones específicas.
+- "garantia": una frase de confianza general en primera persona, como si hablara la dueña de la oferta (por ejemplo «Si tienes dudas, escríbeme y te ayudo»). Nunca hables de «la creadora» en tercera persona. NO inventes garantías de devolución, plazos ni condiciones específicas.
 - "boton": texto del botón de compra, máximo 5 palabras. "cierre": frase final que invita a decidir, sin presionar, máximo 22 palabras.
 - No inventes testimonios, cifras, resultados garantizados ni escasez falsa.
 - Enfoque que debes respetar: una página que lleva directo a comprar, con la oferta clara, confianza y un llamado a la acción visible.
@@ -5713,7 +5713,7 @@ async function generateMiniApp(o) {
   out.innerHTML = '<p style="color:var(--gold-text);font-size:14px;margin:0">Adaptando tu mini app a tu negocio… ✨</p>';
   const tplId = o.template || 'arquetipo';
   const tpl = MINIAPP_TEMPLATES[tplId];
-  const sys = 'Eres Jackia, estratega de marketing para emprendedoras hispanohablantes. Respondes ÚNICAMENTE con JSON válido, sin markdown ni texto adicional. Todo el texto está en español correcto (comillas «», raya —, ¿ ¡).';
+  const sys = 'Eres Jackia, estratega de marketing para emprendedoras hispanohablantes. Respondes ÚNICAMENTE con JSON válido, sin markdown ni texto adicional. Todo el texto está en español correcto (comillas «», raya —, ¿ ¡). No limites el contenido a una red social concreta: di «redes sociales» a menos que la dueña mencione una red específica en su descripción.';
   try {
     const raw = await callClaude(tpl.prompt(o.tema, o.contexto, getProfileContext(), o.objetivo, o), sys, {maxTokens: (o.duraciones && Math.max.apply(null, o.duraciones) > 14) ? 3800 : 2200, raw: true});
     const a = raw.indexOf('{'), b = raw.lastIndexOf('}');
