@@ -2454,7 +2454,8 @@ async function generarMensajeMindset() {
   const ctx = getProfileContext();
   const prompt = `Escribe un mensaje corto de mentalidad y motivación (máximo 4-5 líneas) para una emprendedora, adaptado a su etapa y a lo que le ha costado avanzar.
 ${ctx}
-Tono: cálido, real, empoderador — sin frases genéricas de "solo cree en ti", algo específico y accionable para hoy.`;
+Tono: cálido, real, empoderador — sin frases genéricas de "solo cree en ti", algo específico y accionable para hoy.
+ESTILO: no repitas la misma palabra más de 2 veces en todo el mensaje (ni la repitas al inicio de frases seguidas); usa sinónimos y varía el vocabulario para que suene natural y fluido, no como una lista de repeticiones. No uses emojis de más: máximo 1.`;
   try {
     const text = await callClaude(prompt, SYS);
     box.textContent = text;
