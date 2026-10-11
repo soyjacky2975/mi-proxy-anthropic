@@ -417,6 +417,16 @@
   .splash-glass .splash-subtitle{margin-bottom:22px}
   #onboarding-modal{background:linear-gradient(135deg,rgba(205,160,165,.55),rgba(212,175,55,.38));-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}
   #onboarding-modal .modal-box{background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.8);box-shadow:0 22px 60px rgba(120,80,60,.22),inset 0 1px 0 rgba(255,255,255,.85)}
+  /* ── Efecto vidrio solo en las tarjetas de la pantalla de Inicio (no toca menú ni botones) ── */
+  #panel-home{position:relative;isolation:isolate}
+  #panel-home::before{content:"";position:absolute;inset:-12px -8px;z-index:-1;pointer-events:none;border-radius:28px;background:radial-gradient(circle at 12% 8%,rgba(205,160,165,.45) 0,rgba(205,160,165,0) 38%),radial-gradient(circle at 92% 40%,rgba(212,175,55,.34) 0,rgba(212,175,55,0) 40%),radial-gradient(circle at 20% 92%,rgba(245,166,35,.22) 0,rgba(245,166,35,0) 40%)}
+  #panel-home > div:not(.module-cards):not(#gamification-bar):not(#home-today-plan),
+  #panel-home #gamification-bar > *,
+  #panel-home #home-today-plan > *,
+  #panel-home .module-cards > *{background:rgba(255,255,255,.52) !important;-webkit-backdrop-filter:blur(20px) saturate(165%);backdrop-filter:blur(20px) saturate(165%);border:1px solid rgba(255,255,255,.78) !important;box-shadow:0 10px 30px rgba(120,80,60,.10),inset 0 1px 0 rgba(255,255,255,.85) !important}
+  /* ── Efecto vidrio solo en el fondo del menú (no toca las opciones ni los botones) ── */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 6% 28%,rgba(205,160,165,.40) 0,rgba(205,160,165,0) 40%),radial-gradient(circle at 12% 88%,rgba(212,175,55,.32) 0,rgba(212,175,55,0) 42%)}
+  .sidebar{background:rgba(255,255,255,.52) !important;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border-right:1px solid rgba(255,255,255,.8) !important;box-shadow:inset -1px 0 0 rgba(212,175,55,.18),8px 0 30px rgba(120,80,60,.06)}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.splash-glass{background:#fff}#onboarding-modal{background:rgba(250,247,243,.97)}#onboarding-modal .modal-box{background:#fff}}
 
   @keyframes fadeUp{
