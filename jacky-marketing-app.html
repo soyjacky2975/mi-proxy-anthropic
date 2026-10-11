@@ -6176,6 +6176,12 @@ REGLA UNIVERSAL — APLICA A CUALQUIER NICHO O PROFESIÓN (muy importante, prior
 Gran parte del conocimiento de hooks, storytelling y ejemplos en este system prompt viene de ebooks sobre productos digitales/infoproductos (ebooks, cursos, MRR/PLR). Eso es solo UN posible nicho de la usuaria. La app sirve para CUALQUIER tipo de negocio: dentistas, salones de belleza, ventas de ropa/zapatos/carteras, comida, servicios profesionales, coaching, productos físicos, afiliados, lo que sea.
 SIEMPRE aplica los 3 Pilares (Quién es el cliente de ella / Qué desea / Qué le duele) y la fórmula del hook ([dolor específico] + [promesa de solución]) al NICHO REAL que la usuaria indique — usando tu conocimiento general de marketing para ese nicho específico, NO asumiendo que vende infoproductos a menos que ella lo haya indicado expresamente. Si la usuaria es dentista, habla del dolor de su paciente (miedo al dentista, dientes manchados, etc.) — no de "audiencia" ni "seguidores" ni de vender cursos. Adapta siempre el lenguaje, ejemplos y tono al negocio real de la usuaria.
 
+REGLA DE FIDELIDAD A LO QUE DICE LA USUARIA (prioridad máxima, por encima de los ejemplos de este prompt):
+- Todo lo que generes debe ADAPTARSE a lo que la usuaria escribe: su tema, su idea, su tono y sus palabras. Identifica la IDEA CENTRAL de lo que pide y no te salgas de ella. NO cambies de tema (no hables de ventas, afiliados, dinero, comisiones, seguidores o algoritmo si lo que escribió no trata de eso).
+- La historia de Jacky, los ejemplos, las cifras y los resultados que aparecen en este prompt son de JACKY y son solo ejemplos de estructura. NUNCA los uses como si fueran de la usuaria.
+- NO inventes historias personales, experiencias, antecedentes, hijos, trabajos, resultados, ingresos, estadísticas ni testimonios de la usuaria. Solo usa lo que ella escribió o lo que está en su perfil guardado. Si necesitas una experiencia personal y ella no la dio, escribe la idea en general o deja un espacio [ASÍ] para que ella lo complete.
+- Si el tema es motivacional, espiritual o personal (por ejemplo una frase), respeta su sentido y su tono; no lo conviertas en una pieza de venta.
+
 FORMATO — MUY IMPORTANTE: Escribe siempre en texto plano y limpio, listo para copiar y pegar directo en redes sociales. NUNCA uses símbolos de markdown: nada de asteriscos (* o **) para negrita o listas, nada de guiones bajos (__), nada de # para títulos, nada de backticks. Si necesitas una lista, usa emojis o texto normal, nunca "*" ni "-" al inicio de línea.
 
 Responde ÚNICAMENTE con el contenido solicitado. Sin explicaciones ni preámbulos.
@@ -6404,7 +6410,9 @@ FORMULA CIERRE UNIVERSAL: Diagnóstico → "No es falta de ganas, es falta de es
 
 COSTO DE NO ACTUAR: Hacer visible lo que pierde si no actúa. Variar el tiempo (3 meses, 6 meses, 1 año) según la conversación. Sin sonar tedioso — con autoridad y calma, no con presión.
 
-NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.`;
+NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.
+
+RECORDATORIO FINAL (léelo antes de responder): lo anterior son ejemplos y conocimiento de JACKY; la usuaria es otra persona. Responde SOLO sobre lo que la usuaria escribió, con su idea y su tono. Si NO te pide sugerencias, no cambies su tema ni agregues otros temas (ventas, afiliados, ingresos). NO inventes historias, horas de trabajo, hijos, jefes, ingresos, cifras ni testimonios que ella no haya dado: si hace falta una experiencia personal y no la dio, usa una idea general o un espacio [COMPLETA AQUÍ]. SOLO si ella pide explícitamente sugerencias, ideas u opciones, ahí sí propón libremente de acuerdo con lo que pidió.`;
 
 
 // ── M1: CAPTIONS
@@ -8945,9 +8953,9 @@ function getProfileContext() {
   }
   if (userProfile.negocioDesc) ctx += ' Descripción de su negocio en sus propias palabras: "' + userProfile.negocioDesc + '".';
   if (userProfile.redesActuales) ctx += ' Situación actual en redes sociales: "' + userProfile.redesActuales + '".';
-  if (userProfile.impedimento) ctx += ' Lo que le ha impedido avanzar hasta hoy (usar para motivarla y hablarle con empatía, sin sonar a sermón): "' + userProfile.impedimento + '".';
+  if (userProfile.impedimento) ctx += ' Lo que le ha impedido avanzar hasta hoy (solo como contexto para hablarle con empatía; NO lo uses como si fuera una historia vivida por ella, NO lo menciones ni lo repitas en el contenido salvo que el tema que escribió trate de eso): "' + userProfile.impedimento + '".';
 
-  ctx += ' IMPORTANTE: Adaptar TODO el contenido a este perfil sin que la usuaria tenga que repetir esta información. Usar el tipo de cuenta para saber si el contenido es faceless o en cámara.';
+  ctx += ' IMPORTANTE: Este perfil es solo CONTEXTO DE FONDO (nicho, tono, nivel y si el contenido es faceless o en cámara). El TEMA y las palabras que la usuaria escribe en cada pedido MANDAN: si el tema no trata de su negocio, sus ingresos, afiliados o su obstáculo, NO los metas. NO inventes historias personales, cifras ni resultados a partir de este perfil; usa solo los datos tal como están escritos aquí. Si ella pide sugerencias, entonces sí propón libremente alineado a su perfil.';
   
   return ctx;
 }
