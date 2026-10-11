@@ -427,6 +427,8 @@
   /* ── Efecto vidrio solo en el fondo del menú (no toca las opciones ni los botones) ── */
   body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 6% 28%,rgba(205,160,165,.40) 0,rgba(205,160,165,0) 40%),radial-gradient(circle at 12% 88%,rgba(212,175,55,.32) 0,rgba(212,175,55,0) 42%)}
   .sidebar{background:rgba(255,255,255,.52) !important;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border-right:1px solid rgba(255,255,255,.8) !important;box-shadow:inset -1px 0 0 rgba(212,175,55,.18),8px 0 30px rgba(120,80,60,.06)}
+  .module-plan-btn{margin-top:8px;font-family:inherit;font-size:12px;font-weight:700;color:#8a6d1c;background:rgba(255,255,255,.7);border:1px solid rgba(212,175,55,.5);border-radius:999px;padding:5px 12px;cursor:pointer;min-height:30px}
+  .module-plan-btn:hover{background:#fff}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.splash-glass{background:#fff}#onboarding-modal{background:rgba(250,247,243,.97)}#onboarding-modal .modal-box{background:#fff}}
 
   @keyframes fadeUp{
@@ -781,20 +783,21 @@
   <div class="main">
     <nav class="sidebar" id="sidebar">
       <button class="sidebar-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
-      <div class="sidebar-label">Plan Pro $19.99</div>
+      <div class="sidebar-label">Para todas</div>
       <button class="nav-item" onclick="showPanel('tumejorversion',this)"><span class="nav-icon">🧠</span> Tu Mejor Versión</button>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
       <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
+      <div class="sidebar-label">Plan Pro $19.99</div>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
       <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
       <button class="nav-item" onclick="showPanel('portadas',this)"><span class="nav-icon">🎯</span> Portadas para Reels</button>
       <button class="nav-item" onclick="showPanel('historiasHoy',this)"><span class="nav-icon">📱</span> Mis Historias de Hoy</button>
       <button class="nav-item" onclick="showPanel('carruseles',this)"><span class="nav-icon">📊</span> Carruseles</button>
       <button class="nav-item" onclick="showPanel('ofertas',this)"><span class="nav-icon">💸</span> Crea Tu Oferta</button>
-      <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
       <button class="nav-item" onclick="showPanel('reviews',this)"><span class="nav-icon">⭐</span> Reseñas</button>
       <div class="sidebar-label">Premium $59.99</div>
       <button class="nav-item" onclick="showPanel('radiografiabio',this)"><span class="nav-icon">🔎</span> Radiografía de tu Bio</button>
+      <button class="nav-item" onclick="showPanel('dm',this)"><span class="nav-icon">💬</span> Seguimiento & Cierre</button>
       <button class="nav-item" onclick="showPanel('analizar',this)"><span class="nav-icon">🔍</span> Analiza, Adapta y Modela</button>
       <button class="nav-item" onclick="showPanel('reto',this)"><span class="nav-icon">🏆</span> Mi Reto</button>
       <button class="nav-item" onclick="showPanel('miniapps',this)"><span class="nav-icon">🧩</span> Mini Apps</button>
@@ -1099,9 +1102,9 @@
         </div>
         <div class="module-cards">
           <div class="module-card" onclick="showPanel('plan',null)"><div class="module-card-icon">📅</div><div class="module-card-title">Plan de Contenido</div><div class="module-card-desc">Planifica tu contenido — Semanal o mensual</div></div>
-          <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM — Pro: 1/día · Premium: ilimitado</div></div>
+          <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mi Reel de Hoy')">Ver plan</button></div>
           <div class="module-card" onclick="showPanel('portadas',null)"><div class="module-card-icon">🎯</div><div class="module-card-title">Portadas para Reels</div><div class="module-card-desc">Varias opciones de portada con ganchos virales validados</div></div>
-          <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat — Pro: 1/día · Premium: ilimitado</div></div>
+          <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mis Historias de Hoy')">Ver plan</button></div>
           <div class="module-card" onclick="showPanel('ofertas',null)"><div class="module-card-icon">💸</div><div class="module-card-title">Crea Tu Oferta</div><div class="module-card-desc">Copy de venta para publicar en redes, historia o post</div></div>
           <div class="module-card" onclick="showPanel('dm',null)"><div class="module-card-icon">💬</div><div class="module-card-title">Seguimiento & Cierre</div><div class="module-card-desc">Mensajes de seguimiento y cierre por DM o WhatsApp</div></div>
           <div class="module-card" onclick="showPanel('carruseles',null)"><div class="module-card-icon">📊</div><div class="module-card-title">Carruseles</div><div class="module-card-desc">Texto de cada slide listo para diseñar en Canva</div></div>
@@ -8919,6 +8922,26 @@ async function sugerirNichoIA() {
 }
 
 // Resultados reales (prueba de autoridad): se pueden actualizar sin rehacer todo el perfil
+// Ventana corta con el plan de un módulo (no se muestra directo en la tarjeta)
+function verPlanModulo(nombre) {
+  const viejo = document.getElementById('plan-modulo-modal'); if (viejo) viejo.remove();
+  const ov = document.createElement('div');
+  ov.id = 'plan-modulo-modal';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(38,32,25,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
+    '<div style="font-weight:800;font-size:17px;color:#262019;margin-bottom:12px">' + nombre + '</div>' +
+    '<div style="border:1.5px solid rgba(212,175,55,.6);background:rgba(212,175,55,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px">' +
+      '<div style="font-weight:800;color:#8a6d1c">⭐ Plan Pro · $19.99/mes</div>' +
+      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">✅ Este módulo: 1 por día<br>✅ Plan completo<br>✅ Carruseles cada mes</div></div>' +
+    '<div style="border:1.5px solid rgba(205,160,165,.7);background:rgba(205,160,165,.10);border-radius:12px;padding:12px 14px">' +
+      '<div style="font-weight:800;color:#a9707a">👑 Premium · $59.99/mes</div>' +
+      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">✅ Todo lo de Pro, ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div></div>' +
+    '<button class="btn-primary" id="plan-modulo-cerrar" style="width:100%;margin-top:14px">Entendido</button></div>';
+  document.body.appendChild(ov);
+  const cerrar = () => ov.remove();
+  document.getElementById('plan-modulo-cerrar').onclick = cerrar;
+  ov.addEventListener('click', e => { if (e.target === ov) cerrar(); });
+}
 function resultadosToca() {
   try {
     const k = 'jackia_resultados_fecha';
