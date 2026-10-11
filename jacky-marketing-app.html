@@ -718,6 +718,12 @@
       </div>
 
       <div style="margin-top:14px">
+        <label style="font-size:12px;color:var(--muted)">Resultados reales que puedes mostrar (opcional)</label>
+        <input type="text" id="ob-resultados" placeholder="Ej: facturé 10K en 3 meses · 15 mil alumnos" style="margin-top:6px">
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Escribe solo resultados reales que puedas comprobar. Si lo dejas vacío, Jackia no inventa ninguno.</div>
+      </div>
+
+      <div style="margin-top:14px">
         <label style="font-size:12px;color:var(--muted)">¿Con qué frecuencia publicas? (opcional)</label>
         <div class="chips" id="ob-frecuencia-chips" style="margin-top:6px;margin-bottom:6px">
           <button class="chip" onclick="setSingle(this)">3 veces/semana</button>
@@ -8891,6 +8897,44 @@ async function sugerirNichoIA() {
   } catch(e) { box.textContent = '⚠️ No pude generar sugerencias, intenta de nuevo.'; }
 }
 
+// Resultados reales (prueba de autoridad): se pueden actualizar sin rehacer todo el perfil
+function resultadosToca() {
+  try {
+    const k = 'jackia_resultados_fecha';
+    const f = parseInt(localStorage.getItem(k) || '0', 10);
+    if (!f) { localStorage.setItem(k, String(Date.now())); return false; }
+    return (Date.now() - f) > 90 * 24 * 60 * 60 * 1000;
+  } catch (e) { return false; }
+}
+function editarResultados() {
+  if (!userProfile) return;
+  const viejo = document.getElementById('resultados-modal'); if (viejo) viejo.remove();
+  const ov = document.createElement('div');
+  ov.id = 'resultados-modal';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(38,32,25,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:420px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
+    '<div style="font-weight:800;font-size:17px;color:#262019">🏆 Mis resultados</div>' +
+    '<div style="font-size:13px;color:var(--muted);margin:6px 0 10px">Escribe solo resultados reales que puedas comprobar. Jackia los usa como prueba de autoridad. Si no tienes, déjalo vacío y no inventa ninguno.</div>' +
+    '<input type="text" id="resultados-input" maxlength="200" placeholder="Ej: facturé 5K en 4 meses · 15 mil alumnos" style="width:100%">' +
+    '<div style="display:flex;gap:8px;margin-top:14px"><button class="btn-primary" id="resultados-guardar" style="flex:1">Guardar</button><button class="btn-secondary" id="resultados-cancelar" style="flex:1">Cancelar</button></div></div>';
+  document.body.appendChild(ov);
+  const inp = document.getElementById('resultados-input');
+  inp.value = userProfile.resultados || '';
+  inp.focus();
+  const cerrar = () => ov.remove();
+  document.getElementById('resultados-cancelar').onclick = cerrar;
+  ov.addEventListener('click', e => { if (e.target === ov) cerrar(); });
+  document.getElementById('resultados-guardar').onclick = () => {
+    userProfile.resultados = inp.value.trim();
+    try {
+      localStorage.setItem('jackia_profile', JSON.stringify(userProfile));
+      localStorage.setItem('jackia_resultados_fecha', String(Date.now()));
+    } catch (e) {}
+    cerrar();
+    injectProfileBadge();
+    try { toast('¡Resultados actualizados! 💛'); } catch (e) {}
+  };
+}
 function injectProfileBadge() {
   if (!userProfile) return;
   const nl = {productos_propios:'Productos propios',reventa_mrr:'Reventa MRR/PLR',afiliados:'Marketing de Afiliados',coaching:'Coaching',otro:'Otro'};
@@ -8900,7 +8944,7 @@ function injectProfileBadge() {
   if (existing) existing.remove();
   const badge = document.createElement('div');
   badge.className = 'profile-badge';
-  badge.innerHTML = '<span style="font-size:18px">👤</span><span style="font-size:12px;color:#262019"><strong style="color:#262019">' + (nl[userProfile.nicho]||'') + '</strong> · ' + (el[userProfile.estilo]||'') + ' · ' + ((Array.isArray(userProfile.mercado)?userProfile.mercado:[userProfile.mercado]).map(mk=>ml[mk]||'').filter(Boolean).join(', ')) + '</span><span class="profile-edit" onclick="resetOnboarding()">✏️ Editar perfil</span>';
+  badge.innerHTML = '<span style="font-size:18px">👤</span><span style="font-size:12px;color:#262019"><strong style="color:#262019">' + (nl[userProfile.nicho]||'') + '</strong> · ' + (el[userProfile.estilo]||'') + ' · ' + ((Array.isArray(userProfile.mercado)?userProfile.mercado:[userProfile.mercado]).map(mk=>ml[mk]||'').filter(Boolean).join(', ')) + '</span><span class="profile-edit" onclick="resetOnboarding()">✏️ Editar perfil</span><span class="profile-edit" onclick="editarResultados()" style="margin-left:10px">🏆 Mis resultados' + (resultadosToca() ? ' · ¿hay nuevos? 💛' : '') + '</span>';
   const home = document.getElementById('panel-home');
   const hero = home.querySelector('.welcome-hero');
   hero.parentNode.insertBefore(badge, hero.nextSibling);
@@ -8955,6 +8999,8 @@ function getProfileContext() {
   if (userProfile.redesActuales) ctx += ' Situación actual en redes sociales: "' + userProfile.redesActuales + '".';
   if (userProfile.impedimento) ctx += ' Lo que le ha impedido avanzar hasta hoy (solo como contexto para hablarle con empatía; NO lo uses como si fuera una historia vivida por ella, NO lo menciones ni lo repitas en el contenido salvo que el tema que escribió trate de eso): "' + userProfile.impedimento + '".';
 
+  if (userProfile.resultados) ctx += ' RESULTADOS REALES QUE ELLA PUEDE MOSTRAR (son prueba de autoridad; úsalos tal cual los escribió, sin cambiar ni inflar las cifras y sin agregar otros; menciónalos cuando refuercen el mensaje o cuando sirvan para posicionarla como referente): "' + userProfile.resultados + '".';
+  else ctx += ' Ella NO indicó resultados reales para mostrar: no inventes ninguno; escribe desde el proceso y la honestidad.';
   ctx += ' IMPORTANTE: Este perfil es solo CONTEXTO DE FONDO (nicho, tono, nivel y si el contenido es faceless o en cámara). El TEMA y las palabras que la usuaria escribe en cada pedido MANDAN: si el tema no trata de su negocio, sus ingresos, afiliados o su obstáculo, NO los metas. NO inventes historias personales, cifras ni resultados a partir de este perfil; usa solo los datos tal como están escritos aquí. Si ella pide sugerencias, entonces sí propón libremente alineado a su perfil.';
   
   return ctx;
@@ -9192,6 +9238,7 @@ function finishOnboarding() {
   const negocioDesc = document.getElementById('ob-negocio-desc')?.value.trim() || '';
   const redesActuales = document.getElementById('ob-redes-actuales')?.value.trim() || '';
   const impedimento = document.getElementById('ob-impedimento')?.value.trim() || '';
+  const resultados = document.getElementById('ob-resultados')?.value.trim() || '';
   const clienteDolor = document.getElementById('ob-cliente-dolor')?.value.trim() || '';
   const nichoExtra = document.getElementById('ob-nicho-extra')?.value.trim() || '';
   const objetivoExtra = document.getElementById('ob-objetivo-extra')?.value.trim() || '';
@@ -9208,6 +9255,7 @@ function finishOnboarding() {
     negocioDesc: negocioDesc,
     redesActuales: redesActuales,
     impedimento: impedimento,
+    resultados: resultados,
     clienteDolor: clienteDolor,
     estilo: ob.estilo||'marca_personal',
     objetivo: objetivoArr,
