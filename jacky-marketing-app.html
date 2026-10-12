@@ -9022,7 +9022,7 @@ function verPlanModulo(nombre, quien) {
   ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
     '<div style="font-weight:800;font-size:17px;color:#262019;margin-bottom:8px">' + nombre + '</div>' +
     '<div style="font-size:13.5px;font-weight:700;color:#262019;background:rgba(212,175,55,.14);border-radius:10px;padding:8px 12px;margin-bottom:12px">' +
-      (quien === 'todas' ? '🎁 Este módulo es <strong>para todas</strong>: está incluido en cualquier plan.' :
+      (quien === 'general' ? '🎁 Tu <strong>primera semana es gratis</strong>. Pruébala con calma y después tú decides con cuál plan seguir.' : quien === 'todas' ? '🎁 Este módulo es <strong>para todas</strong>: está incluido en cualquier plan.' :
        quien === 'premium' ? '👑 Este módulo es de <strong>Premium</strong>.' :
        '⭐ Este módulo está en el <strong>Plan Pro</strong> y también en Premium.') + '</div>' +
     '<div style="border:1.5px solid rgba(212,175,55,.6);background:rgba(212,175,55,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px">' +
@@ -9629,6 +9629,28 @@ document.addEventListener('pointerdown', function(e) {
   }
   aplicar();
   setTimeout(aplicar, 800);
+})();
+
+// ── Pantalla principal: aviso de la semana gratis (después ella decide su plan) ──
+(function avisoSemanaGratis() {
+  function poner() {
+    const home = document.getElementById('panel-home');
+    if (!home || document.getElementById('aviso-semana-gratis')) return;
+    const hero = home.querySelector('.welcome-hero'); if (!hero) return;
+    const d = document.createElement('div');
+    d.id = 'aviso-semana-gratis';
+    d.style.cssText = 'margin:0 0 16px 0;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(20px) saturate(165%);backdrop-filter:blur(20px) saturate(165%);border:1px solid rgba(255,255,255,.8);box-shadow:0 10px 30px rgba(120,80,60,.10),inset 0 1px 0 rgba(255,255,255,.85)';
+    d.innerHTML = '<div style="font-weight:900;font-size:17px;color:#1E1813">🎁 Tu primera semana es gratis</div>' +
+      '<div style="font-weight:600;font-size:14px;color:#2E2620;margin:6px 0 10px;line-height:1.55">Prueba Jackia sin pagar. Después tú decides si sigues con el plan <strong>Pro</strong> o <strong>Premium</strong>.</div>';
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'module-plan-btn'; b.style.margin = '0';
+    b.textContent = '💎 Ver planes';
+    b.onclick = () => verPlanModulo('Planes de Jackia', 'general');
+    d.appendChild(b);
+    hero.parentNode.insertBefore(d, hero.nextSibling);
+  }
+  poner();
+  setTimeout(poner, 800);
 })();
 </script>
 <style>
