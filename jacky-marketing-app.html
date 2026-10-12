@@ -7570,6 +7570,7 @@ async function generateHistoriasHoy() {
   const keyword = document.getElementById('historiasHoy-keyword').value;
   const estilo = document.querySelector('#historiasHoy-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
   const link = document.getElementById('historiasHoy-link').value || '[PEGA TU LINK AQUI]';
+  const ctx = getProfileContext();
   if (!tema.trim()) { fieldWarn('historiasHoy-tema', 'Cuéntame qué quieres mostrar hoy y armo tus historias 😊'); return; }
   setLoading('btn-gen-historiasHoy', true);
   document.getElementById('historiasHoy-output-card').style.display = 'block';
