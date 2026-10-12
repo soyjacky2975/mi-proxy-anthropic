@@ -1985,6 +1985,7 @@
 
           <label>¿Cuántas historias quieres hoy?</label>
           <div class="chips" id="chips-historiasHoy-cantidad">
+            <button class="chip" onclick="setSingle(this)">1</button>
             <button class="chip selected" onclick="setSingle(this)">3</button>
             <button class="chip" onclick="setSingle(this)">5</button>
             <button class="chip" onclick="setSingle(this)">7</button>
@@ -6442,6 +6443,10 @@ COSTO DE NO ACTUAR: Hacer visible lo que pierde si no actúa. Variar el tiempo (
 
 NO VENDE INFORMACION — VENDE TRANSFORMACION. La información está en Google. Lo que se vende es el RESULTADO, el cambio en su vida. Eso es lo que justifica el precio.
 
+COHERENCIA CON EL TIPO DE NEGOCIO: usa el lenguaje que corresponde a lo que la usuaria vende. Si es un producto, curso o servicio ONLINE/digital, NO uses NUNCA la palabra "puertas" ni expresiones de negocio físico como "abrir puertas", "abiertas las puertas", "abrir el local", "visítanos", "pasa por la tienda" o "ven a vernos". Di en cambio: "cuando sea el lanzamiento", "cuando abra el lanzamiento", "cuando abran las inscripciones", "cuando esté disponible", "cuando abra el carrito", "el día del lanzamiento", "entra aquí". NO uses "se lance", "lance" ni "lanzar" para decir cuándo estará disponible; usa "lanzamiento" como sustantivo. Solo si el negocio es físico usa esas expresiones. Si no estás segura del tipo de negocio, usa el lenguaje neutro de lo online.
+
+ESPAÑOL NEUTRO (siempre): escribe en español neutro que se entienda en toda Hispanoamérica. NO uses regionalismos ni modismos de un solo país, por ejemplo: "te late", "¿qué onda?", "chido", "padre" (como bueno), "órale", "ándale", "wey", "ahorita", "mande", "neta", "chamba", "platicar", "bacán", "parce", "che", "vos". Usa en su lugar: "¿te gusta?", "¿qué piensas?", "genial", "ahora", "de verdad", "trabajo", "conversar". Tutea siempre (tú), nunca voseo.
+
 RECORDATORIO FINAL (léelo antes de responder): lo anterior son ejemplos y conocimiento de JACKY; la usuaria es otra persona. Responde SOLO sobre lo que la usuaria escribió, con su idea y su tono. Si NO te pide sugerencias, no cambies su tema ni agregues otros temas (ventas, afiliados, ingresos). NO inventes historias, horas de trabajo, hijos, jefes, ingresos, cifras ni testimonios que ella no haya dado: si hace falta una experiencia personal y no la dio, usa una idea general o un espacio [COMPLETA AQUÍ]. SOLO si ella pide explícitamente sugerencias, ideas u opciones, ahí sí propón libremente de acuerdo con lo que pidió.`;
 
 
@@ -6575,6 +6580,9 @@ async function generateCaption() {
   if (!checkDailyLimit('captions')) return;
   setLoading('btn-gen-caption', true);
   document.getElementById('cap-output-card').style.display = 'block';
+  const ctaCaption = keyword.trim()
+    ? 'CTA al final (hay entregable): "Comenta ' + keyword.trim() + ' y te lo envío" o "Escríbeme ' + keyword.trim() + ' por DM"'
+    : 'CTA al final (NO hay entregable ni palabra clave): elige UNO que encaje con el contenido — guardar, compartir, seguir o comentar su opinión. No inventes palabras clave ni ofrezcas recursos que no existen';
   const prompt = `Crea 1 caption para redes sociales:
 ESTILO: ${estilo.includes('Faceless') ? 'FACELESS (sin mostrar cara, cuenta anónima — enfoca en sistema, automatización, resultado sin identidad personal)' : 'MARCA PERSONAL (con cara visible — usa historia personal, voz auténtica, construye autoridad y confianza)'}
 TEMA: ${tema}
@@ -6585,10 +6593,10 @@ PALABRA CLAVE: ${keyword}
 
 Estructura obligatoria:
 - Hook poderoso (primera línea que para el scroll)
-- Cuerpo 3-5 líneas
-- Lista estilo Jacky: "✅ sin X ✅ sin Y ✅ sin Z"
-- Promesa de resultado ($$ o transformación)
-- CTA al final: "Comenta ${keyword} y te lo envío 💵" o "Escríbeme ${keyword} por DM y te cuento todo"
+- Cuerpo 3-5 líneas que sigan la SECUENCIA del tema de principio a fin, sin cambiar de tema ni meter ventas si el tema no trata de eso
+- Solo si el tema lo pide: una lista corta con ✅ o una promesa de transformación. NUNCA inventes ingresos, cifras ni resultados
+- ${ctaCaption}
+${pistaVariedad()}
 - 5-8 hashtags al final
 
 ${getProfileContext()}`;
@@ -6825,7 +6833,9 @@ REGLAS DE ORO PARA EL GUIÓN (aplica siempre):
 - Termina siempre con llamado a la acción claro
 
 === HOOKS (3 opciones) ===
-3 hooks variados usando estructuras probadas. Ejemplos de estilo a imitar (no copiar literal): "POV: [situación específica de la audiencia]", "Nadie está hablando sobre esto...", "La verdad sobre [tema]", "X cosas que nadie te dice sobre [tema]", "Si quieres evitar [problema], haz esto", "Necesitamos hablar de [tema]". Da una con pregunta directa, una con formato lista/números, y una con revelación tipo secreto.
+3 hooks variados, cada uno tomado de esta lista y adaptado al tema (no literal), que paren el scroll en los primeros 2 a 3 segundos:
+${muestraGanchos(6, 3)}
+Otras estructuras probadas. Ejemplos de estilo a imitar (no copiar literal): "POV: [situación específica de la audiencia]", "Nadie está hablando sobre esto...", "La verdad sobre [tema]", "X cosas que nadie te dice sobre [tema]", "Si quieres evitar [problema], haz esto", "Necesitamos hablar de [tema]". Da una con pregunta directa, una con formato lista/números, y una con revelación tipo secreto.
 
 === GUIÓN COMPLETO ===
 Guión con timing ajustado a duración corta y efectiva:
@@ -7113,7 +7123,8 @@ NÚMERO DE SLIDES: ${slides}
 PALABRA CLAVE: ${keyword}
 
 Escribe el texto exacto de cada slide, numerado (Slide 1, Slide 2, etc.):
-- Slide 1: LEY DE LOS 3 SEGUNDOS — este es el hook, tiene que detener el scroll de inmediato (curiosidad, identificación o sorpresa desde la primera palabra), relacionado al tema
+- Slide 1 (la PORTADA): LEY DE LOS 3 SEGUNDOS — este es el hook, tiene que detener el scroll de inmediato (curiosidad, identificación o sorpresa desde la primera palabra), relacionado al tema. Debe ser UNO de estos ganchos adaptado al tema (no literal):
+${muestraGanchos(6, 3)}
 - Slides intermedios: contenido de valor real, un punto claro por slide
 - Último slide: CTA claro con la palabra clave ("Comenta ${keyword} y te lo envío" o similar)
 
@@ -7395,6 +7406,7 @@ async function generateReelDia() {
   }
 
   const ctx = getProfileContext();
+  const ganchosAuto = muestraGanchos(6, 3);
   
   // Verificar si hay estilo viral guardado
   let estiloViral = '';
@@ -7424,7 +7436,9 @@ async function generateReelDia() {
 
   const promptPortada = `Escribe SOLO 2 opciones de texto para portada de reel (título grande que va encima del video) sobre: "${tema}".
 Estilo: ${esFaceless ? 'faceless — NO uses "yo", habla en general o en segunda persona' : esHibrido ? 'mixto — puede ser personal o general según lo que genere más impacto' : 'marca personal, primera persona, auténtico'}.
-Cada opción máximo 6 palabras, con gancho fuerte. LEY DE LOS 3 SEGUNDOS: debe detener el scroll de inmediato — es lo único que la persona ve antes de decidir si sigue o desliza.
+Cada opción máximo 6 palabras. Usa UNO de estos ganchos (adaptado al tema, sin copiarlo literal):
+${ganchosAuto}
+Con gancho fuerte. LEY DE LOS 3 SEGUNDOS: debe detener el scroll de inmediato — es lo único que la persona ve antes de decidir si sigue o desliza.
 ${ctx}
 Formato exacto:
 Opción 1: [texto]
@@ -7436,6 +7450,8 @@ Duración: ${durInstruccion}
 Estilo: ${estiloInstruccion}
 ${ctx}
 LEY DE LOS 3 SEGUNDOS: las primeras palabras del guión (lo que se dice/muestra apenas empieza el video) tienen que detener el scroll de inmediato — sin introducciones lentas, directo a generar curiosidad, identificación o sorpresa.
+OBLIGATORIO — la primera línea (lo que se ve/oye en los primeros 2 a 3 segundos) debe ser un GANCHO que pare el scroll, tomado de esta lista y adaptado al tema de la usuaria (no lo copies literal, cambia las palabras, con sentido completo):
+${ganchosAuto}
 IMPORTANTE: NO uses comillas genéricas ni ejemplos entre comillas. Escribe el contenido REAL y DIRECTO como si fuera para publicar ahora mismo. Sin títulos de sección como "HOOK:" o "DESARROLLO:". Solo el texto fluido.`;
 
   const promptCaption = `Escribe el caption completo y listo para publicar para este reel sobre: "${tema}".
@@ -7444,6 +7460,7 @@ Incluye:
 - Gancho en la primera línea (sin comillas)
 - Contenido de valor breve y directo
 - ${ctaKeyword}
+${pistaVariedad()}
 - Si hay @usuario (${usuario}), úsalo de forma NATURAL según el contenido — puede ir en el CTA, en el medio o al final dependiendo del contexto. NO lo fuerces si no aplica. Ejemplo natural: "Sígueme en ${usuario || '@tu_usuario'} para más contenido como este" o "[usuario] te explica cómo..." según lo que más fluya.
 - 3-5 hashtags relevantes al final
 IMPORTANTE: NO uses comillas genéricas. 1 sola versión limpia, directa y lista para copiar y pegar.`;
@@ -7561,6 +7578,22 @@ function setModoHistorias(modo) {
   window._historiasModo = modo;
 }
 
+// Cada vez sugiere una forma distinta de decir "cuándo estará disponible" (para que no repita siempre la misma)
+function pistaVariedad() {
+  const f = ['cuando sea el lanzamiento', 'el día del lanzamiento', 'cuando abran las inscripciones', 'cuando abra el carrito', 'en cuanto esté disponible', 'cuando salga', 'apenas arranque el lanzamiento', 'cuando abra el lanzamiento'];
+  const a = f[Math.floor(Math.random() * f.length)];
+  return 'VARIEDAD: si hablas de cuándo estará disponible lo que ofrece (solo si es online), usa una forma como "' + a + '", adaptada al texto; no repitas siempre la misma frase.';
+}
+// Muestra de ganchos para que Jackia los ponga SOLA (la usuaria no tiene que pedirlos).
+// Toma los NUEVOS del banco (sección marcada en SYS) y los de historias.
+function muestraGanchos(nNuevos, nHistorias) {
+  const barajar = a => a.map(x => [Math.random(), x]).sort((u, v) => u[0] - v[0]).map(x => x[1]);
+  const lim = (t, a, b) => { const i = t.indexOf(a); if (i < 0) return ''; const j = t.indexOf(b, i + a.length); return j < 0 ? '' : t.slice(i + a.length, j); };
+  const items = bloque => (bloque.match(/"([^"]{8,})"/g) || []).map(x => x.slice(1, -1));
+  const nuevos = items(lim(SYS, '[[GANCHOS-NUEVOS-INICIO]]', '[[GANCHOS-NUEVOS-FIN]]'));
+  const hist = items(lim(SYS, 'GANCHOS PARA HISTORIAS', 'MÉTODO BANCO DE GANCHOS'));
+  return barajar(nuevos).slice(0, nNuevos).concat(barajar(hist).slice(0, nHistorias)).map((h, i) => (i + 1) + '. "' + h + '"').join('\n');
+}
 async function generateHistoriasHoy() {
   // MODO PRUEBA: sin bloqueos
 
@@ -7571,6 +7604,7 @@ async function generateHistoriasHoy() {
   const estilo = document.querySelector('#historiasHoy-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
   const link = document.getElementById('historiasHoy-link').value || '[PEGA TU LINK AQUI]';
   const ctx = getProfileContext();
+  const ganchosHist = muestraGanchos(6, 4);
   if (!tema.trim()) { fieldWarn('historiasHoy-tema', 'Cuéntame qué quieres mostrar hoy y armo tus historias 😊'); return; }
   setLoading('btn-gen-historiasHoy', true);
   document.getElementById('historiasHoy-output-card').style.display = 'block';
@@ -7589,13 +7623,14 @@ async function generateHistoriasHoy() {
   const ctaInstruccion = keyword.trim()
     ? `el CTA con la palabra clave "${keyword}" va SOLO en la ÚLTIMA historia (la número ${cantidad}) — las demás historias NO deben llevar CTA ni mencionar la palabra clave, solo construyen conexión/valor`
     : `NO hay palabra clave, así que el CTA de la ÚLTIMA historia (la número ${cantidad}) debe invitar a seguir la cuenta, compartir y guardar la historia — nunca inventes una palabra clave. Las demás historias NO deben llevar ningún CTA, solo construyen conexión/valor`;
-  const promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}.
+  let promptHistorias = `Crea ${cantidad} historias de redes sociales sobre: ${tema}.
 ${ctx}
 
 ESTRUCTURA OBLIGATORIA (adaptar al nicho y etapa de la usuaria):
 
 HISTORIA 1 → GANCHO PODEROSO:
-El más fuerte de todas. Debe atrapar en los primeros segundos o no verán las demás. Usar el banco de ganchos adaptado al nicho.
+El más fuerte de todas. Debe PARAR EL SCROLL desde el primer segundo o no verán las demás. OBLIGATORIO: la primera línea de la HISTORIA 1 es un GANCHO tomado de esta lista, adaptado al tema de la usuaria (no lo copies literal, cambia las palabras, y que tenga sentido completo con lo que ella escribió):
+${ganchosHist}
 
 HISTORIAS 2 hasta ${cantidad - 2} → DESARROLLO CON VALOR:
 Según su etapa:
@@ -7630,6 +7665,25 @@ HISTORIA 1:
 HISTORIA 2:
 [texto]
 (así hasta historia ${cantidad})`;
+  if (String(cantidad).trim() === '1') {
+    promptHistorias = `Crea UNA SOLA historia de redes sociales sobre: ${tema}.
+${ctx}
+
+ESTRUCTURA (todo en una sola historia, corta):
+- Primera línea: GANCHO que PARE EL SCROLL en los primeros 2 a 3 segundos. OBLIGATORIO: tómalo de esta lista, adaptado al tema de la usuaria (no lo copies literal, cambia las palabras, con sentido completo):
+${ganchosHist}
+- Después: 2 a 3 líneas cortas con lo más importante del tema, siguiendo su secuencia.
+- Cierre: ${ctaInstruccion.replace(/\(la número \d+\)/g, '').replace('la ÚLTIMA historia', 'esta historia')}
+
+Reglas:
+- Frases cortas y directas, tono cercano como una amiga que respetas
+- Estilo: ${estilo.includes('Faceless') ? 'faceless, sin mostrar rostro, hablar en general o segunda persona' : 'marca personal, primera persona, auténtico'}
+- Solo la historia, listo para publicar
+
+Formato EXACTO (sin sugerencias de imagen ni foto):
+HISTORIA 1:
+[texto]`;
+  }
   const promptBienvenida = `Escribe un mensaje corto de bienvenida para un bot de DM automatico (estilo ManyChat), que se envia apenas alguien comenta la palabra clave "${keyword}". Debe agradecer el interes y avisar que en un momento le llega su recurso. Maximo 3 lineas, cercano y cálido.`;
   const promptEntrega = `Escribe un mensaje corto de entrega para un bot de DM automatico (estilo ManyChat), que se envia despues del mensaje de bienvenida. Debe entregar el recurso con este link exacto: ${link} . Cierra invitando a aprovechar el recurso. Maximo 3 lineas.`;
 
