@@ -1762,6 +1762,9 @@
             <button type="button" class="btn-secondary" style="margin-bottom:8px;font-size:12px;padding:8px 14px" onclick="suggestReeldiaTopics()">💡 Sugiéreme un tema</button>
             <div id="reeldia-topic-suggestions" style="display:none;margin-bottom:10px"></div>
             <textarea id="reeldia-tema" placeholder="Ej: Por qué fallé en mis primeras ventas y qué cambié..."></textarea>
+          <label style="margin-top:12px">¿Ya tienes tu guion? (opcional)</label>
+          <div style="font-size:12px;color:var(--muted);margin:2px 0 6px">Pega lo que vas a decir al grabar. Jackia NO lo reescribe: te arma la portada con gancho, el caption y el mensaje de DM a partir de tu guion.</div>
+          <textarea id="reeldia-guion" placeholder="Pega aquí tu guion tal como lo vas a decir en el reel..." style="min-height:110px"></textarea>
           </div>
           <div class="form-row">
             <div>
@@ -7376,7 +7379,9 @@ Responde ÚNICAMENTE con la portada adaptada, sin explicación de qué estructur
 }
 
 async function generateReelDia() {
-  const tema = document.getElementById('reeldia-tema').value;
+  const guionPropio = (document.getElementById('reeldia-guion')?.value || '').trim();
+  const tema = document.getElementById('reeldia-tema').value || (guionPropio ? guionPropio.slice(0, 250) : '');
+  const ctxGuion = guionPropio ? '\nGUION DEL REEL (la usuaria ya lo tiene escrito; basa en ESTO la portada y el caption, sin cambiar su idea ni inventar nada que no esté en el guion. La PORTADA debe hablar de la IDEA CENTRAL de este guion, con un gancho COMPLETO y con sentido por sí solo (nunca frases cortadas con "..." ni genéricas que sirvan para cualquier tema): "' + guionPropio + '"' : '';
   const usuario = document.getElementById('reeldia-usuario').value;
   const keyword = document.getElementById('reeldia-keyword')?.value?.trim() || '';
   const estilo = document.querySelector('#reeldia-estilo-chips .chip.selected')?.textContent || 'Con mi cara';
@@ -7471,9 +7476,10 @@ IMPORTANTE: NO uses comillas genéricas. 1 sola versión limpia, directa y lista
     
   const promptEntrega = `Escribe 1 mensaje corto de entrega para DM ${keyword ? `automático (ManyChat), enviado después de la bienvenida cuando alguien comentó "${keyword}". Entrega el recurso con este link: ${link}` : `cuando preguntan por el reel. Invita a conocer más: ${link}`}. Cierra motivando a aprovechar. Máximo 3 líneas. Texto directo listo para copiar.`;
 
-  await streamToEl(promptPortada, 'reeldia-portada-output', SYS);
-  await streamToEl(promptDescripcion, 'reeldia-descripcion-output', SYS);
-  await streamToEl(promptCaption, 'reeldia-caption-output', SYS);
+  await streamToEl(promptPortada + ctxGuion, 'reeldia-portada-output', SYS);
+  if (guionPropio) { document.getElementById('reeldia-descripcion-output').textContent = guionPropio; }
+  else { await streamToEl(promptDescripcion, 'reeldia-descripcion-output', SYS); }
+  await streamToEl(promptCaption + ctxGuion, 'reeldia-caption-output', SYS);
   await streamToEl(promptBienvenida, 'reeldia-bienvenida-output', SYS);
   await streamToEl(promptEntrega, 'reeldia-entrega-output', SYS);
   document.getElementById('reeldia-faceless-tips').style.display = 'none';
