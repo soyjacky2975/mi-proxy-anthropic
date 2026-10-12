@@ -452,6 +452,9 @@
   .sidebar .nav-item{font-weight:800 !important;color:#2E2620 !important;font-size:15px}
   .sidebar .nav-item.active{font-weight:900 !important;color:#1E1813 !important}
   .sidebar .sidebar-label{font-weight:900 !important;color:#7A5A08 !important;font-size:11.5px}
+  /* ── recuadro de abajo del menú legible (Pro y Premium ya no se pierden en el rosa) ── */
+  .sidebar .nav-pro p{font-size:13.5px !important;font-weight:700 !important;color:#2E2620 !important;line-height:1.55}
+  .sidebar .nav-pro strong{color:#8E1F45 !important;font-weight:900 !important}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.splash-glass{background:#fff}#onboarding-modal{background:rgba(250,247,243,.97)}#onboarding-modal .modal-box{background:#fff}}
 
   @keyframes fadeUp{
@@ -830,7 +833,7 @@
       <div class="sidebar-label">IA Studio</div>
       <button class="nav-item" onclick="showPanel('iastudio',this)"><span class="nav-icon">🚧</span> En Construcción</button>
       <div class="nav-pro">
-        <p>Eres del <strong>plan gratuito</strong> — 7 días de contenido. Pasa a <strong>Pro</strong> y genera contenido nuevo cada mes, o a <strong>Premium</strong> para generaciones ilimitadas.</p>
+        <p>Tienes una <strong>semana gratis del Plan Pro</strong> para que pruebes. Después tú decides: sigue con <strong>Pro</strong> o pasa a <strong>Premium</strong>.</p>
         <button class="btn-upgrade">✨ Pro $19.99/mes (promo lanzamiento) — renovación automática mensual, cancela cuando quieras</button>
       </div>
       <button onclick="clearSavedContent()" style="background:none;border:none;color:#8C7A72;font-size:11px;text-decoration:underline;cursor:pointer;margin-top:10px;padding:4px">🗑️ Empezar de cero (borrar todo lo guardado)</button>
@@ -1753,7 +1756,7 @@
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
             <div style="position:absolute;top:8px;right:8px;background:#CDA0A5;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#CDA0A5;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 1 por día</div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#CDA0A5;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 10 por día</div>
             <div style="font-size:13px;color:#262019">Genera tu reel completo del día en un solo lugar — listo para copiar y publicar</div>
           </div>
         </div>
@@ -1984,7 +1987,7 @@
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px;background:linear-gradient(135deg,rgba(232,49,90,0.2),rgba(232,49,90,0.05));border:1.5px solid rgba(232,49,90,0.6);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden">
             <div style="position:absolute;top:8px;right:8px;background:#CDA0A5;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">LANZAMIENTO</div>
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#CDA0A5;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 1 por día</div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#CDA0A5;margin-bottom:4px">🧠 Premium: Ilimitado · Pro: 10 por día</div>
             <div style="font-size:13px;color:#262019">Genera tus historias del día + el sistema de DM automático completo, listo para configurar</div>
           </div>
         </div>
@@ -6494,7 +6497,7 @@ async function suggestCapTopics() {
 }
 
 // ── SISTEMA DE LÍMITES PLAN GRATIS (7 días, una sola vez, no renovable) ──
-const FREE_LIMITS = { captions: 1, videos: 1, carruseles: 1, stories: 2, dm: 1 }; // Plan Gratis: 1/día
+const FREE_LIMITS = { captions: 2, videos: 2, carruseles: 2, stories: 2, dm: 2 }; // Plan Gratis: 2/día por módulo
 const PRO_DAILY_LIMIT = 10; // Plan Pro: 10/día por módulo
 const FREE_TRIAL_DAYS = 7;
 const PRO_MONTHLY_LIMIT = 200;
@@ -9019,7 +9022,7 @@ async function sugerirNichoIA() {
 // Ventana corta con el plan de un módulo (no se muestra directo en la tarjeta)
 // Lo que lleva cada plan (definido con Jacky): una sola fuente para la ventana y las tarjetas
 const PLAN_TODAS = '🎁 Tu Mejor Versión<br>🎁 Inicio';
-const PLAN_PRO = '✅ De Cero a Lista<br>✅ Plan de Contenido<br>✅ Mi Reel de Hoy (1 por día)<br>✅ Portadas para Reels<br>✅ Mis Historias de Hoy (1 por día)<br>✅ Carruseles<br>✅ Crea Tu Oferta<br>✅ Reseñas';
+const PLAN_PRO = '✅ De Cero a Lista<br>✅ Plan de Contenido<br>✅ Mi Reel de Hoy (10 por día)<br>✅ Portadas para Reels<br>✅ Mis Historias de Hoy (10 por día)<br>✅ Carruseles<br>✅ Crea Tu Oferta<br>✅ Reseñas';
 const PLAN_PREMIUM = '✅ Todo lo de Pro, ilimitado<br>✅ Radiografía de tu Bio<br>✅ Seguimiento &amp; Cierre<br>✅ Analiza, Adapta y Modela<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Mini Apps (8 incluidas)<br>✅ Biblioteca<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos';
 function verPlanModulo(nombre, quien) {
   const viejo = document.getElementById('plan-modulo-modal'); if (viejo) viejo.remove();
@@ -9556,9 +9559,9 @@ document.addEventListener('pointerdown', function(e) {
   function ratio(a, b) { const L1 = lum(a.r, a.g, a.b), L2 = lum(b.r, b.g, b.b); return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05); }
   function esDorado(c) { return c.r > 150 && c.g > 110 && c.b < 125 && (c.r - c.b) > 80; }
   function asegurarLegibilidad() {
-    const panel = document.querySelector('.panel.active') || document.body;
-    panel.querySelectorAll('p,div,span,label,small,li,strong,b,em,h1,h2,h3,h4').forEach(e => {
-      if (e.closest('button,.btn,.chip,.nav-item,.sidebar,[role="button"],input,textarea,select')) return;
+    const raices = [document.querySelector('.panel.active') || document.body].concat([...document.querySelectorAll('.modal-overlay:not(.hidden), .splash-overlay:not(.hidden)')]);
+    raices.forEach(panel => panel.querySelectorAll('p,div,span,label,small,li,strong,b,em,h1,h2,h3,h4').forEach(e => {
+      if (e.closest('button:not(.modal-opt),.btn,.chip,.nav-item,.sidebar,[role="button"],input,textarea,select')) return;
       if (![...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1)) return;
       const cs = getComputedStyle(e);
       if (cs.display === 'none' || cs.visibility === 'hidden') return;
@@ -9580,7 +9583,7 @@ document.addEventListener('pointerdown', function(e) {
       while (n++ < 14 && ratio({ r, g, b }, bg) < 4.5) { r *= 0.88; g *= 0.88; b *= 0.88; }
       e.style.setProperty('color', 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')', 'important');
       e.style.setProperty('font-weight', '700', 'important');
-    });
+    }));
   }
   window.asegurarLegibilidad = asegurarLegibilidad;
   const _sp = window.showPanel;
@@ -9588,6 +9591,7 @@ document.addEventListener('pointerdown', function(e) {
     window.showPanel = function () { const r = _sp.apply(this, arguments); try { asegurarLegibilidad(); } catch (e) {} setTimeout(asegurarLegibilidad, 250); setTimeout(asegurarLegibilidad, 1200); return r; };
   }
   setTimeout(asegurarLegibilidad, 600);
+  setInterval(() => { if (document.querySelector('.modal-overlay:not(.hidden), .splash-overlay:not(.hidden)')) { try { asegurarLegibilidad(); } catch (e) {} } }, 600);
 })();
 
 // ── Las tarjetas de planes (Pro y Premium) de cada módulo quedan detrás de un botón, para que no se vean directo ──
