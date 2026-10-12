@@ -441,6 +441,15 @@
   #panel-home .usage-bar,#panel-home .usage-bar *{color:#2E2620;font-weight:700}
   #panel-home > div:not(.module-cards) strong{font-weight:900}
   #panel-home .module-plan-btn{color:#6B520C;font-weight:800}
+  /* ── semi-negrita en todas las pantallas: que ningún texto se vea opaco ── */
+  .panel p,.panel li,.panel label,.panel small,.panel .page-subtitle,.panel .module-card-desc,.panel .card-title,.panel .modal-hint{font-weight:600}
+  .panel h1,.panel h2,.panel h3,.panel .page-title{font-weight:800}
+  .panel .output-box{font-weight:500}
+  .panel input,.panel textarea,.panel select{font-weight:500}
+  /* ── botones del menú en negrita gruesa y bien oscuros ── */
+  .sidebar .nav-item{font-weight:800 !important;color:#2E2620 !important;font-size:15px}
+  .sidebar .nav-item.active{font-weight:900 !important;color:#1E1813 !important}
+  .sidebar .sidebar-label{font-weight:900 !important;color:#7A5A08 !important;font-size:11.5px}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.splash-glass{background:#fff}#onboarding-modal{background:rgba(250,247,243,.97)}#onboarding-modal .modal-box{background:#fff}}
 
   @keyframes fadeUp{
@@ -1114,9 +1123,9 @@
         </div>
         <div class="module-cards">
           <div class="module-card" onclick="showPanel('plan',null)"><div class="module-card-icon">📅</div><div class="module-card-title">Plan de Contenido</div><div class="module-card-desc">Planifica tu contenido — Semanal o mensual</div></div>
-          <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mi Reel de Hoy')">Ver plan</button></div>
+          <div class="module-card" onclick="showPanel('reeldelDia',null)"><div class="module-card-icon">🎬</div><div class="module-card-title">Mi Reel de Hoy</div><div class="module-card-desc">Hook + descripción + caption + DM</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mi Reel de Hoy','pro')">Ver plan</button></div>
           <div class="module-card" onclick="showPanel('portadas',null)"><div class="module-card-icon">🎯</div><div class="module-card-title">Portadas para Reels</div><div class="module-card-desc">Varias opciones de portada con ganchos virales validados</div></div>
-          <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mis Historias de Hoy')">Ver plan</button></div>
+          <div class="module-card" onclick="showPanel('historiasHoy',null)"><div class="module-card-icon">📱</div><div class="module-card-title">Mis Historias de Hoy</div><div class="module-card-desc">Historias + DM para ManyChat</div><button type="button" class="module-plan-btn" onclick="event.stopPropagation();verPlanModulo('Mis Historias de Hoy','pro')">Ver plan</button></div>
           <div class="module-card" onclick="showPanel('ofertas',null)"><div class="module-card-icon">💸</div><div class="module-card-title">Crea Tu Oferta</div><div class="module-card-desc">Copy de venta para publicar en redes, historia o post</div></div>
           <div class="module-card" onclick="showPanel('dm',null)"><div class="module-card-icon">💬</div><div class="module-card-title">Seguimiento & Cierre</div><div class="module-card-desc">Mensajes de seguimiento y cierre por DM o WhatsApp</div></div>
           <div class="module-card" onclick="showPanel('carruseles',null)"><div class="module-card-icon">📊</div><div class="module-card-title">Carruseles</div><div class="module-card-desc">Texto de cada slide listo para diseñar en Canva</div></div>
@@ -9005,13 +9014,17 @@ async function sugerirNichoIA() {
 
 // Resultados reales (prueba de autoridad): se pueden actualizar sin rehacer todo el perfil
 // Ventana corta con el plan de un módulo (no se muestra directo en la tarjeta)
-function verPlanModulo(nombre) {
+function verPlanModulo(nombre, quien) {
   const viejo = document.getElementById('plan-modulo-modal'); if (viejo) viejo.remove();
   const ov = document.createElement('div');
   ov.id = 'plan-modulo-modal';
   ov.style.cssText = 'position:fixed;inset:0;background:rgba(38,32,25,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
   ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
-    '<div style="font-weight:800;font-size:17px;color:#262019;margin-bottom:12px">' + nombre + '</div>' +
+    '<div style="font-weight:800;font-size:17px;color:#262019;margin-bottom:8px">' + nombre + '</div>' +
+    '<div style="font-size:13.5px;font-weight:700;color:#262019;background:rgba(212,175,55,.14);border-radius:10px;padding:8px 12px;margin-bottom:12px">' +
+      (quien === 'todas' ? '🎁 Este módulo es <strong>para todas</strong>: está incluido en cualquier plan.' :
+       quien === 'premium' ? '👑 Este módulo es de <strong>Premium</strong>.' :
+       '⭐ Este módulo está en el <strong>Plan Pro</strong> y también en Premium.') + '</div>' +
     '<div style="border:1.5px solid rgba(212,175,55,.6);background:rgba(212,175,55,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px">' +
       '<div style="font-weight:800;color:#8a6d1c">⭐ Plan Pro · $19.99/mes</div>' +
       '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">✅ Este módulo: 1 por día<br>✅ Plan completo<br>✅ Carruseles cada mes</div></div>' +
@@ -9562,9 +9575,60 @@ document.addEventListener('pointerdown', function(e) {
   window.asegurarLegibilidad = asegurarLegibilidad;
   const _sp = window.showPanel;
   if (typeof _sp === 'function') {
-    window.showPanel = function () { const r = _sp.apply(this, arguments); setTimeout(asegurarLegibilidad, 250); setTimeout(asegurarLegibilidad, 1200); return r; };
+    window.showPanel = function () { const r = _sp.apply(this, arguments); try { asegurarLegibilidad(); } catch (e) {} setTimeout(asegurarLegibilidad, 250); setTimeout(asegurarLegibilidad, 1200); return r; };
   }
   setTimeout(asegurarLegibilidad, 600);
+})();
+
+// ── Las tarjetas de planes (Pro y Premium) de cada módulo quedan detrás de un botón, para que no se vean directo ──
+(function planesTrasBoton() {
+  function aplicar() {
+    const todos = [...document.querySelectorAll('.panel div')].filter(d => /Plan Pro/.test(d.textContent) && /Premium — Jackia/.test(d.textContent));
+    const hojas = todos.filter(d => !todos.some(o => o !== d && d.contains(o)));
+    hojas.forEach(d => {
+      if (d.dataset.planesBoton) return;
+      d.dataset.planesBoton = '1';
+      d.style.display = 'none';
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'module-plan-btn';
+      b.style.cssText = 'margin:0 0 16px 0';
+      b.textContent = '💎 Ver planes Pro y Premium';
+      b.onclick = () => {
+        const abierto = d.style.display !== 'none';
+        d.style.display = abierto ? 'none' : 'flex';
+        b.textContent = abierto ? '💎 Ver planes Pro y Premium' : '✕ Ocultar planes';
+      };
+      d.parentNode.insertBefore(b, d);
+    });
+  }
+  aplicar();
+  setTimeout(aplicar, 800);
+})();
+
+// ── Botón "Ver plan" en todos los módulos (dice en qué plan está y qué lleva cada plan) ──
+(function botonPlanEnModulos() {
+  const PLAN = { tumejorversion: 'todas', ceroalista: 'todas',
+    plan: 'pro', reeldelDia: 'pro', portadas: 'pro', historiasHoy: 'pro', carruseles: 'pro', ofertas: 'pro', reviews: 'pro',
+    dm: 'premium', radiografiabio: 'premium', analizar: 'premium', reto: 'premium', miniapps: 'premium', biblioteca: 'premium', chat: 'premium' };
+  function aplicar() {
+    Object.keys(PLAN).forEach(id => {
+      const panel = document.getElementById('panel-' + id);
+      if (!panel || panel.querySelector('.plan-modulo-btn')) return;
+      const cab = panel.querySelector('.page-header') || panel.firstElementChild;
+      if (!cab) return;
+      const titulo = (panel.querySelector('.page-title') || {}).textContent || id;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'module-plan-btn plan-modulo-btn';
+      b.style.cssText = 'margin:6px 0 14px 0';
+      b.textContent = '💎 Ver plan';
+      b.onclick = () => verPlanModulo(titulo.replace(/\s+/g, ' ').trim(), PLAN[id]);
+      cab.parentNode.insertBefore(b, cab.nextSibling);
+    });
+  }
+  aplicar();
+  setTimeout(aplicar, 800);
 })();
 </script>
 <style>
