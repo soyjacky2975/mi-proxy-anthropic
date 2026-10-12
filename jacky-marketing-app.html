@@ -7378,6 +7378,15 @@ Responde ÚNICAMENTE con la portada adaptada, sin explicación de qué estructur
   setLoading('btn-gen-modelar-portada', false);
 }
 
+// El usuario (@) se escribe una sola vez: queda guardado y Jackia lo usa cuando el contenido lo amerite
+(function () {
+  const KEY = 'jackia_usuario_ig';
+  setTimeout(() => {
+    const el = document.getElementById('reeldia-usuario'); if (!el) return;
+    try { const v = localStorage.getItem(KEY); if (v && !el.value) el.value = v; } catch (e) {}
+    el.addEventListener('input', () => { try { localStorage.setItem(KEY, el.value.trim()); } catch (e) {} });
+  }, 0);
+})();
 async function generateReelDia() {
   const guionPropio = (document.getElementById('reeldia-guion')?.value || '').trim();
   const tema = document.getElementById('reeldia-tema').value || (guionPropio ? guionPropio.slice(0, 250) : '');
@@ -7466,7 +7475,7 @@ Incluye:
 - Contenido de valor breve y directo
 - ${ctaKeyword}
 ${pistaVariedad()}
-- Si hay @usuario (${usuario}), úsalo de forma NATURAL según el contenido — puede ir en el CTA, en el medio o al final dependiendo del contexto. NO lo fuerces si no aplica. Ejemplo natural: "Sígueme en ${usuario || '@tu_usuario'} para más contenido como este" o "[usuario] te explica cómo..." según lo que más fluya.
+${usuario.trim() ? '- USUARIO guardado de ella: ' + (usuario.trim().startsWith('@') ? usuario.trim() : '@' + usuario.trim()) + '. Úsalo SOLO si el contenido lo amerita: si enseña o da valor, invita a seguirla de forma natural (por ejemplo "Sígueme en ' + (usuario.trim().startsWith('@') ? usuario.trim() : '@' + usuario.trim()) + ' para más contenido como este"), una sola vez. Si el contenido es emocional, personal o motivacional y no pide seguirla, NO lo pongas.' : '- NO escribas ningún @usuario ni pidas seguir la cuenta (ella no tiene usuario guardado).'}
 - 3-5 hashtags relevantes al final
 IMPORTANTE: NO uses comillas genéricas. 1 sola versión limpia, directa y lista para copiar y pegar.`;
 
