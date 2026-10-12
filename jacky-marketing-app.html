@@ -415,6 +415,8 @@
   .splash-overlay{background:radial-gradient(circle at 18% 22%,rgba(205,160,165,.55) 0,rgba(205,160,165,0) 46%),radial-gradient(circle at 82% 78%,rgba(212,175,55,.45) 0,rgba(212,175,55,0) 48%),radial-gradient(circle at 70% 12%,rgba(245,166,35,.22) 0,rgba(245,166,35,0) 40%),#FBF6F0}
   .splash-glass{display:flex;flex-direction:column;align-items:center;padding:26px 24px 28px;border-radius:26px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.75);box-shadow:0 18px 50px rgba(120,80,60,.18),inset 0 1px 0 rgba(255,255,255,.8);max-width:340px;width:100%}
   .splash-glass .splash-subtitle{margin-bottom:22px}
+  .splash-gratis{display:flex;flex-direction:column;align-items:center;text-align:center;font-weight:900;font-size:16px;color:#1E1813;background:rgba(212,175,55,.22);border:1px solid rgba(212,175,55,.6);border-radius:14px;padding:10px 16px;margin:-6px 0 18px 0;text-shadow:0 1px 0 rgba(255,255,255,.9)}
+  .splash-gratis small{font-weight:700;font-size:12.5px;color:#4A3A0A;margin-top:2px}
   #onboarding-modal{background:linear-gradient(135deg,rgba(205,160,165,.55),rgba(212,175,55,.38));-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}
   #onboarding-modal .modal-box{background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.8);box-shadow:0 22px 60px rgba(120,80,60,.22),inset 0 1px 0 rgba(255,255,255,.85)}
   /* ── Efecto vidrio solo en las tarjetas de la pantalla de Inicio (no toca menú ni botones) ── */
@@ -637,6 +639,7 @@
   <div class="splash-glass">
   <h1 class="splash-title">¡Hola! Soy <span>Jackia</span> 👋</h1>
   <p class="splash-subtitle">Tu asistente de marketing con IA. Sin prompts, sin complicaciones — solo genera y publica.</p>
+  <div class="splash-gratis">🎁 Una semana gratis del Plan Pro<small>Para que pruebes. Después tú decides tu plan</small></div>
   <button class="splash-btn" onclick="hideSplash()">✦ Comenzar ahora</button>
   </div>
 </div>
@@ -804,11 +807,11 @@
   <div class="main">
     <nav class="sidebar" id="sidebar">
       <button class="sidebar-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
-      <div class="sidebar-label">Para todas</div>
+      <div class="sidebar-label">En todos los planes</div>
       <button class="nav-item" onclick="showPanel('tumejorversion',this)"><span class="nav-icon">🧠</span> Tu Mejor Versión</button>
       <button class="nav-item active" onclick="showPanel('home',this)"><span class="nav-icon">🏠</span> Inicio</button>
-      <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
       <div class="sidebar-label">Plan Pro $19.99</div>
+      <button class="nav-item" onclick="showPanel('ceroalista',this)"><span class="nav-icon">🚀</span> De Cero a Lista</button>
       <button class="nav-item" onclick="showPanel('plan',this)"><span class="nav-icon">📅</span> Plan de Contenido</button>
       <button class="nav-item" onclick="showPanel('reeldelDia',this)"><span class="nav-icon">🎬</span> Mi Reel de Hoy</button>
       <button class="nav-item" onclick="showPanel('portadas',this)"><span class="nav-icon">🎯</span> Portadas para Reels</button>
@@ -9014,6 +9017,10 @@ async function sugerirNichoIA() {
 
 // Resultados reales (prueba de autoridad): se pueden actualizar sin rehacer todo el perfil
 // Ventana corta con el plan de un módulo (no se muestra directo en la tarjeta)
+// Lo que lleva cada plan (definido con Jacky): una sola fuente para la ventana y las tarjetas
+const PLAN_TODAS = '🎁 Tu Mejor Versión<br>🎁 Inicio';
+const PLAN_PRO = '✅ De Cero a Lista<br>✅ Plan de Contenido<br>✅ Mi Reel de Hoy (1 por día)<br>✅ Portadas para Reels<br>✅ Mis Historias de Hoy (1 por día)<br>✅ Carruseles<br>✅ Crea Tu Oferta<br>✅ Reseñas';
+const PLAN_PREMIUM = '✅ Todo lo de Pro, ilimitado<br>✅ Radiografía de tu Bio<br>✅ Seguimiento &amp; Cierre<br>✅ Analiza, Adapta y Modela<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Mini Apps (8 incluidas)<br>✅ Biblioteca<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos';
 function verPlanModulo(nombre, quien) {
   const viejo = document.getElementById('plan-modulo-modal'); if (viejo) viejo.remove();
   const ov = document.createElement('div');
@@ -9022,15 +9029,18 @@ function verPlanModulo(nombre, quien) {
   ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
     '<div style="font-weight:800;font-size:17px;color:#262019;margin-bottom:8px">' + nombre + '</div>' +
     '<div style="font-size:13.5px;font-weight:700;color:#262019;background:rgba(212,175,55,.14);border-radius:10px;padding:8px 12px;margin-bottom:12px">' +
-      (quien === 'general' ? '🎁 Tu <strong>primera semana es gratis</strong>. Pruébala con calma y después tú decides con cuál plan seguir.' : quien === 'todas' ? '🎁 Este módulo es <strong>para todas</strong>: está incluido en cualquier plan.' :
+      (quien === 'general' ? '🎁 Tienes <strong>una semana gratis del Plan Pro</strong> para que pruebes. Para activarla agregas tu <strong>pago del mes</strong>; si no te convence, <strong>cancelas</strong> antes de que termine la semana. Después tú decides con cuál plan seguir.' : quien === 'todas' ? '🎁 Este módulo está incluido en <strong>todos los planes</strong> (Pro y Premium).' :
        quien === 'premium' ? '👑 Este módulo es de <strong>Premium</strong>.' :
        '⭐ Este módulo está en el <strong>Plan Pro</strong> y también en Premium.') + '</div>' +
+    '<div style="border:1.5px solid rgba(60,140,90,.5);background:rgba(60,140,90,.07);border-radius:12px;padding:12px 14px;margin-bottom:10px">' +
+      '<div style="font-weight:800;color:#2f6b47">🎁 En todos los planes (Pro y Premium)</div>' +
+      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">' + PLAN_TODAS + '</div></div>' +
     '<div style="border:1.5px solid rgba(212,175,55,.6);background:rgba(212,175,55,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px">' +
       '<div style="font-weight:800;color:#8a6d1c">⭐ Plan Pro · $19.99/mes</div>' +
-      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">✅ Este módulo: 1 por día<br>✅ Plan completo<br>✅ Carruseles cada mes</div></div>' +
+      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">' + PLAN_PRO + '</div></div>' +
     '<div style="border:1.5px solid rgba(205,160,165,.7);background:rgba(205,160,165,.10);border-radius:12px;padding:12px 14px">' +
       '<div style="font-weight:800;color:#a9707a">👑 Premium · $59.99/mes</div>' +
-      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">✅ Todo lo de Pro, ilimitado<br>✅ Mi Reto (con insignias Jackia al completar)<br>✅ Analiza, Adapta y Modela<br>✅ Cerebro Jackia (escrito y hablado)<br>🎁 Plantillas para Carruseles (Canva)<br>🎁 Pack de Mockups<br>🎁 Ebook de Instagram actualizado<br>🎁 30 Prompts para imágenes y videos con IA<br>🎁 Guía de herramientas de IA para marketing<br>🎁 Guía para grabar tus propios videos</div></div>' +
+      '<div style="font-size:13px;color:#262019;line-height:1.7;margin-top:4px">' + PLAN_PREMIUM + '</div></div>' +
     '<button class="btn-primary" id="plan-modulo-cerrar" style="width:100%;margin-top:14px">Entendido</button></div>';
   document.body.appendChild(ov);
   const cerrar = () => ov.remove();
@@ -9608,7 +9618,7 @@ document.addEventListener('pointerdown', function(e) {
 
 // ── Botón "Ver plan" en todos los módulos (dice en qué plan está y qué lleva cada plan) ──
 (function botonPlanEnModulos() {
-  const PLAN = { tumejorversion: 'todas', ceroalista: 'todas',
+  const PLAN = { tumejorversion: 'todas', ceroalista: 'pro',
     plan: 'pro', reeldelDia: 'pro', portadas: 'pro', historiasHoy: 'pro', carruseles: 'pro', ofertas: 'pro', reviews: 'pro',
     dm: 'premium', radiografiabio: 'premium', analizar: 'premium', reto: 'premium', miniapps: 'premium', biblioteca: 'premium', chat: 'premium' };
   function aplicar() {
@@ -9640,17 +9650,82 @@ document.addEventListener('pointerdown', function(e) {
     const d = document.createElement('div');
     d.id = 'aviso-semana-gratis';
     d.style.cssText = 'margin:0 0 16px 0;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(20px) saturate(165%);backdrop-filter:blur(20px) saturate(165%);border:1px solid rgba(255,255,255,.8);box-shadow:0 10px 30px rgba(120,80,60,.10),inset 0 1px 0 rgba(255,255,255,.85)';
-    d.innerHTML = '<div style="font-weight:900;font-size:17px;color:#1E1813">🎁 Tu primera semana es gratis</div>' +
-      '<div style="font-weight:600;font-size:14px;color:#2E2620;margin:6px 0 10px;line-height:1.55">Prueba Jackia sin pagar. Después tú decides si sigues con el plan <strong>Pro</strong> o <strong>Premium</strong>.</div>';
+    d.innerHTML = '<div style="font-weight:900;font-size:17px;color:#1E1813">🎁 Una semana gratis del Plan Pro</div>' +
+      '<div style="font-weight:600;font-size:14px;color:#2E2620;margin:6px 0 10px;line-height:1.55">Pruébalo 7 días para que veas todo lo que incluye. Para activarla agregas tu <strong>pago del mes</strong>; si no te convence, <strong>cancelas</strong> antes de que termine la semana. Después tú decides si sigues con Pro o pasas a Premium.</div>';
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'module-plan-btn'; b.style.margin = '0';
     b.textContent = '💎 Ver planes';
     b.onclick = () => verPlanModulo('Planes de Jackia', 'general');
     d.appendChild(b);
-    hero.parentNode.insertBefore(d, hero.nextSibling);
+    d.style.margin = '16px 0 8px 0';
+    home.appendChild(d);
   }
   poner();
   setTimeout(poner, 800);
+})();
+
+// ── Las tarjetas de planes de cada módulo muestran las mismas listas definidas (menú = tarjetas = ventana) ──
+(function actualizarListasTarjetas() {
+  function aplicar() {
+    document.querySelectorAll('.panel div').forEach(d => {
+      if ([...d.children].some(c => c.tagName !== 'BR')) return;
+      const t = d.textContent.trim();
+      if (t === 'Plan completo + carruseles/mes') { d.innerHTML = PLAN_PRO; d.style.lineHeight = '1.7'; d.style.fontSize = '12.5px'; }
+      else if (t.startsWith('✅ Todo lo de Pro') && t.includes('Cerebro Jackia')) { d.innerHTML = PLAN_PREMIUM; d.style.lineHeight = '1.7'; d.style.fontSize = '12.5px'; }
+    });
+  }
+  aplicar();
+  setTimeout(aplicar, 800);
+})();
+
+// ── De Cero a Lista: máximo 5 generaciones con IA (es para armar su primera bio e identidad) ──
+(function limiteDeCeroALista() {
+  const LIMITE = 5, KEY = 'jackia_cero_gen';
+  const usadas = () => { try { return parseInt(localStorage.getItem(KEY) || '0', 10) || 0; } catch (e) { return 0; } };
+  const sumar = () => { try { localStorage.setItem(KEY, String(usadas() + 1)); } catch (e) {} };
+  function aviso(titulo, texto) {
+    const viejo = document.getElementById('cero-limite-modal'); if (viejo) viejo.remove();
+    const ov = document.createElement('div');
+    ov.id = 'cero-limite-modal';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(38,32,25,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:22px;max-width:380px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25)">' +
+      '<div style="font-weight:900;font-size:18px;color:#1E1813;margin-bottom:8px">' + titulo + '</div>' +
+      '<div style="font-size:14.5px;font-weight:600;color:#2E2620;line-height:1.6">' + texto + '</div>' +
+      '<button class="btn-primary" id="cero-limite-ok" style="width:100%;margin-top:16px">Entendido</button></div>';
+    document.body.appendChild(ov);
+    const c = () => ov.remove();
+    document.getElementById('cero-limite-ok').onclick = c;
+    ov.addEventListener('click', e => { if (e.target === ov) c(); });
+  }
+  function pintarContador() {
+    const panel = document.getElementById('panel-ceroalista'); if (!panel) return;
+    let c = document.getElementById('cero-contador');
+    if (!c) {
+      c = document.createElement('div'); c.id = 'cero-contador';
+      c.style.cssText = 'margin:0 0 14px 0;padding:10px 14px;border-radius:12px;background:rgba(212,175,55,.16);border:1px solid rgba(212,175,55,.5);font-weight:800;font-size:13.5px;color:#4A3A0A';
+      const cab = panel.querySelector('.page-header');
+      (cab ? cab.parentNode : panel).insertBefore(c, cab ? cab.nextSibling : panel.firstChild);
+    }
+    const u = Math.min(usadas(), LIMITE);
+    c.textContent = '✨ Tienes ' + LIMITE + ' generaciones con IA para armar tu primera bio e identidad. Usadas: ' + u + ' de ' + LIMITE;
+  }
+  ['sugerirCorreo', 'generarCero1', 'generarCero2', 'generarCero3', 'generarCero4', 'generarCero5Mensajes', 'generarCero5Landing', 'generarCero6'].forEach(n => {
+    const orig = window[n];
+    if (typeof orig !== 'function') return;
+    window[n] = async function () {
+      if (usadas() >= LIMITE) {
+        aviso('Ya usaste tus ' + LIMITE + ' generaciones 💛',
+          'Con tus ' + LIMITE + ' generaciones ya tienes tu primera bio y lo que necesitas para empezar. Si quieres hacer cambios, <strong>puedes editarlos tú misma</strong>: copia el texto, ajústalo a tu estilo y úsalo.');
+        return;
+      }
+      sumar();
+      pintarContador();
+      return orig.apply(this, arguments);
+    };
+  });
+  pintarContador();
+  const _sp = window.showPanel;
+  if (typeof _sp === 'function') window.showPanel = function (id) { const r = _sp.apply(this, arguments); if (id === 'ceroalista') pintarContador(); return r; };
 })();
 </script>
 <style>
