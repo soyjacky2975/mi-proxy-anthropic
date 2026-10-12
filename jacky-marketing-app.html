@@ -429,6 +429,18 @@
   .sidebar{background:rgba(255,255,255,.52) !important;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border-right:1px solid rgba(255,255,255,.8) !important;box-shadow:inset -1px 0 0 rgba(212,175,55,.18),8px 0 30px rgba(120,80,60,.06)}
   .module-plan-btn{margin-top:8px;font-family:inherit;font-size:12px;font-weight:700;color:#8a6d1c;background:rgba(255,255,255,.7);border:1px solid rgba(212,175,55,.5);border-radius:999px;padding:5px 12px;cursor:pointer;min-height:30px}
   .module-plan-btn:hover{background:#fff}
+  /* ── letras más fuertes sobre el vidrio del Inicio (para que no se vean opacas) ── */
+  #panel-home .welcome-hero,#panel-home .welcome-hero *{color:#1E1813}
+  #panel-home .welcome-hero h1,#panel-home .welcome-hero .page-title{font-weight:900}
+  #panel-home .welcome-hero p{color:#2E2620;font-weight:600}
+  #panel-home .profile-badge,#panel-home .profile-badge *{color:#1E1813;font-weight:700}
+  #panel-home .profile-badge .profile-edit{color:#8A6A12;font-weight:800}
+  #panel-home .module-card-title{color:#1E1813;font-weight:800}
+  #panel-home .module-card-desc{color:#3A322C;font-weight:600}
+  #panel-home #gamification-bar *,#panel-home #home-today-plan *{color:#1E1813;font-weight:700}
+  #panel-home .usage-bar,#panel-home .usage-bar *{color:#2E2620;font-weight:700}
+  #panel-home > div:not(.module-cards) strong{font-weight:900}
+  #panel-home .module-plan-btn{color:#6B520C;font-weight:800}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.splash-glass{background:#fff}#onboarding-modal{background:rgba(250,247,243,.97)}#onboarding-modal .modal-box{background:#fff}}
 
   @keyframes fadeUp{
@@ -9491,6 +9503,69 @@ document.addEventListener('pointerdown', function(e) {
   setTimeout(() => wave.remove(), 650);
 });
 
+
+// ── Legibilidad: letras con poco contraste (dorado, rosa claro) se oscurecen y las muy chicas suben de tamaño ──
+(function () {
+  function lum(r, g, b) { const f = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); }
+  function parse(c) { const m = (c || '').match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(',').map(x => parseFloat(x)); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; }
+  function fondoSolido(el) {
+    // devuelve el fondo claro sólido detrás del texto, o null si hay degradado/imagen u oscuro (para no tocar botones)
+    let e = el;
+    while (e && e !== document.documentElement) {
+      const cs = getComputedStyle(e);
+      if (cs.backgroundImage && cs.backgroundImage !== 'none') {
+        // degradado suave (translúcido): el fondo real es el de más atrás; degradado fuerte (botones): no se toca
+        const al = [...cs.backgroundImage.matchAll(/rgba?\(([^)]+)\)/g)].map(m => { const q = m[1].split(','); return q.length > 3 ? parseFloat(q[3]) : 1; });
+        if (!(al.length && Math.max.apply(null, al) <= 0.6)) {
+          // degradado fuerte: si TODOS sus colores son claros (fondo de la app) es un fondo claro; si no, es un botón/oscuro y no se toca
+          const cols = [...cs.backgroundImage.matchAll(/rgba?\(([^)]+)\)/g)].map(m => { const q = m[1].split(',').map(x => parseFloat(x)); return { r: q[0], g: q[1], b: q[2] }; });
+          if (cols.length && cols.every(c => lum(c.r, c.g, c.b) > 0.7)) return { r: 250, g: 247, b: 243, a: 1 };
+          return null;
+        }
+        e = e.parentElement; continue;
+      }
+      const c = parse(cs.backgroundColor);
+      if (c && c.a > 0.85) return c;
+      e = e.parentElement;
+    }
+    return { r: 250, g: 247, b: 243, a: 1 };
+  }
+  function ratio(a, b) { const L1 = lum(a.r, a.g, a.b), L2 = lum(b.r, b.g, b.b); return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05); }
+  function esDorado(c) { return c.r > 150 && c.g > 110 && c.b < 125 && (c.r - c.b) > 80; }
+  function asegurarLegibilidad() {
+    const panel = document.querySelector('.panel.active') || document.body;
+    panel.querySelectorAll('p,div,span,label,small,li,strong,b,em,h1,h2,h3,h4').forEach(e => {
+      if (e.closest('button,.btn,.chip,.nav-item,.sidebar,[role="button"],input,textarea,select')) return;
+      if (![...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1)) return;
+      const cs = getComputedStyle(e);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return;
+      const col = parse(cs.color); if (!col) return;
+      // tamaño: nada menor a 13 px en textos de lectura (aunque haya degradado detrás)
+      if (parseFloat(cs.fontSize) < 13 && !/uppercase/.test(cs.textTransform) && e.textContent.trim().length > 12) e.style.setProperty('font-size', '13px', 'important');
+      const bg = fondoSolido(e); if (!bg) return;
+      // letra más clara que el fondo (blanco sobre color): no se toca
+      if (lum(col.r, col.g, col.b) > lum(bg.r, bg.g, bg.b)) return;
+      if (ratio(col, bg) >= 4.5) { return; }
+      if (esDorado(col)) {
+        // dorado más intenso, en negrita y con un brillo claro detrás para que resalte
+        e.style.setProperty('color', 'rgb(138,102,10)', 'important');
+        e.style.setProperty('font-weight', '800', 'important');
+        e.style.setProperty('text-shadow', '0 1px 0 rgba(255,255,255,.95), 0 0 8px rgba(212,175,55,.45)', 'important');
+        return;
+      }
+      let r = col.r, g = col.g, b = col.b, n = 0;
+      while (n++ < 14 && ratio({ r, g, b }, bg) < 4.5) { r *= 0.88; g *= 0.88; b *= 0.88; }
+      e.style.setProperty('color', 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')', 'important');
+      e.style.setProperty('font-weight', '700', 'important');
+    });
+  }
+  window.asegurarLegibilidad = asegurarLegibilidad;
+  const _sp = window.showPanel;
+  if (typeof _sp === 'function') {
+    window.showPanel = function () { const r = _sp.apply(this, arguments); setTimeout(asegurarLegibilidad, 250); setTimeout(asegurarLegibilidad, 1200); return r; };
+  }
+  setTimeout(asegurarLegibilidad, 600);
+})();
 </script>
 <style>
 footer { background: #CDA0A5 !important; }
