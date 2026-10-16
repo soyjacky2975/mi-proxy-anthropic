@@ -1067,6 +1067,50 @@
           <label>¿Qué resultado obtienen?</label>
           <textarea id="cero5-resultado" placeholder="Ej: Un plan de contenido claro que les ayuda a vender en 30 días..." style="min-height:60px"></textarea>
 
+          <details class="miniapp-edit" id="cero5-extra" style="margin:4px 0 12px">
+            <summary>✨ Para que tu landing venda más (opcional, pero recomendado)</summary>
+            <div style="padding-top:10px">
+              <label>¿Para quién es? ¿Está empezando o ya tiene experiencia?</label>
+              <input type="text" id="cero5-cliente" placeholder="Ej: Emprendedoras que empiezan desde cero en Instagram">
+              <label>¿De dónde llegan a tu página?</label>
+              <select id="cero5-trafico">
+                <option value="">Elige una opción</option>
+                <option>De un anuncio (no me conocen)</option>
+                <option>De mi bio o mis reels (me siguen)</option>
+                <option>De mis mensajes, mi lista o mis clientas (ya me conocen)</option>
+              </select>
+              <label>¿Qué dudas tienen antes de comprar?</label>
+              <textarea id="cero5-objeciones" placeholder="Ej: No tengo tiempo, ya probé otras cosas y no me funcionaron, no sé si es para mí..." style="min-height:56px"></textarea>
+              <label>¿Qué te hace distinta? ¿Tu método tiene nombre?</label>
+              <input type="text" id="cero5-diferencial" placeholder="Ej: Mi método de las 3 capas para crear contenido con IA">
+              <label>¿Qué incluye exactamente?</label>
+              <textarea id="cero5-incluye" placeholder="Ej: 4 clases grabadas, plantilla de calendario, 20 prompts, grupo de WhatsApp..." style="min-height:56px"></textarea>
+              <label>Prueba real (testimonios con permiso, casos o años de experiencia)</label>
+              <textarea id="cero5-prueba" placeholder="Déjalo vacío si todavía no tienes: Jackia no inventa testimonios." style="min-height:56px"></textarea>
+              <label>¿Quién eres? (1 o 2 líneas)</label>
+              <input type="text" id="cero5-quien" placeholder="Ej: Soy Ana, pasé de no vender nada a tener mis primeras clientas con mi contenido">
+              <label>¿Hay una fecha real de cierre o de fin del precio especial?</label>
+              <input type="datetime-local" id="cero5-fecha" style="width:100%;margin-bottom:16px">
+              <label>¿A dónde lleva el botón? (tu enlace de pago o de WhatsApp)</label>
+              <input type="url" id="cero5-enlace" placeholder="https://...">
+              <label>¿En qué español le hablas a tu público?</label>
+              <select id="cero5-idioma">
+                <option value="neutro">Español neutro (recomendado)</option>
+                <option value="argentina">De Argentina o Uruguay (con «vos»)</option>
+                <option value="espana">De España (con «vosotros»)</option>
+              </select>
+              <label>Colores de tu marca</label>
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+                <span style="font-size:13px">Color principal</span>
+                <input type="color" id="cero5-color" value="#2F5D62" style="width:52px;height:40px;border:0;background:none;padding:0">
+                <select id="cero5-fondo" style="flex:1;min-width:140px;margin-bottom:0">
+                  <option value="claro">Fondo claro</option>
+                  <option value="oscuro">Fondo oscuro</option>
+                </select>
+              </div>
+            </div>
+          </details>
+
           <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
             <button class="btn-secondary" id="btn-cero5-mensajes" onclick="generarCero5Mensajes()" style="flex:1;font-size:12px">💬 Mensajes automáticos</button>
             <button class="btn-primary" id="btn-cero5" onclick="generarCero5Landing()" style="flex:1;font-size:12px">🌐 Generar mi Landing Page</button>
@@ -8775,39 +8819,231 @@ Genera:
   setLoading('btn-cero5-mensajes', false);
 }
 
+// ── LANDING ESTRATEGA (método JACKIA_LANDING_MASTER): la IA diagnostica, elige 1 de 11 formatos y devuelve
+// el texto en JSON; Jackia lo pone en un molde fijo (rápido, sin código escrito por la IA).
+const LANDING_FORMATOS = `F1 Carta de ventas larga (tráfico frío o precio medio/alto): hero, problema, historia, mecanismo, beneficios, prueba, stack, precio, garantia, faq.
+F2 PAS corta (siente el dolor y precio bajo): hero, problema, agitacion, beneficios, incluye, prueba, precio.
+F3 Mecanismo único (ya probó otras cosas): hero, agitacion ("por qué lo que probaste no funcionó"), mecanismo, prueba, stack, precio, faq.
+F4 Oferta directa (ya la conocen o ya quieren comprar): hero, stack, precio, garantia, faq.
+F6 Historia de/a (la historia de la persona es su prueba): hero, historia, mecanismo, incluye, quien, faq, precio.
+F9 Lanzamiento o lista de espera (el producto todavía no sale): hero, problema, incluye (adelanto), precio (beneficio real de anotarse).
+Elige F1 si llegan de un anuncio y el precio no es bajo; F2 si sienten el dolor y el precio es bajo; F3 si ya probaron otras soluciones; F4 si ya la conocen; F6 si su historia es su mejor prueba; F9 si todavía no sale.`;
+
+function cero5Val(id) { return (document.getElementById(id)?.value || '').trim(); }
+
 async function generarCero5Landing() {
-  const producto = document.getElementById('cero5-producto')?.value || '';
-  const precio = document.getElementById('cero5-precio')?.value || '';
-  const problema = document.getElementById('cero5-problema')?.value || '';
-  const resultado = document.getElementById('cero5-resultado')?.value || '';
-  if (!producto.trim()) { fieldWarn('cero5-producto', 'Falta el nombre de tu producto; con eso armo tu sistema de ventas 😊'); return; }
+  const producto = cero5Val('cero5-producto');
+  if (!producto) { fieldWarn('cero5-producto', 'Falta el nombre de tu producto; con eso armo tu sistema de ventas 😊'); return; }
+  const d = {
+    producto, precio: cero5Val('cero5-precio'), problema: cero5Val('cero5-problema'), resultado: cero5Val('cero5-resultado'),
+    cliente: cero5Val('cero5-cliente'), trafico: cero5Val('cero5-trafico'), objeciones: cero5Val('cero5-objeciones'),
+    diferencial: cero5Val('cero5-diferencial'), incluye: cero5Val('cero5-incluye'), prueba: cero5Val('cero5-prueba'),
+    quien: cero5Val('cero5-quien'), fecha: cero5Val('cero5-fecha'), enlace: cero5Val('cero5-enlace'),
+    idioma: cero5Val('cero5-idioma') || 'neutro',
+    color: cero5Val('cero5-color') || '#2F5D62', fondo: cero5Val('cero5-fondo') || 'claro'
+  };
   setLoading('btn-cero5', true);
-  document.getElementById('cero5-output').style.display = 'block';
+  const out = document.getElementById('cero5-output');
+  out.style.display = 'block';
   document.getElementById('cero5-actions').style.display = 'flex';
+  out.textContent = 'Jackia está pensando como estratega: diagnostico, formato y tu página… (puede tardar hasta un minuto)';
   const ctx = getProfileContext();
-  
-  const prompt = `Genera una landing page HTML completa y profesional para este producto.
+
+  const prompt = `Actúa como estratega de landing pages que venden. Nada genérico: si un título podría estar en la página de cualquier competidora, reescríbelo con algo que solo esta persona puede decir.
+
+DATOS DE LA ALUMNA
+Producto: ${d.producto}
+Precio: ${d.precio || 'no lo dijo'}
+Problema que resuelve: ${d.problema || 'no lo dijo'}
+Resultado que obtienen: ${d.resultado || 'no lo dijo'}
+Para quién: ${d.cliente || 'no lo dijo'}
+De dónde llegan: ${d.trafico || 'no lo dijo'}
+Dudas antes de comprar: ${d.objeciones || 'no lo dijo'}
+Diferencial o método: ${d.diferencial || 'no lo dijo'}
+Qué incluye: ${d.incluye || 'no lo dijo'}
+Prueba real: ${d.prueba || 'NO HAY: no pongas testimonios ni cifras'}
+Quién es ella: ${d.quien || 'no lo dijo'}
+Fecha real de cierre: ${d.fecha ? d.fecha : 'NO HAY: no menciones urgencia ni fechas'}
 ${ctx}
-Producto: ${producto}
-Precio: ${precio}
-Problema: ${problema}
-Resultado: ${resultado}
 
-LANDING PAGE PRO (básica pero efectiva):
-Secciones:
-1. Hero con gancho poderoso y CTA
-2. El problema que resuelven
-3. La solución (beneficios del producto)
-4. Qué incluye
-5. Precio y CTA final
+PASO 1 · DIAGNÓSTICO: nivel de conciencia (1 no sabe que tiene el problema, 2 siente el dolor, 3 conoce soluciones pero no la suya, 4 la conoce y duda, 5 ya quiere comprar), temperatura del tráfico, precio y riesgo, la creencia número 1 que frena la compra, y el mecanismo único con nombre propio (si no hay, propón uno basado en lo que de verdad hace el producto).
 
-Diseño: fondo oscuro, colores rosa #E8315A y dorado #D4AF37, tipografía moderna, mobile-first.
-Genera el HTML completo listo para subir a Vercel.`;
+PASO 2 · FORMATO: elige UNO y usa sus secciones en ese orden:
+${LANDING_FORMATOS}
 
-  const text = await callClaude(prompt, SYS);
-  document.getElementById('cero5-output').textContent = text;
-  persistOutput('cero5-output');
+PASO 3 · TEXTO: primer segundo = el título nombra el dolor o el deseo con las palabras de la clienta (máximo 10 palabras); el subtítulo dice para quién y cómo (mecanismo). Toda la página rompe la creencia número 1. Beneficios, no características. Botones con verbo + resultado (máx. 5 palabras). Tono profesional y cercano (el idioma va según la regla 1 del JSON); prohibido sonar infantil ("con calma", "explicado fácil", "a tu ritmo"); "desde cero" sí. NUNCA inventes testimonios, cifras, resultados, bonos, garantías ni fechas: si falta un dato real, omite esa sección (no incluyas "prueba" ni "garantia" sin datos reales). Sin promesas de ganancias. Frases cortas.
+
+PASO 4 · PUNTUACIÓN sobre 100: primer segundo 20, formato correcto 10, creencia rota 15, oferta clara 15, prueba real 10, objeciones 10, cierre 10, técnica 10 (la técnica ya está resuelta: dale 10). Da los 3 cambios que más subirían la venta (por ejemplo, datos que faltan).
+
+REGLAS DEL JSON — OBLIGATORIAS:
+1. IDIOMA: ${d.idioma === 'argentina' ? 'la alumna pidió el español de Argentina o Uruguay para su público: usa voseo natural (vos, tenés, podés) en los textos de la página; el diagnóstico y los cambios van en español neutro con tú.' : d.idioma === 'espana' ? 'la alumna pidió el español de España para su público: usa sus expresiones y el vosotros cuando hables a varias personas en los textos de la página; el diagnóstico y los cambios van en español neutro con tú.' : 'TODO en español neutro con TUTEO, incluidos el diagnóstico y los cambios: tú, eres, usas, sales, miras, sientes, puedes, tienes, entra, mira. PROHIBIDO el voseo: vos, sos, salís, usás, mirás, sentís, podés, tenés, entrá, mirá.'}
+2. Cada campo es TEXTO FINAL que lee la clienta, nunca una instrucción ni una nota para la alumna (prohibido "Incluir…", "Repetir…", "Aclarar…").
+3. "etiqueta": el tipo de producto en 2 o 3 palabras (ej: "Taller en línea"), nunca "Encabezado".
+4. "nota": una frase corta que quite una duda (ej: "Acceso inmediato después del pago"); vacía si no hay dato real.
+5. "urgencia": máximo 8 palabras y SOLO lo que termina (ej: "El precio especial termina en"). No inventes qué pasa después (nada de "sube de precio") si la alumna no lo dijo.
+6. Breve: diagnóstico de máximo 20 palabras por campo; cada cambio de máximo 25 palabras; textos de la página en frases cortas.
+Responde SOLO un JSON válido, sin markdown, con esta forma (usa solo las secciones del formato elegido; cada lista de 3 a 5 elementos):
+{"diagnostico":{"nivel":"","trafico":"","precio":"","creencia":"","mecanismo":""},
+"formato":{"id":"F2","nombre":"","porque":""},
+"urgencia":"qué se pierde cuando termina la fecha, ej: El precio especial termina en (vacío si no hay fecha)",
+"secciones":[
+{"tipo":"hero","etiqueta":"","titulo":"","resaltar":"2 a 4 palabras del título","subtitulo":"","boton":"","nota":""},
+{"tipo":"problema","titulo":"","puntos":["",""]},
+{"tipo":"agitacion","titulo":"","texto":""},
+{"tipo":"historia","titulo":"","pasos":[{"etiqueta":"Antes","texto":""},{"etiqueta":"El muro","texto":""},{"etiqueta":"Lo que descubrí","texto":""},{"etiqueta":"Después","texto":""}]},
+{"tipo":"mecanismo","titulo":"","nombre":"","pasos":[{"titulo":"","texto":""}]},
+{"tipo":"beneficios","titulo":"","items":[{"titulo":"","texto":""}]},
+{"tipo":"incluye","titulo":"","items":[{"titulo":"","texto":""}]},
+{"tipo":"stack","titulo":"","items":[{"titulo":"","texto":""}],"cierre":""},
+{"tipo":"prueba","titulo":"","testimonios":[{"texto":"","nombre":""}]},
+{"tipo":"quien","titulo":"","texto":""},
+{"tipo":"garantia","titulo":"","texto":""},
+{"tipo":"faq","titulo":"","preguntas":[{"p":"","r":""}]},
+{"tipo":"precio","titulo":"","precio":"","texto":"","boton":"","nota":""}
+],
+"puntuacion":{"total":0,"cambios":["","",""]}}`;
+
+  try {
+    const raw = await callClaude(prompt, SYS, { raw: true, maxTokens: 3500 });
+    const m = raw.match(/\{[\s\S]*\}/);
+    const data = JSON.parse(m ? m[0] : raw);
+    if (!data || !Array.isArray(data.secciones) || !data.secciones.length) throw new Error('json');
+    const html = renderLandingJackia(data, d);
+    try { localStorage.setItem('jackia_landing_html', html); } catch (e) {}
+    const dg = data.diagnostico || {}, fm = data.formato || {}, pt = data.puntuacion || {};
+    out.textContent =
+`🧠 DIAGNÓSTICO DE ESTRATEGA
+→ Nivel de conciencia: ${dg.nivel || ''}
+→ Tráfico: ${dg.trafico || ''}
+→ Precio y riesgo: ${dg.precio || ''}
+→ Lo que frena la compra: ${dg.creencia || ''}
+→ Tu mecanismo: ${dg.mecanismo || ''}
+
+📐 FORMATO ELEGIDO: ${fm.id || ''} · ${fm.nombre || ''}
+${fm.porque || ''}
+
+📊 PUNTUACIÓN: ${pt.total || '?'}/100
+Lo que más subiría tus ventas:
+${(pt.cambios || []).map((c, i) => (i + 1) + '. ' + c).join('\n')}
+
+✅ Tu landing está lista: tócala en «Ver mi landing» o descárgala.`;
+    mostrarBotonesLanding();
+    persistOutput('cero5-output');
+  } catch (e) {
+    out.textContent = 'Uy, no pude terminar tu landing esta vez. Vuelve a tocar «Generar mi Landing Page» 💛';
+  }
   setLoading('btn-cero5', false);
+}
+
+function mostrarBotonesLanding() {
+  const acts = document.getElementById('cero5-actions');
+  if (!acts || document.getElementById('btn-ver-landing')) return;
+  acts.insertAdjacentHTML('afterbegin',
+    '<button class="btn-primary" id="btn-ver-landing" style="font-size:12px" onclick="verLandingJackia()">👁️ Ver mi landing</button>' +
+    '<button class="btn-secondary" style="font-size:12px" onclick="descargarLandingJackia()">⬇️ Descargar (HTML)</button>');
+}
+function leerLandingJackia() { try { return localStorage.getItem('jackia_landing_html') || ''; } catch (e) { return ''; } }
+function verLandingJackia() {
+  const html = leerLandingJackia(); if (!html) return;
+  const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  const w = window.open(url, '_blank');
+  if (!w) descargarLandingJackia();
+}
+function descargarLandingJackia() {
+  const html = leerLandingJackia(); if (!html) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  a.download = 'mi-landing.html';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+function renderLandingJackia(data, d) {
+  const e = x => String(x == null ? '' : x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const oscuro = d.fondo === 'oscuro';
+  const acento = /^#[0-9a-f]{6}$/i.test(d.color) ? d.color : '#2F5D62';
+  const href = /^(https?:\/\/|mailto:)/i.test(d.enlace) ? d.enlace : '#precio';
+  const fin = d.fecha ? Date.parse(d.fecha) : NaN;
+  const urg = data.urgencia || 'La oferta termina en';
+  const secs = data.secciones.filter(s => s && s.tipo);
+  const hero = secs.find(s => s.tipo === 'hero') || { titulo: d.producto, boton: 'Quiero empezar' };
+  const precioSec = secs.find(s => s.tipo === 'precio');
+  const textoBoton = e(hero.boton || (precioSec && precioSec.boton) || 'Quiero empezar');
+  const btn = (t, extra) => `<a class="btn${extra || ''}" href="${e(href)}">${t || textoBoton}</a>`;
+  const contador = (claro) => isNaN(fin) ? '' :
+    `<p class="urg">${e(urg)}</p><div class="contador${claro ? ' c-claro' : ''}" data-fin="${fin}"><div><b data-u="d">00</b><span>días</span></div><div><b data-u="h">00</b><span>horas</span></div><div><b data-u="m">00</b><span>min</span></div><div><b data-u="s">00</b><span>seg</span></div></div>`;
+  const lista = (items) => '<div class="grid">' + (items || []).map((it, i) => `<div class="card r"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${e(it.titulo)}</h3><p>${e(it.texto)}</p></div>`).join('') + '</div>';
+  let titulo = e(hero.titulo);
+  if (hero.resaltar && titulo.includes(e(hero.resaltar))) titulo = titulo.replace(e(hero.resaltar), `<span class="res">${e(hero.resaltar)}</span>`);
+
+  let cuerpo = '', n = 0;
+  secs.forEach(s => {
+    if (s.tipo === 'hero') return;
+    let h = '';
+    if (s.tipo === 'problema') h = `<h2>${e(s.titulo)}</h2><ul class="dolor">${(s.puntos || []).map(p => `<li class="r">${e(p)}</li>`).join('')}</ul>`;
+    else if (s.tipo === 'agitacion' || s.tipo === 'quien' || s.tipo === 'garantia') h = `<div class="card r ${s.tipo}">${s.tipo === 'garantia' ? '<span class="tag">Garantía</span>' : ''}<h2>${e(s.titulo)}</h2><p>${e(s.texto)}</p></div>`;
+    else if (s.tipo === 'historia') h = `<h2>${e(s.titulo)}</h2><ol class="linea">${(s.pasos || []).map(p => `<li class="r"><span class="tag">${e(p.etiqueta)}</span><p>${e(p.texto)}</p></li>`).join('')}</ol>`;
+    else if (s.tipo === 'mecanismo') h = `<span class="tag">El método</span><h2>${e(s.titulo)}</h2>${s.nombre ? `<p class="mec">${e(s.nombre)}</p>` : ''}${lista(s.pasos)}`;
+    else if (s.tipo === 'beneficios' || s.tipo === 'incluye') h = `<h2>${e(s.titulo)}</h2>${lista(s.items)}`;
+    else if (s.tipo === 'stack') h = `<h2>${e(s.titulo)}</h2><div class="stack r">${(s.items || []).map(it => `<div class="st"><b>✓ ${e(it.titulo)}</b><span>${e(it.texto)}</span></div>`).join('')}${s.cierre ? `<p class="cierre">${e(s.cierre)}</p>` : ''}</div>`;
+    else if (s.tipo === 'prueba') { const t = (s.testimonios || []).filter(x => x && x.texto); if (!t.length) return; h = `<h2>${e(s.titulo)}</h2><div class="grid">${t.map(x => `<blockquote class="card r">“${e(x.texto)}”<cite>— ${e(x.nombre)}</cite></blockquote>`).join('')}</div>`; }
+    else if (s.tipo === 'faq') h = `<h2>${e(s.titulo)}</h2>${(s.preguntas || []).map(q => `<details class="r"><summary>${e(q.p)}</summary><p>${e(q.r)}</p></details>`).join('')}`;
+    else if (s.tipo === 'precio') return;
+    else return;
+    n++;
+    cuerpo += `<section><div class="wrap">${h}</div></section>`;
+    if (n % 3 === 0) cuerpo += `<div class="wrap cta-mid r">${btn()}</div>`;
+  });
+  const ps = precioSec || {};
+  const final = `<section class="final" id="precio"><div class="wrap"><h2>${e(ps.titulo || 'Empieza hoy')}</h2>${ps.precio || d.precio ? `<p class="precio">${e(ps.precio || d.precio)}</p>` : ''}${ps.texto ? `<p class="sub">${e(ps.texto)}</p>` : ''}${contador(false)}${btn(e(ps.boton || hero.boton || 'Quiero empezar'))}${ps.nota ? `<p class="nota">${e(ps.nota)}</p>` : ''}</div></section>`;
+
+  const bg = oscuro ? '#0E0E10' : '#FAF8F5', txt = oscuro ? '#F3F1EE' : '#16161A', suave = oscuro ? '#B9B4AD' : '#5B5750', card = oscuro ? '#18181C' : '#FFFFFF', borde = oscuro ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)';
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${e(d.producto)}</title><meta name="description" content="${e(hero.subtitulo || '')}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>:root{--a:${acento};--bg:${bg};--t:${txt};--s:${suave};--c:${card};--b:${borde}}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--t);font:17px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}section{padding:56px 0}h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.12;letter-spacing:-.015em}h1{font-size:clamp(36px,9vw,60px)}h2{font-size:clamp(27px,6.5vw,40px);margin-bottom:20px}h3{font-size:21px;margin:6px 0}
+.hero{position:relative;overflow:hidden;padding:72px 0 64px;text-align:center;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--a) 22%,transparent),transparent 70%)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:12px}
+.res{background:linear-gradient(transparent 58%,color-mix(in srgb,var(--a) 35%,transparent) 58%);padding:0 .08em}
+.sub{font-size:19px;color:var(--s);margin:18px auto 28px;max-width:560px}.nota{font-size:14px;color:var(--s);margin-top:12px}
+.btn{display:inline-block;background:var(--a);color:#fff;font-weight:700;font-size:18px;text-decoration:none;padding:18px 34px;border-radius:999px;box-shadow:0 10px 28px color-mix(in srgb,var(--a) 40%,transparent);transition:transform .18s,box-shadow .18s}
+.btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 14px 34px color-mix(in srgb,var(--a) 50%,transparent)}.btn:focus-visible{outline:3px solid var(--t);outline-offset:3px}
+.card{background:var(--c);border:1px solid var(--b);border-radius:22px;padding:26px;box-shadow:0 8px 30px rgba(0,0,0,.05)}
+.grid{display:grid;gap:14px}@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}.grid .card:first-child:nth-last-child(odd){grid-column:span 2}}
+.num{font-family:Fraunces,serif;font-size:30px;color:var(--a);opacity:.85}.card p{color:var(--s)}
+.dolor{list-style:none;display:grid;gap:12px}.dolor li{background:var(--c);border:1px solid var(--b);border-left:4px solid var(--a);border-radius:14px;padding:16px 18px}
+.linea{list-style:none;border-left:2px solid color-mix(in srgb,var(--a) 40%,transparent);padding-left:22px;display:grid;gap:22px}.linea li{position:relative}.linea li::before{content:"";position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--a)}
+.mec{font-family:Fraunces,serif;font-size:22px;color:var(--a);margin:-8px 0 18px}
+.stack{background:var(--c);border:1px solid var(--b);border-radius:22px;padding:8px 22px}.st{padding:16px 0;border-bottom:1px dashed var(--b);display:grid;gap:2px}.st span{color:var(--s)}.cierre{padding:16px 0;font-weight:600}
+blockquote{font-size:18px}cite{display:block;font-style:normal;font-weight:600;font-size:15px;color:var(--s);margin-top:10px}
+details{background:var(--c);border:1px solid var(--b);border-radius:16px;padding:18px 22px;margin-bottom:10px}summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}summary::after{content:"+";color:var(--a);font-size:22px;line-height:1}details[open] summary::after{content:"–"}details p{margin-top:10px;color:var(--s)}
+.cta-mid{text-align:center;padding:4px 20px 8px}
+.final{background:#0E0E10;color:#fff;text-align:center;background-image:radial-gradient(90% 70% at 50% 100%,color-mix(in srgb,var(--a) 35%,transparent),transparent 70%)}.final .sub,.final .nota{color:#cfc9c2}
+.precio{font-family:Fraunces,serif;font-size:56px;margin:4px 0}
+.urg{font-size:14px;font-weight:600;letter-spacing:.04em;margin:8px 0 10px;color:inherit;opacity:.85}
+.contador{display:flex;justify-content:center;gap:10px;margin:0 0 26px}.contador div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;min-width:68px;padding:10px 6px}.contador b{display:block;font-family:Fraunces,serif;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}.contador span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:.75}
+.c-claro div{background:var(--c);border-color:var(--b)}
+.fijo{position:fixed;left:16px;right:16px;bottom:16px;display:none;z-index:9}.fijo .btn{width:100%;text-align:center}@media(max-width:640px){.fijo.ver{display:block}}
+footer{text-align:center;font-size:13px;color:var(--s);padding:26px 20px 96px}
+.r{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}.r.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.r{opacity:1;transform:none;transition:none}.btn{transition:none}}
+</style></head><body>
+<header class="hero"><div class="wrap">${hero.etiqueta ? `<span class="tag">${e(hero.etiqueta)}</span>` : ''}<h1>${titulo}</h1>${hero.subtitulo ? `<p class="sub">${e(hero.subtitulo)}</p>` : ''}${contador(true)}<a class="btn" id="cta1" href="${e(href)}">${textoBoton}</a>${hero.nota ? `<p class="nota">${e(hero.nota)}</p>` : ''}</div></header>
+${cuerpo}${final}
+<footer>© ${new Date().getFullYear()} · ${e(d.producto)}</footer>
+<div class="fijo" id="fijo">${btn()}</div>
+<script>
+(function(){
+var io='IntersectionObserver' in window;
+document.querySelectorAll('.r').forEach(function(el){ if(!io){el.classList.add('in');return;} new IntersectionObserver(function(en,o){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');o.unobserve(x.target);}});},{threshold:.12}).observe(el); });
+var f=document.getElementById('fijo'),c=document.getElementById('cta1'),p=document.getElementById('precio'),cv=true,pv=false;
+function a(){f.classList.toggle('ver',!cv&&!pv);}
+if(io){new IntersectionObserver(function(x){cv=x[0].isIntersecting;a();}).observe(c);new IntersectionObserver(function(x){pv=x[0].isIntersecting;a();}).observe(p);}
+document.querySelectorAll('.contador').forEach(function(k){var fin=+k.getAttribute('data-fin');var u=k.previousElementSibling;
+function t(){var r=fin-Date.now();if(r<=0){clearInterval(id);if(u&&u.className==='urg')u.remove();k.remove();return;}var v={d:Math.floor(r/864e5),h:Math.floor(r/36e5)%24,m:Math.floor(r/6e4)%60,s:Math.floor(r/1e3)%60};k.querySelectorAll('b').forEach(function(b){b.textContent=String(v[b.getAttribute('data-u')]).padStart(2,'0');});}
+var id=setInterval(t,1000);t();});
+})();
+<\/script></body></html>`;
 }
 
 async function generarCero5() {
